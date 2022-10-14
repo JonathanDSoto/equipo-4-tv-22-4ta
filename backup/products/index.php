@@ -1,4 +1,5 @@
 <?php
+  include '../app/config.php'; 
 	include "../app/ProductsController.php";
 	include "../app/BrandsController.php";
 
@@ -7,180 +8,237 @@
 
 	$productController = new ProductsController();
 	$products = $productController->getProducts();
-?> 
-<!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<?php include '../layouts/head.template.php'; ?>
+	</head>
+	<body>
 
-<head>
+		<!-- NAVBAR -->
+		<?php include '../layouts/nav.template.php'; ?>
+		<!-- NAVBAR -->
 
-    <?php include "../layouts/head.template.php"; ?>
+		<div class="container-fluid">
+			
+			<div class="row">
+				
+				<!-- SIDEBAR -->
+				<?php include '../layouts/sidebar.template.php'; ?>
+				<!-- SIDEBAR -->
 
-    <!-- nouisliderribute css -->
-    <link rel="stylesheet" href="<?= BASE_PATH ?>public/libs/nouislider/nouislider.min.css">
+				<div class="col-md-10 col-lg-10 col-sm-12">
 
-    <!-- gridjs css -->
-    <link rel="stylesheet" href="<?= BASE_PATH ?>public/libs/gridjs/theme/mermaid.min.css">
+					<section> 
+						<div class="row bg-light m-2">
+							<div class="col">
+								<label>
+									/Productos
+								</label>
+							</div>
+							<div class="col">
+								<button data-bs-toggle="modal" data-bs-target="#addProductModal" class=" float-end btn btn-primary">
+									Añadir producto
+								</button>
+							</div>
+						</div> 
+					</section>
+					
+					<section>
+						
+						<div class="row">
+							
+							<?php if (isset($products) && count($products)): ?>
+							<?php foreach ($products as $product): ?>
 
-</head>
+							<div class="col-md-4 col-sm-12"> 
 
-<body>
+								<div class="card mb-2">
+								  <img src="<?= $product->cover ?>" class="card-img-top" alt="...">
+								  <div class="card-body">
+								    
+								    <h5 class="card-title">
+								    	<?= $product->name ?>
+								    </h5>
 
-    <!-- Begin page -->
-    <div id="layout-wrapper">
+								    <h6 class="card-subtitle mb-2 text-muted">
+								    	<?= $product->brand->name ?>
+								    </h6>
+								    <p class="card-text">
+								    	<?= $product->description ?>
+								    </p>
 
-    	<?php include "../layouts/nav.template.php"; ?>
+								    <div class="row">
+									    <a data-product='<?= json_encode($product) ?>' onclick="editProduct(this)" data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
+									    	Editar
+									    </a>
+									    <a  onclick="eliminar(<?= $product->id ?>)" href="#" class="btn btn-danger mb-1 col-6">
+									    	Eliminar
+									    </a> 
+									    <a href="details.php?slug=<?= $product->slug ?>" class="btn btn-info col-12">
+									    	Detalles
+									    </a>
+								    </div>
+
+								  </div>
+								</div>  
+
+							</div>
+
+							<?php endforeach ?>
+								
+							<?php endif ?>
+
+						</div>
+
+					</section> 
+
+					 
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+
+		      <form enctype="multipart/form-data" method="post" action="<?=BASE_PATH?>prod">
+
+			      <div class="modal-body">
+			        
+			        
+			        <div class="input-group mb-3">
+					  <span class="input-group-text" id="basic-addon1">@</span>
+					  <input id="name" name="name" required type="text" class="form-control" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
+
+					<div class="input-group mb-3">
+					  <span class="input-group-text" id="basic-addon1">@</span>
+					  <input id="slug" name="slug" required type="text" class="form-control" placeholder="Url amigable" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
+
+					<div class="input-group mb-3">
+					  <span class="input-group-text" id="basic-addon1">@</span>
+					  <textarea id="description" name="description" placeholder="Escríbe aquí" class="form-control"></textarea> 
+					</div>
+
+					<div class="input-group mb-3">
+					  <span class="input-group-text" id="basic-addon1">@</span>
+					  <input id="features" name="features" required type="text" class="form-control" placeholder="Carácteristicas" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
+
+					<div class="input-group mb-3">
+					  <span class="input-group-text" id="basic-addon1">@</span>
+
+					  <select id="brand_id" name="brand_id" required class="form-control">
+					  	<?php foreach ($brands as $brand): ?>
+					  	<option value="<?= $brand->id ?>" >
+					  		<?= $brand->name ?>
+					  	</option>
+					  	<?php endforeach ?>
+					  	
+					  </select> 
+					</div>
+
+					<div class="input-group mb-3">
+					  <span class="input-group-text" id="basic-addon1">@</span>
+					  <input name="cover" required type="file" class="form-control" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
+
+			      </div>
+
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+			        	Close
+			        </button>
+			        <button type="submit" class="btn btn-primary">
+			        	Save changes
+			        </button>
+			      </div>
+
+			      <input type="hidden" id="action" name="action" value="create">
+			      <input type="hidden" id="id_product" name="id">
+            <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+
+		      </form>
+
+		    </div>
+		  </div>
+		</div>
+
+		<?php include '../layouts/scripts.template.php'; ?>
+		
+		<script type="text/javascript">
+			function eliminar(id)
+			{
+				swal({
+				  title: "Are you sure?",
+				  text: "Once deleted, you will not be able to recover this imaginary file!",
+				  icon: "warning",
+				  buttons: true,
+				  dangerMode: true,
+				})
+				.then((willDelete) => {
+				  if (willDelete) {
+
+				  	var bodyFormData = new FormData();
+
+				  	bodyFormData.append('id', id);
+				  	bodyFormData.append('action', 'delete');
+            bodyFormData.append('super_token',"<?= $_SESSION["super_token"]?>");
+
+				  	axios.post('<?=BASE_PATH?>prod', bodyFormData)
+					  .then(function (response) {
+					    if (response.data) {
+					    	swal("Poof! Your imaginary file has been deleted!", {
+						      icon: "success",
+						    });
+					    }else{
+					    	swal("Error", {
+						      icon: "error",
+						    });
+					    }
+					  })
+					  .catch(function (error) {
+					    console.log(error);
+					  });
+
+				    
+				  } else {
+				    swal("Your imaginary file is safe!");
+				  }
+				});
+			}
+
+			function editProduct(target)
+			{
+			
+				let product = JSON.parse( target.dataset.product )
+
+				document.getElementById('name').value = product.name
+				document.getElementById('slug').value = product.slug
+				document.getElementById('description').value = product.description
+				document.getElementById('features').value = product.features
+				document.getElementById('brand_id').value = product.brand_id
+				document.getElementById('id_product').value = product.id
+				document.getElementById('action').value = 'update'
         
-        <!-- ========== App Menu ========== -->
-        <?php include "../layouts/sidebar.template.php"; ?>
-        <!-- Left Sidebar End -->
-        <!-- Vertical Overlay-->
-        <div class="vertical-overlay"></div>
-
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
-
-            <div class="page-content">
-                <div class="container-fluid">
-
-                    <!-- start page title -->
-                    <?php include "../layouts/bread.template.php"; ?>
-                    <!-- end page title -->
-
-                    <div class="row">
-                        
-
-                        <div class="col-xl-12 col-lg-12">
-                            <div>
-                                <div class="card">
-                                    <div class="card-header border-0">
-                                        <div class="row g-4">
-                                            <div class="col-sm-auto">
-                                                <div>
-                                                    <a href="apps-ecommerce-add-product.html" class="btn btn-success" id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i> Add Product</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="d-flex justify-content-sm-end">
-                                                    <div class="search-box ms-2">
-                                                        <input type="text" class="form-control" id="searchProductList" placeholder="Search Products...">
-                                                        <i class="ri-search-line search-icon"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-header">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <ul class="nav nav-tabs-custom card-header-tabs border-bottom-0" role="tablist">
-                                                    <li class="nav-item">
-                                                        <a class="nav-link active fw-semibold" data-bs-toggle="tab" href="#productnav-all" role="tab">
-                                                            All <span class="badge badge-soft-danger align-middle rounded-pill ms-1">12</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link fw-semibold" data-bs-toggle="tab" href="#productnav-published" role="tab">
-                                                            Published <span class="badge badge-soft-danger align-middle rounded-pill ms-1">5</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link fw-semibold" data-bs-toggle="tab" href="#productnav-draft" role="tab">
-                                                            Draft
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div id="selection-element">
-                                                    <div class="my-n1 d-flex align-items-center text-muted">
-                                                        Select <div id="select-content" class="text-body fw-semibold px-1"></div> Result <button type="button" class="btn btn-link link-danger p-0 ms-3 shadow-none" data-bs-toggle="modal" data-bs-target="#removeItemModal">Remove</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end card header -->
-                                    <div class="card-body">
-
-                                        <div class="tab-content text-muted">
-                                            <div class="tab-pane active" id="productnav-all" role="tabpanel">
-                                                <div id="table-product-list-all" class="table-card gridjs-border-none"></div>
-                                            </div>
-                                            <!-- end tab pane -->
-
-                                            <div class="tab-pane" id="productnav-published" role="tabpanel">
-                                                <div id="table-product-list-published" class="table-card gridjs-border-none"></div>
-                                            </div>
-                                            <!-- end tab pane -->
-
-                                            <div class="tab-pane" id="productnav-draft" role="tabpanel">
-                                                <div class="py-4 text-center">
-                                                    <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:72px;height:72px">
-                                                    </lord-icon>
-                                                    <h5 class="mt-4">Sorry! No Result Found</h5>
-                                                </div>
-                                            </div>
-                                            <!-- end tab pane -->
-                                        </div>
-                                        <!-- end tab content -->
-
-                                    </div>
-                                    <!-- end card body -->
-                                </div>
-                                <!-- end card -->
-                            </div>
-                        </div>
-                        <!-- end col -->
-                    </div>
-
-                </div>
-                <!-- container-fluid -->
-            </div>
-            <!-- End Page-content -->
-
-            <?php include "../layouts/footer.template.php"; ?>
-        </div>
-        <!-- end main content-->
-
-    </div>
-    <!-- END layout-wrapper -->
-
-
-
-    <!--start back-to-top-->
-    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
-        <i class="ri-arrow-up-line"></i>
-    </button>
-    <!--end back-to-top-->
-
-    <!--preloader-->
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner-border text-primary avatar-sm" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-    </div>
-
-    <?php include "../layouts/scripts.template.php"; ?>
-   	
-   	<!-- nouisliderribute js -->
-    <script src="<?= BASE_PATH ?>public/libs/nouislider/nouislider.min.js"></script>
-    <script src="<?= BASE_PATH ?>public/libs/wnumb/wNumb.min.js"></script>
-
-    <!-- gridjs js -->
-    <script src="<?= BASE_PATH ?>public/libs/gridjs/gridjs.umd.js"></script>
-     
-    <!-- ecommerce product list -->
-    <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
-
-</body>
-
-
+			}
+		</script>
+	</body>
 </html>
+
+
+
+
 
 
 
