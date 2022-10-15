@@ -6,4 +6,5 @@
     if(!defined('BASE_PATH')){
         define('BASE_PATH', $_SERVER['HTTP_HOST'] );
     }
-?>
+
+    echo BASE_PATH;

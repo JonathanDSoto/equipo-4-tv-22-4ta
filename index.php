@@ -181,3 +181,87 @@
   <input type="hidden" name="action" value="getCategory">
   <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
 </form> -->
+
+
+<!-- updateCategory -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/CategoriesController.php">
+  <input placeholder="id" type="number" name="id" id="id"><br><br>
+  <input placeholder="name" type="text" name="name" id="name"><br><br>
+  <input placeholder="description" type="text" name="description" id="description"><br><br>
+  <input placeholder="slug" type="text" name="slug" id="slug"><br><br>
+  <input placeholder="category_id" type="number" name="category_id" id="category_id"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="updateCategory">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+
+<!-- deleteCategory -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/CategoriesController.php">
+  <input placeholder="id" type="number" name="id" id="id"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="deleteCategory">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+
+
+<!-- Brands -->
+
+<!-- All Brands -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/BrandsController.php">
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="getBrands">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Get Brand -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/BrandsController.php">
+  <input placeholder="id" type="number" name="id" id="id"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="getBrand">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Create Brand -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/BrandsController.php">
+  <input placeholder="name" type="text" name="name" id="name"><br><br>
+  <input placeholder="description" type="text" name="description" id="description"><br><br>
+  <input placeholder="slug" type="text" name="slug" id="slug"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="createBrand">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Create Brand -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/BrandsController.php">
+  <input placeholder="id" type="number" name="id" id="id"><br><br>
+  <input placeholder="name" type="text" name="name" id="name"><br><br>
+  <input placeholder="description" type="text" name="description" id="description"><br><br>
+  <input placeholder="slug" type="text" name="slug" id="slug"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="updateBrand">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Delete Brand -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/BrandsController.php">
+  <input placeholder="id" type="number" name="id" id="id"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="deleteBrand">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
