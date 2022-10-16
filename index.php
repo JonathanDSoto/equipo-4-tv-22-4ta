@@ -265,3 +265,69 @@
   <input type="hidden" name="action" value="deleteBrand">
   <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
 </form> -->
+
+
+<!-- Clientes -->
+
+<!-- All Clientes -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/ClientsController.php">
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="getClients">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Get Client -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/ClientsController.php">
+
+  <input type="number" name="id" id="id">
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="getClient">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Create Client -->
+
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/ClientsController.php">
+  <input placeholder="name" type="text" name="name" id="name"><br><br>
+  <input placeholder="email" type="email" name="email" id="email"><br><br>
+  <input placeholder="password" type="password" name="password" id="password"><br><br>
+  <input placeholder="phone_number" type="number" name="phone_number" id="phone_number"><br><br>
+  <input placeholder="is_suscribed" type="number" name="is_suscribed" id="is_suscribed" value='1'><br><br>
+  <input placeholder="level_id" type="number" name="level_id" id="level_id" value='1'><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="createClient">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Update Client -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/ClientsController.php">
+  <input placeholder="name" type="text" name="name" id="name"><br><br>
+  <input placeholder="email" type="email" name="email" id="email"><br><br>
+  <input placeholder="password" type="password" name="password" id="password"><br><br>
+  <input placeholder="phone_number" type="number" name="phone_number" id="phone_number"><br><br>
+  <input placeholder="is_suscribed" type="number" name="is_suscribed" id="is_suscribed" value='1'><br><br>
+  <input placeholder="level_id" type="number" name="level_id" id="level_id" value='1'><br><br>
+  <input placeholder="id" type="number" name="id" id="id"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="updateClient">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Delete Client -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/ClientsController.php">
+
+  <input type="number" name="id" id="id">
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="deleteClient">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
