@@ -331,3 +331,79 @@
   <input type="hidden" name="action" value="deleteClient">
   <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
 </form> -->
+
+
+
+<!-- Address -->
+
+<!-- Get Client Address -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/AddressController.php">
+
+  <input type="number" name="id" id="id">
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="getClientAddress">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Get Address -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/AddressController.php">
+
+  <input type="number" name="id" id="id">
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="getAddress">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Create Address -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/AddressController.php">
+
+  <input placeholder="first_name" type="text" name="first_name" id="first_name"><br><br>
+  <input placeholder="last_name" type="text" name="last_name" id="last_name"><br><br>
+  <input placeholder="street_and_use_number" type="text" name="street_and_use_number" id="street_and_use_number"><br><br>
+  <input placeholder="postal_code" type="number" name="postal_code" id="postal_code"><br><br>
+  <input placeholder="city" type="text" name="city" id="city"><br><br>
+  <input placeholder="province" type="text" name="province" id="province"><br><br>
+  <input placeholder="phone_number" type="number" name="phone_number" id="phone_number"><br><br>
+  <input placeholder="is_billing_address" type="text" name="is_billing_address" id="is_billing_address"><br><br>
+  <input placeholder="client_id" type="text" name="client_id" id="client_id"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="createAddress">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Update Address -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/AddressController.php">
+
+  <input placeholder="first_name" type="text" name="first_name" id="first_name"><br><br>
+  <input placeholder="last_name" type="text" name="last_name" id="last_name"><br><br>
+  <input placeholder="street_and_use_number" type="text" name="street_and_use_number" id="street_and_use_number"><br><br>
+  <input placeholder="postal_code" type="number" name="postal_code" id="postal_code"><br><br>
+  <input placeholder="city" type="text" name="city" id="city"><br><br>
+  <input placeholder="province" type="text" name="province" id="province"><br><br>
+  <input placeholder="phone_number" type="number" name="phone_number" id="phone_number"><br><br>
+  <input placeholder="is_billing_address" type="text" name="is_billing_address" id="is_billing_address"><br><br>
+  <input placeholder="client_id" type="text" name="client_id" id="client_id"><br><br>
+  <input placeholder="id" type="text" name="id" id="id"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="updateAddress">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Delete Address -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/AddressController.php">
+
+  <input type="number" name="id" id="id">
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="deleteAddress">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
