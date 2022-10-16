@@ -153,6 +153,7 @@
   <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
 </form> -->
 
+<!-- Get Products -->
 <!-- <form enctype="multipart/form-data" method="POST" action="./app/ProductsController.php">
 
   <input type="submit" value="submit">
@@ -422,5 +423,83 @@
   <input type="submit" value="submit">
 
   <input type="hidden" name="action" value="deleteAddress">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+
+
+<!-- Presentations -->
+
+<!-- Get Presentation by Product -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/PresentationsController.php">
+  <input type="number" name="id" id="id">
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="getPresentationByProduct">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Get Presentation -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/PresentationsController.php">
+  <input type="number" name="id" id="id">
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="getPresentation">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Create Presentation -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/PresentationsController.php"><br><br>
+  <input placeholder="description" type="text" name="description" id="description"><br><br>
+  <input placeholder="code" type="text" name="code" id="code"><br><br>
+  <input placeholder="weight_in_grams" type="number" name="weight_in_grams" id="weight_in_grams"><br><br>
+  <input placeholder="stock" type="number" name="stock" id="stock"><br><br>
+  <input placeholder="stock_min" type="number" name="stock_min" id="stock_min"><br><br>
+  <input placeholder="stock_max" type="number" name="stock_max" id="stock_max"><br><br>
+  <input placeholder="product_id" type="number" name="product_id" id="product_id"><br><br>
+  <input type="file" name="cover" accept="image/*"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="createPresentation">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+
+<!-- Update Presentation -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/PresentationsController.php"><br><br>
+  <input placeholder="description" type="text" name="description" id="description"><br><br>
+  <input placeholder="code" type="text" name="code" id="code"><br><br>
+  <input placeholder="weight_in_grams" type="number" name="weight_in_grams" id="weight_in_grams"><br><br>
+  <input placeholder="status" type="text" name="status" id="status"><br><br>
+  <input placeholder="stock" type="number" name="stock" id="stock"><br><br>
+  <input placeholder="stock_min" type="number" name="stock_min" id="stock_min"><br><br>
+  <input placeholder="stock_max" type="number" name="stock_max" id="stock_max"><br><br>
+  <input placeholder="product_id" type="number" name="product_id" id="product_id"><br><br>
+  <input placeholder="id" type="number" name="id" id="id"><br><br>
+  <input type="file" name="cover" accept="image/*"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="updatePresentation">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Delete Presentation -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/PresentationsController.php">
+  <input type="number" name="id" id="id">
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="deletePresentation">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/PresentationsController.php">
+  <input placeholder="id" type="number" name="id" id="id">
+  <input placeholder="amount" type="number" name="amount" id="amount">
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="updatePricePresentation">
   <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
 </form> -->
