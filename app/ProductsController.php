@@ -45,11 +45,21 @@ if (isset($_POST["action"])) {
         $productsController = new ProductsController();
         $productsController->getEspecificProduct($id);
         break;
+      case 'getProductByCategorySlug':
+        $slug = strip_tags($_POST['slug']);
+
+        $productsController = new ProductsController();
+        $productsController->getProductByCategorySlug($slug);
+        break;
       case 'getProductBySlug':
         $slug = strip_tags($_POST['slug']);
 
         $productsController = new ProductsController();
         $productsController->getProductBySlug($slug);
+        break;
+      case 'getProducts':
+        $productsController = new ProductsController();
+        $productsController->getProducts();
         break;
     }
   }
@@ -107,6 +117,30 @@ class ProductsController
   }
 
   public function getProductBySlug($slug)
+  {
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products/slug/' . $slug,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer ' . $_SESSION['token']
+      ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+  }
+
+  public function getProductByCategorySlug($slug)
   {
     $curl = curl_init();
 

@@ -133,7 +133,16 @@
 
 <!-- Products -->
 
-<!-- getProductBySlug -->
+<!-- getProductByCategorySlug -->
+
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/ProductsController.php">
+  <input type="text" name="slug" id="slug">
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="getProductByCategorySlug">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
 
 <!-- <form enctype="multipart/form-data" method="POST" action="./app/ProductsController.php">
   <input type="text" name="slug" id="slug">
@@ -141,6 +150,14 @@
   <input type="submit" value="submit">
 
   <input type="hidden" name="action" value="getProductBySlug">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/ProductsController.php">
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="getProducts">
   <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
 </form> -->
 
