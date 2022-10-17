@@ -163,6 +163,44 @@
 </form> -->
 
 
+<!-- Create Products -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/ProductsController.php">
+
+  <input placeholder="name" type="text" name="name" id="name"><br><br>
+  <input placeholder="slug" type="text" name="slug" id="slug"><br><br>
+  <input placeholder="description" type="text" name="description" id="description"><br><br>
+  <input placeholder="features" type="text" name="features" id="features"><br><br>
+  <input placeholder="brand_id" type="text" name="brand_id" id="brand_id"><br><br>
+  <input placeholder="categories" type="text" name="categories" id="categories"><br><br>
+  <input placeholder="tags" type="text" name="tags" id="tags"><br><br>
+  <input placeholder="file" type="file" name="cover" accept="image/*"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="create">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+<!-- Update Products -->
+<!-- <form enctype="multipart/form-data" method="POST" action="./app/ProductsController.php">
+
+  <input placeholder="name" type="text" name="name" id="name"><br><br>
+  <input placeholder="slug" type="text" name="slug" id="slug"><br><br>
+  <input placeholder="description" type="text" name="description" id="description"><br><br>
+  <input placeholder="features" type="text" name="features" id="features"><br><br>
+  <input placeholder="id" type="text" name="id" id="id"><br><br>
+  <input placeholder="brand_id" type="text" name="brand_id" id="brand_id"><br><br>
+  <input placeholder="categories" type="text" name="categories" id="categories"><br><br>
+  <input placeholder="tags" type="text" name="tags" id="tags"><br><br>
+  <input placeholder="file" type="file" name="cover" accept="image/*"><br><br>
+
+  <input type="submit" value="submit">
+
+  <input type="hidden" name="action" value="update">
+  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
+</form> -->
+
+
 
 <!-- Categories -->
 
