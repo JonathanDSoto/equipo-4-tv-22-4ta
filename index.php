@@ -1,4 +1,8 @@
-<?php include_once './app/config.php'; ?>
+<?php include_once './app/config.php';
+echo $_SESSION['super_token'];
+?>
+
+<script src="./fetch.test.js"></script>
 
 <h1>Formularios de Prueba</h1>
 
