@@ -87,7 +87,7 @@ import Sidebar from "../../components/Sidebar.vue";
                           <td class="email">marycousar@velzon.com</td>
                           <td class="phone">marycousar@velzon.com</td>
                           <td class="subscription">
-                            <span class="badge badge-soft-success text-uppercase">Active</span>
+                            <span class="badge badge-primary text-uppercase">Active</span>
                           </td>
 
                           <td>
