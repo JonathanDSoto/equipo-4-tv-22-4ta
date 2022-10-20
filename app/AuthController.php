@@ -74,10 +74,9 @@ class AuthController
       $_SESSION['role'] = $response->data->role;
       $_SESSION['token'] = $response->data->token;
 
-      echo 'jalo';
+      echo json_encode($response);
     } else {
-
-      echo 'no jalo';
+      echo json_encode($response);
     }
   }
 

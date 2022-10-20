@@ -11,9 +11,11 @@ if (isset($_POST["action"])) {
         $description = strip_tags($_POST['description']);
         $features = strip_tags($_POST['features']);
         $brand_id = strip_tags($_POST['brand_id']);
+        $categories = strip_tags($_POST['categories']);
+        $tags = strip_tags($_POST['tags']);
 
         $productsController = new ProductsController();
-        $productsController->createProduct($name, $slug, $description, $features, $brand_id);
+        $productsController->createProduct($name, $slug, $description, $features, $brand_id, $categories, $tags);
         break;
 
       case 'update':
@@ -22,12 +24,13 @@ if (isset($_POST["action"])) {
         $slug = strip_tags($_POST['slug']);
         $description = strip_tags($_POST['description']);
         $features = strip_tags($_POST['features']);
-        $brand_id = strip_tags($_POST['brand_id']);
-
         $id = strip_tags($_POST['id']);
+        $brand_id = strip_tags($_POST['brand_id']);
+        $categories = strip_tags($_POST['categories']);
+        $tags = strip_tags($_POST['tags']);
 
         $productsController = new ProductsController();
-        $productsController->updateProduct($name, $slug, $description, $features, $brand_id, $id);
+        $productsController->updateProduct($name, $slug, $description, $features, $brand_id, $id, $categories, $tags);
         break;
 
       case 'delete':
@@ -45,11 +48,21 @@ if (isset($_POST["action"])) {
         $productsController = new ProductsController();
         $productsController->getEspecificProduct($id);
         break;
+      case 'getProductByCategorySlug':
+        $slug = strip_tags($_POST['slug']);
+
+        $productsController = new ProductsController();
+        $productsController->getProductByCategorySlug($slug);
+        break;
       case 'getProductBySlug':
         $slug = strip_tags($_POST['slug']);
 
         $productsController = new ProductsController();
         $productsController->getProductBySlug($slug);
+        break;
+      case 'getProducts':
+        $productsController = new ProductsController();
+        $productsController->getProducts();
         break;
     }
   }
@@ -111,6 +124,30 @@ class ProductsController
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products/slug/' . $slug,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer ' . $_SESSION['token']
+      ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+  }
+
+  public function getProductByCategorySlug($slug)
+  {
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
       CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products/categories/' . $slug,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
@@ -130,11 +167,29 @@ class ProductsController
     echo $response;
   }
 
-  public function createProduct($name, $slug, $description, $features, $brand_id)
+  public function createProduct($name, $slug, $description, $features, $brand_id, $categories, $tags)
   {
     $curl = curl_init();
 
-    #var_dump($_FILES['cover']['tmp_name']);
+    $arrayFields = array(
+      'name' => $name,
+      'slug' => $slug,
+      'description' => $description,
+      'features' => $features,
+      'brand_id' => $brand_id,
+      'cover' => new CURLFILE($_FILES['cover']['tmp_name'])
+    );
+
+    $categories = explode(' ', $categories);
+    $tags = explode(' ', $tags);
+
+    foreach ($categories as $key => $category) {
+      $arrayFields['categories[' . $key . ']'] = $category;
+    }
+
+    foreach ($tags as $key => $tag) {
+      $arrayFields['tags[' . $key . ']'] = $tag;
+    }
 
     curl_setopt_array($curl, array(
       CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
@@ -145,26 +200,32 @@ class ProductsController
       CURLOPT_FOLLOWLOCATION => true,
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'POST',
-      CURLOPT_POSTFIELDS => array(
-        'name' => $name,
-        'slug' => $slug,
-        'description' => $description,
-        'brand_id' => $brand_id,
-        'cover' => new CURLFILE($_FILES['cover']['tmp_name'])
-      ),
+      CURLOPT_POSTFIELDS => $arrayFields,
       CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer ' . $_SESSION['token']
       ),
     ));
-
     $response = curl_exec($curl);
     curl_close($curl);
     echo $response;
   }
 
-  public function updateProduct($name, $slug, $description, $features, $brand_id, $id)
+  public function updateProduct($name, $slug, $description, $features, $brand_id, $id, $categories, $tags)
   {
     $curl = curl_init();
+
+    $arrayFields = 'name=' . $name . '&slug=' . $slug . '&description=' . $description . '&features=' . $features . '&brand_id=' . $brand_id . '&id=' . $id;
+
+    $categories = explode(' ', $categories);
+    $tags = explode(' ', $tags);
+
+    foreach ($categories as $key => $category) {
+      $arrayFields .= '&categories[' . $key . ']=' . urlencode($category);
+    }
+
+    foreach ($tags as $key => $tag) {
+      $arrayFields .= '&tags[' . $key . ']=' . urlencode($tag);
+    }
 
     curl_setopt_array($curl, array(
       CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
@@ -175,7 +236,7 @@ class ProductsController
       CURLOPT_FOLLOWLOCATION => true,
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'PUT',
-      CURLOPT_POSTFIELDS => 'name=' . $name . '&slug=' . $slug . '&description=' . $description . '&features=' . $features . '&brand_id=' . $brand_id . '&id=' . $id,
+      CURLOPT_POSTFIELDS => $arrayFields,
       CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer ' . $_SESSION['token'],
         'Content-Type: application/x-www-form-urlencoded'
