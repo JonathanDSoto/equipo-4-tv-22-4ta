@@ -77,7 +77,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                                   <div class="d-flex align-items-center">
                                                       <div class="flex-shrink-0 me-3">
                                                           <div class="avatar-sm bg-light rounded p-1">
-                                                              <img src="../public/assets/images/products/img-1.png" alt="" class="img-fluid d-block">
+                                                              <img src="../../assets/images/products/img-1.png" alt="" class="img-fluid d-block">
                                                           </div>
                                                       </div>
                                                       <div class="flex-grow-1">

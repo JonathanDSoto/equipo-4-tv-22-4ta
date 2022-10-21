@@ -82,7 +82,7 @@ function eliminar()
                                       <div class="swiper product-thumbnail-slider p-2 rounded bg-light">
                                           <div class="">
                                               <div class="">
-                                                  <img src="../public/../public/assets/images/products/img-8.png" alt="" class="img-fluid d-block" />
+                                                  <img src="../../../../assets/images/products/img-8.png" alt="" class="img-fluid d-block" />
                                               </div>
                                           </div>
                                       </div>
@@ -184,7 +184,7 @@ function eliminar()
                                               <div class="swiper-wrapper">
                                                   
                                                   <div class="swiper-slide">
-                                                      <img src="../public/assets/images/products/img-6.png" alt="" class="img-fluid d-block" />
+                                                      <img src="../../assets/images/products/img-6.png" alt="" class="img-fluid d-block" />
                                                       <div class="d-flex gap-2 justify-content-center bg-white p-2">
                                                           <div class="edit">
                                                               <a href="details-presentations.php">
@@ -202,7 +202,7 @@ function eliminar()
                                                   </div>
                                                   
                                                   <div class="swiper-slide">
-                                                      <img src="../public/assets/images/products/img-1.png" alt="" class="img-fluid d-block" />
+                                                      <img src="../../assets/images/products/img-1.png" alt="" class="img-fluid d-block" />
                                                       <div class="d-flex gap-2 justify-content-center bg-white p-2">
                                                           <div class="edit">
                                                               <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal" data-bs-target="#showModal">Ver</button>
@@ -216,7 +216,7 @@ function eliminar()
                                                       </div>
                                                   </div>
                                                   <div class="swiper-slide">
-                                                      <img src="../public/assets/images/products/img-8.png" alt="" class="img-fluid d-block" />
+                                                      <img src="../../assets/images/products/img-8.png" alt="" class="img-fluid d-block" />
                                                   </div>
                                               </div>
                                               <div class="swiper-button-next bg-white shadow"></div>
@@ -228,22 +228,22 @@ function eliminar()
                                               <div class="swiper-wrapper">
                                                   <div class="swiper-slide">
                                                       <div class="nav-slide-item">
-                                                          <img src="../public/assets/images/products/img-8.png" alt="" class="img-fluid d-block" />
+                                                          <img src="../../assets/images/products/img-8.png" alt="" class="img-fluid d-block" />
                                                       </div>
                                                   </div>
                                                   <div class="swiper-slide">
                                                       <div class="nav-slide-item">
-                                                          <img src="../public/assets/images/products/img-6.png" alt="" class="img-fluid d-block" />
+                                                          <img src="../../assets/images/products/img-6.png" alt="" class="img-fluid d-block" />
                                                       </div>
                                                   </div>
                                                   <div class="swiper-slide">
                                                       <div class="nav-slide-item">
-                                                          <img src="../public/assets/images/products/img-1.png" alt="" class="img-fluid d-block" />
+                                                          <img src="../../assets/images/products/img-1.png" alt="" class="img-fluid d-block" />
                                                       </div>
                                                   </div>
                                                   <div class="swiper-slide">
                                                       <div class="nav-slide-item">
-                                                          <img src="../public/assets/images/products/img-8.png" alt="" class="img-fluid d-block" />
+                                                          <img src="../../assets/images/products/img-8.png" alt="" class="img-fluid d-block" />
                                                       </div>
                                                   </div>
                                               </div>
