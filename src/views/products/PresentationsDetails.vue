@@ -43,7 +43,7 @@ import Sidebar from "../../components/Sidebar.vue";
                       <div class="swiper product-thumbnail-slider p-2 rounded bg-light">
                         <div class="swiper-wrapper">
                           <div class="swiper-slide">
-                            <img src="../../assets/images/products/img-8.png" alt="" class="img-fluid d-block" />
+                            <!-- <img src="../../assets/images/products/img-8.png" alt="" class="img-fluid d-block" /> -->
                           </div>
                         </div>
                       </div>
