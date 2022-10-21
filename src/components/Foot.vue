@@ -1,0 +1,16 @@
+
+<script>Document.write(new Date().getFullYear())</script>
+<template>
+  <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                2022 © Velzon.
+            </div>
+            <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                    Design & Develop by Themesbrand
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
