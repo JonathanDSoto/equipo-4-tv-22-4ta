@@ -1,4 +1,37 @@
 <script setup>
+import { ref } from "vue"
+import axios from 'axios'
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
+
+const mail = ref(null)
+const pass = ref(null)
+
+const login = () => {
+  let data = new FormData()
+  data.append('action', 'access')
+  data.append('email', mail.value)
+  data.append('password', pass.value)
+
+  let config = {
+    method: 'post',
+    url: 'http://localhost/app/AuthController.php',
+    data: data
+  }
+
+  axios(config)
+    .then(function (response) {
+      if (response.data.code > 0) {
+        localStorage.setItem('email', response.data.data.email)
+        router.push({ path: '/users' })
+      }
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
+}
+
 </script>
 
 <template>
@@ -6,7 +39,7 @@
     <div class="bg-overlay"></div>
     <!-- auth-page content -->
     <div class="auth-page-content overflow-hidden pt-lg-5">
-      <div class="container">
+      <div class="container col-lg-8 col-xxl-5">
         <div class="row">
           <div class="col-lg-12">
             <div class="card overflow-hidden">
@@ -38,16 +71,16 @@
                           </div>
                           <div class="carousel-inner text-center text-white pb-5">
                             <div class="carousel-item active">
-                              <p class="fs-15 fst-italic">" Great! Clean code, clean design, easy for customization.
-                                Thanks very much! "</p>
+                              <p class="fs-15 fst-italic">"Great! Clean code, clean design, easy for customization.
+                                Thanks very much!"</p>
                             </div>
                             <div class="carousel-item">
-                              <p class="fs-15 fst-italic">" The theme is really great with an amazing customer support."
+                              <p class="fs-15 fst-italic">"The theme is really great with an amazing customer support."
                               </p>
                             </div>
                             <div class="carousel-item">
-                              <p class="fs-15 fst-italic">" Great! Clean code, clean design, easy for customization.
-                                Thanks very much! "</p>
+                              <p class="fs-15 fst-italic">"Great! Clean code, clean design, easy for customization.
+                                Thanks very much!"</p>
                             </div>
                           </div>
                         </div>
@@ -66,19 +99,20 @@
                     </div>
 
                     <div class="mt-4">
-                      <form action="products/index.php">
+                      <form>
 
                         <div class="mb-3">
-                          <label for="username" class="form-label">Username</label>
-                          <input type="text" class="form-control" id="username" placeholder="Enter username">
+                          <label for="username" class="form-label">Email</label>
+                          <input v-model="mail" type="email" class="form-control" id="username"
+                            placeholder="Enter Email">
                         </div>
 
                         <div class="mb-3">
 
                           <label class="form-label" for="password-input">Password</label>
                           <div class="position-relative auth-pass-inputgroup mb-3">
-                            <input type="password" class="form-control pe-5 password-input" placeholder="Enter password"
-                              id="password-input">
+                            <input v-model="pass" type="password" class="form-control pe-5 password-input"
+                              placeholder="Enter password" id="password-input">
                             <button
                               class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
                               type="button" id="password-addon"><svg xmlns="http://www.w3.org/2000/svg" width="16"
@@ -92,7 +126,8 @@
 
 
                         <div class="mt-4">
-                          <button class="btn btn-success w-100" type="submit">Sign In</button>
+                          <button class="btn btn-success w-100" type="submit" v-on:click.prevent="login()">Sign
+                            In</button>
                         </div>
 
 

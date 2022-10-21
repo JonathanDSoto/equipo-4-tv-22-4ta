@@ -1,39 +1,38 @@
 <?php include_once 'config.php';
 
+header('Access-Control-Allow-Origin: *');
 if (isset($_POST['action'])) {
-  if (isset($_POST['super_token']) && $_POST['super_token'] == $_SESSION['super_token']) {
-    switch ($_POST['action']) {
-      case 'access':
-        $email = strip_tags($_POST['email']);
-        $password = strip_tags($_POST['password']);
+  switch ($_POST['action']) {
+    case 'access':
+      $email = strip_tags($_POST['email']);
+      $password = strip_tags($_POST['password']);
 
-        $authController = new AuthController();
-        $authController->login($email, $password);
-        break;
+      $authController = new AuthController();
+      $authController->login($email, $password);
+      break;
 
-      case 'register':
+    case 'register':
 
-        $name = strip_tags($_POST['name']);
-        $lastname = strip_tags($_POST['lastname']);
-        $email = strip_tags($_POST['email']);
-        $phone_number = strip_tags($_POST['phone_number']);
-        $password = strip_tags($_POST['password']);
+      $name = strip_tags($_POST['name']);
+      $lastname = strip_tags($_POST['lastname']);
+      $email = strip_tags($_POST['email']);
+      $phone_number = strip_tags($_POST['phone_number']);
+      $password = strip_tags($_POST['password']);
 
-        $authController = new AuthController();
-        $authController->register($name, $lastname, $email, $phone_number, $password);
-        break;
+      $authController = new AuthController();
+      $authController->register($name, $lastname, $email, $phone_number, $password);
+      break;
 
-      case 'recovery':
-        $email = strip_tags($_POST['email']);
-        $authController = new AuthController();
-        $authController->recovery($email);
-        break;
-      case 'logout':
-        $email = strip_tags($_POST['email']);
-        $authController = new AuthController();
-        $authController->logout($email);
-        break;
-    }
+    case 'recovery':
+      $email = strip_tags($_POST['email']);
+      $authController = new AuthController();
+      $authController->recovery($email);
+      break;
+    case 'logout':
+      $email = strip_tags($_POST['email']);
+      $authController = new AuthController();
+      $authController->logout($email);
+      break;
   }
 }
 
@@ -61,7 +60,6 @@ class AuthController
     ));
 
     $response = curl_exec($curl);
-    echo $response;
     curl_close($curl);
     $response = json_decode($response);
 
