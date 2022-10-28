@@ -30,8 +30,9 @@ if (isset($_POST['action'])) {
       break;
     case 'logout':
       $email = strip_tags($_POST['email']);
+      $token = strip_tags($_POST['token']);
       $authController = new AuthController();
-      $authController->logout($email);
+      $authController->logout($email, $token);
       break;
   }
 }
@@ -123,7 +124,7 @@ class AuthController
     echo $response;
   }
 
-  public function logout($email)
+  public function logout($email, $token)
   {
     $curl = curl_init();
 
@@ -138,7 +139,7 @@ class AuthController
       CURLOPT_CUSTOMREQUEST => 'POST',
       CURLOPT_POSTFIELDS => array('email' => $email),
       CURLOPT_HTTPHEADER => array(
-        'Authorization: Bearer ' . $_SESSION['token'],
+        'Authorization: Bearer ' . $token,
       ),
     ));
 
