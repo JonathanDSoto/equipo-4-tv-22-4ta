@@ -45,7 +45,7 @@ const router = createRouter({
       component: () => import("../views/products/ProductsDetails.vue"),
     },
     {
-      path: "/products/pres",
+      path: "/products/presentation/:idproducts",
       name: "presentation",
       component: () => import("../views/products/PresentationsDetails.vue"),
     },
@@ -55,7 +55,7 @@ const router = createRouter({
       component: () => import("../views/orders/Orders.vue"),
     },
     {
-      path: "/orders/details",
+      path: "/orders/:orderId",
       name: "order",
       component: () => import("../views/orders/OrdersDetails.vue"),
     },
@@ -70,13 +70,13 @@ const router = createRouter({
       component: () => import("../views/catalogs/Catalogs.vue"),
     },
     {
-      path: "/coupons/details",
-      name: "coupons",
+      path: "/coupons/:idcoupon",
+      name: "coupon",
       component: () => import("../views/coupons/CouponsDetails.vue"),
     },
     {
       path: "/coupons",
-      name: "coupon",
+      name: "coupons",
       component: () => import("../views/coupons/Coupons.vue"),
     },
   ],
