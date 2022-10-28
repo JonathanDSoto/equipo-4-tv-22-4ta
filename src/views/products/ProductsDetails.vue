@@ -1,6 +1,14 @@
 <script setup>
-import Nav from "../../components/Nav.vue";
-import Sidebar from "../../components/Sidebar.vue";
+import axios from "axios"
+import Nav from "../../components/Nav.vue"
+import Sidebar from "../../components/Sidebar.vue"
+import { useRoute } from "vue-router"
+import { ref } from "vue"
+
+const route = useRoute()
+
+let user = JSON.parse(localStorage.getItem('user'))
+let product = ref(null)
 
 function eliminar() {
   const swalWithBootstrapButtons = Swal.mixin({
@@ -39,13 +47,36 @@ function eliminar() {
   })
 
 }
+
+const getProduct = () => {
+  var data = new FormData();
+  data.append('action', 'getProductBySlug');
+  data.append('token', user.token);
+  data.append('slug', route.params.slugProduct);
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost/app/ProductsController.php',
+    data: data
+  };
+
+  axios(config)
+    .then(function (response) {
+      product.value = response.data.data
+      console.log(product.value);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+getProduct()
 </script>
 
 <template>
 
   <Nav />
   <Sidebar />
-  <div class="main-content">
+  <div v-if="product" class="main-content">
 
     <div class="page-content">
       <div class="container-fluid">
@@ -81,7 +112,7 @@ function eliminar() {
                       <div class="swiper product-thumbnail-slider p-2 rounded bg-light">
                         <div class="">
                           <div class="">
-                            <!-- <img src="../../../../assets/images/products/img-8.png" alt="" class="img-fluid d-block" /> -->
+                            <img :src="product.cover" alt="" class="img-fluid d-block" />
                           </div>
                         </div>
                       </div>
@@ -94,11 +125,13 @@ function eliminar() {
                     <div class="mt-xl-0 mt-5">
                       <div class="d-flex">
                         <div class="flex-grow-1">
-                          <h4>Full Sleeve Sweatshirt for Men (Pink)</h4>
+                          <h4>{{ product.name }}</h4>
                           <div class="hstack gap-3 flex-wrap">
-                            <div><a href="#" class="text-primary d-block">Nombre Marca</a></div>
+                            <div><a href="#" class="text-primary d-block" v-if="product.brand">{{ product.brand.name
+                            }}</a></div>
                             <div class="vr"></div>
-                            <div class="text-muted">Slug : <span class="text-body fw-medium">Zoetic Fashion</span></div>
+                            <div class="text-muted">Slug : <span class="text-body fw-medium">{{ product.slug }}</span>
+                            </div>
 
                           </div>
                         </div>
@@ -115,25 +148,17 @@ function eliminar() {
 
                       <div class="mt-4 text-muted">
                         <h5 class="fs-14">Descripción :</h5>
-                        <p>Tommy Hilfiger men striped pink sweatshirt. Crafted with cotton. Material composition is 100%
-                          organic cotton. This is one of the world’s leading designer lifestyle brands and is
-                          internationally recognized for celebrating the essence of classic American cool style,
-                          featuring preppy with a twist designs.</p>
+                        <p>{{ product.description }}</p>
                       </div>
 
                       <div class="row">
                         <div class="col-sm-6">
                           <div class="mt-3">
                             <h5 class="fs-14">Etiquetas :</h5>
-                            <ul class="list-unstyled">
-                              <li class="py-1"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> Full
-                                Sleeve</li>
-                              <li class="py-1"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> Cotton
+                            <ul v-if="product.tags" class="list-unstyled">
+                              <li class="py-1" v-for="tag in product.tags" :key="tag.id">
+                                <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> {{ tag.name }}
                               </li>
-                              <li class="py-1"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> All
-                                Sizes available</li>
-                              <li class="py-1"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> 4
-                                Different Color</li>
                             </ul>
                           </div>
                         </div>
@@ -141,8 +166,9 @@ function eliminar() {
                           <div class="mt-3">
                             <h5 class="fs-14">Categorias :</h5>
                             <ul class="list-unstyled product-desc-list">
-                              <li class="py-1">10 Days Replacement</li>
-                              <li class="py-1">Cash on Delivery available</li>
+                              <li class="py-1" v-for="categorie in product.categories" :key="categorie.id">{{
+                                  categorie.name
+                              }}</li>
                             </ul>
                           </div>
                         </div>
@@ -165,11 +191,8 @@ function eliminar() {
                           <div class="tab-pane fade show active" id="nav-detail" role="tabpanel"
                             aria-labelledby="nav-detail-tab">
                             <div>
-                              <h5 class="font-size-16 mb-3">Tommy Hilfiger Sweatshirt for Men (Pink)</h5>
-                              <p>Tommy Hilfiger men striped pink sweatshirt. Crafted with cotton. Material composition
-                                is 100% organic cotton. This is one of the world’s leading designer lifestyle brands and
-                                is internationally recognized for celebrating the essence of classic American cool
-                                style, featuring preppy with a twist designs.</p>
+                              <h5 class="font-size-16 mb-3">{{ product.name }}</h5>
+                              <p>{{ product.features }}</p>
 
                             </div>
                           </div>
@@ -186,91 +209,6 @@ function eliminar() {
 
 
                     <!-- PRESENTACIONES -->
-
-                    <div class="col-xl-4 col-md-8 mt-5">
-
-                      <h5 class="fs-14 mb-3">Presentaciones :</h5>
-
-                      <div class="product-img-slider sticky-side-div">
-                        <div class="swiper product-thumbnail-slider p-2 rounded bg-light">
-                          <div class="swiper-wrapper">
-
-                            <div class="swiper-slide">
-                              <!-- <img src="../../assets/images/products/img-6.png" alt="" class="img-fluid d-block" /> -->
-                              <div class="d-flex gap-2 justify-content-center bg-white p-2">
-                                <div class="edit">
-                                  <a href="details-presentations.php">
-                                    <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal"
-                                      data-bs-target="">Ver</button>
-                                  </a>
-
-                                </div>
-                                <div class="edit">
-                                  <button class="btn btn-sm btn-warning edit-item-btn" data-bs-toggle="modal"
-                                    data-bs-target="#showModal">Editar</button>
-                                </div>
-                                <div class="remove">
-                                  <button onclick="eliminar()" class="btn btn-sm btn-danger remove-item-btn"
-                                    data-bs-toggle="modal" data-bs-target="#deleteRecordModal">Eliminar</button>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                              <!-- <img src="../../assets/images/products/img-1.png" alt="" class="img-fluid d-block" /> -->
-                              <div class="d-flex gap-2 justify-content-center bg-white p-2">
-                                <div class="edit">
-                                  <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal"
-                                    data-bs-target="#showModal">Ver</button>
-                                </div>
-                                <div class="edit">
-                                  <button class="btn btn-sm btn-warning edit-item-btn" data-bs-toggle="modal"
-                                    data-bs-target="#showModal">Editar</button>
-                                </div>
-                                <div class="remove">
-                                  <button onclick="eliminar()" class="btn btn-sm btn-danger remove-item-btn"
-                                    data-bs-toggle="modal" data-bs-target="#deleteRecordModal">Eliminar</button>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="swiper-slide">
-                              <!-- <img src="../../assets/images/products/img-8.png" alt="" class="img-fluid d-block" /> -->
-                            </div>
-                          </div>
-                          <div class="swiper-button-next bg-white shadow"></div>
-                          <div class="swiper-button-prev bg-white shadow"></div>
-                        </div>
-
-                        <!-- end swiper thumbnail slide -->
-                        <div class="swiper product-nav-slider mt-2">
-                          <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                              <div class="nav-slide-item">
-                                <!-- <img src="../../assets/images/products/img-8.png" alt="" class="img-fluid d-block" /> -->
-                              </div>
-                            </div>
-                            <div class="swiper-slide">
-                              <div class="nav-slide-item">
-                                <!-- <img src="../../assets/images/products/img-6.png" alt="" class="img-fluid d-block" /> -->
-                              </div>
-                            </div>
-                            <div class="swiper-slide">
-                              <div class="nav-slide-item">
-                                <!-- <img src="../../assets/images/products/img-1.png" alt="" class="img-fluid d-block" /> -->
-                              </div>
-                            </div>
-                            <div class="swiper-slide">
-                              <div class="nav-slide-item">
-                                <!-- <img src="../../assets/images/products/img-8.png" alt="" class="img-fluid d-block" /> -->
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- end swiper nav slide -->
-                      </div>
-                    </div>
-
-
 
                   </div>
                   <!-- end col -->
@@ -296,7 +234,7 @@ function eliminar() {
 
             <!-- TABLA -->
 
-            <div class="card mt-5" id="orderList">
+            <div v-if="product.presentations[0]" class="card mt-5" id="orderList">
               <div class="card-header  border-0">
                 <div class="d-flex align-items-center">
                   <h5 class="card-title mb-0 flex-grow-1">Ordenes</h5>
@@ -323,21 +261,20 @@ function eliminar() {
                         </tr>
                       </thead>
                       <tbody class="list form-check-all">
-                        <tr>
+                        <tr v-for="order in product.presentations[0].orders" :key="order.id">
 
-                          <td class="id"><a href="apps-ecommerce-order-details.html"
-                              class="fw-medium link-primary">#VZ2101</a></td>
-                          <td class="customer_name">Frank Hook</td>
-                          <td class="product_name">Puma Tshirt</td>
-                          <td class="date">20 Dec, 2021, <small class="text-muted">02:21 AM</small></td>
-                          <td class="status"><span class="badge badge-soft-warning text-uppercase">Pending</span></td>
+                          <td class="id">{{ order.id }}</td>
+                          <td class="customer_name ">{{ order.folio }}</td>
+                          <td class="product_name">{{ order.total }}</td>
+                          <td class="date">{{ order.client_id }}</td>
+                          <td class="status">{{ order.order_status_id }}</td>
 
                         </tr>
                       </tbody>
                     </table>
 
                   </div>
-                  <div class="d-flex justify-content-end">
+                  <!-- <div class="d-flex justify-content-end">
                     <div class="pagination-wrap hstack gap-2">
                       <a class="page-item pagination-prev disabled" href="#">
                         Previous
@@ -347,7 +284,7 @@ function eliminar() {
                         Next
                       </a>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
 
 

@@ -1,6 +1,38 @@
 <script setup>
-import Nav from "../../components/Nav.vue";
-import Sidebar from "../../components/Sidebar.vue";
+import axios from "axios"
+import Nav from "../../components/Nav.vue"
+import Sidebar from "../../components/Sidebar.vue"
+import { useRoute } from "vue-router"
+import { ref } from "vue"
+
+const route = useRoute()
+
+let user = JSON.parse(localStorage.getItem('user'))
+let order = ref(null)
+
+
+const getOrder = () => {
+  var data = new FormData();
+  data.append('action', 'getOrder');
+  data.append('id', route.params.orderId);
+  data.append('token', user.token);
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost/app/OrdersController.php',
+    data: data
+  };
+
+  axios(config)
+    .then(function (response) {
+      order.value = response.data.data
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+}
+getOrder()
 </script>
 
 <template>
@@ -8,7 +40,7 @@ import Sidebar from "../../components/Sidebar.vue";
   <Nav />
   <Sidebar />
 
-  <div class="main-content">
+  <div v-if="order" class="main-content">
     <div class="page-content">
       <div class="container-fluid">
         <div class="profile-foreground position-relative mx-n4 mt-n4">
@@ -23,7 +55,7 @@ import Sidebar from "../../components/Sidebar.vue";
             <div class="col">
               <div class="p-2">
                 <h3 class="text-white mb-1">Detalles de orden</h3>
-                <p class="text-white-75">#Folio</p>
+                <p class="text-white-75">#{{ order.folio }}</p>
 
               </div>
             </div>
@@ -53,19 +85,19 @@ import Sidebar from "../../components/Sidebar.vue";
                               <tbody>
                                 <tr>
                                   <th class="ps-0" scope="row">Folio :</th>
-                                  <td class="text-muted">Anna Adame</td>
+                                  <td class="text-muted"># {{ order.folio }}</td>
                                 </tr>
                                 <tr>
                                   <th class="ps-0" scope="row">Total :</th>
-                                  <td class="text-muted">+(1) 987 6543</td>
+                                  <td class="text-muted">$ {{ order.total }}</td>
                                 </tr>
                                 <tr>
                                   <th class="ps-0" scope="row">Pago :</th>
-                                  <td class="text-muted">a@velzon.com</td>
+                                  <td class="text-muted">{{ order.is_paid > 0 ? 'Pagado' : 'Pendiente' }}</td>
                                 </tr>
                                 <tr>
                                   <th class="ps-0" scope="row">Método :</th>
-                                  <td class="text-muted">a@velzon.com</td>
+                                  <td class="text-muted" v-if="order.payment_type">{{ order.payment_type.name }}</td>
                                 </tr>
 
                               </tbody>
@@ -78,7 +110,7 @@ import Sidebar from "../../components/Sidebar.vue";
                       <div class="card">
                         <div class="card-body">
                           <h5 class="card-title mb-3">Estatus</h5>
-                          <p>Normal</p>
+                          <p v-if="order.presentations">{{ order.presentations[0].status }}</p>
                         </div>
                       </div>
 
@@ -87,13 +119,16 @@ import Sidebar from "../../components/Sidebar.vue";
 
 
 
-                      <div class="card">
+                      <div v-if="order.coupon" class="card">
                         <div class="card-body p-0">
                           <div class="alert alert-warning border-0 rounded-top rounded-0 m-0 d-flex align-items-center"
                             role="alert">
 
                             <div class="flex-shrink-0">
-                              <a href="pages-pricing.html" class="text-reset text-decoration-underline"><b>CUPÓN</b></a>
+                              <RouterLink :to="{
+                                path: '/coupons/' + order.coupon.id
+                              }" class="text-reset text-decoration-underline"><b>CUPÓN</b>
+                              </RouterLink>
                             </div>
                           </div>
                           <div class="d-flex p-3">
@@ -105,8 +140,8 @@ import Sidebar from "../../components/Sidebar.vue";
                               </div>
                             </div>
                             <div>
-                              <p class="fs-16 lh-base">Nombre del cupon</p>
-                              <p><span class="fw-semibold">Codigo del cupon</span></p>
+                              <p class="fs-16 lh-base">{{ order.coupon.name }}</p>
+                              <p><span class="fw-semibold">{{ order.coupon.code }}</span></p>
 
                             </div>
                           </div>
@@ -145,7 +180,7 @@ import Sidebar from "../../components/Sidebar.vue";
 
 
 
-                                <div class="tab-pane active" id="personalDetails" role="tabpanel">
+                                <div class="tab-pane active" id="personalDetails" v-if="order.client" role="tabpanel">
                                   <form action="javascript:void(0);">
                                     <div class="row">
 
@@ -153,7 +188,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="firstnameInput" class="form-label">Nombre</label>
                                           <input type="text" class="form-control" id="firstnameInput"
-                                            placeholder="Nombre" value="Dave">
+                                            placeholder="Nombre" :value="order.client.name">
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -161,7 +196,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="lastnameInput" class="form-label">Correo electrónico</label>
                                           <input type="text" class="form-control" id="lastnameInput"
-                                            placeholder="Correo electrónico" value="Adame">
+                                            placeholder="Correo electrónico" :value="order.client.email">
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -170,7 +205,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="emailInput" class="form-label">Teléfono</label>
                                           <input type="email" class="form-control" id="emailInput"
-                                            placeholder="Correo electrónico" value="daveadame@velzon.com">
+                                            placeholder="Correo electrónico" :value="order.client.phone_number">
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -191,7 +226,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="firstnameInput" class="form-label">Nombre</label>
                                           <input type="text" class="form-control" id="firstnameInput"
-                                            placeholder="Nombre" value="Dave">
+                                            placeholder="Nombre" :value="order.address.first_name">
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -199,7 +234,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="lastnameInput" class="form-label">Apellido</label>
                                           <input type="text" class="form-control" id="lastnameInput"
-                                            placeholder="Apellido" value="Adame">
+                                            placeholder="Apellido" :value="order.address.last_name">
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -208,7 +243,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="phonenumberInput" class="form-label">Calle y número</label>
                                           <input type="text" class="form-control" id="phonenumberInput"
-                                            placeholder="Calle y número" value="+(1) 987 6543">
+                                            placeholder="Calle y número" :value="order.address.street_and_use_number">
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -216,7 +251,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="emailInput" class="form-label">Apartamento</label>
                                           <input type="email" class="form-control" id="emailInput"
-                                            placeholder="Apartamento" value="daveadame@velzon.com">
+                                            placeholder="Apartamento" :value="order.address.apartment">
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -224,7 +259,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="lastnameInput" class="form-label">Código postal</label>
                                           <input type="text" class="form-control" id="lastnameInput"
-                                            placeholder="Apellido" value="Adame">
+                                            placeholder="Apellido" :value="order.address.postal_code">
                                         </div>
                                       </div>
 
@@ -233,7 +268,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="phonenumberInput" class="form-label">Ciudad</label>
                                           <input type="text" class="form-control" id="phonenumberInput"
-                                            placeholder="Calle y número" value="+(1) 987 6543">
+                                            placeholder="Calle y número" :value="order.address.city">
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -241,7 +276,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="emailInput" class="form-label">Provincia</label>
                                           <input type="email" class="form-control" id="emailInput"
-                                            placeholder="Apartamento" value="daveadame@velzon.com">
+                                            placeholder="Apartamento" :value="order.address.province">
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -250,7 +285,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         <div class="mb-3">
                                           <label for="emailInput" class="form-label">Teléfono</label>
                                           <input type="email" class="form-control" id="emailInput"
-                                            placeholder="Correo electrónico" value="daveadame@velzon.com">
+                                            placeholder="612 000 0000" :value="order.address.phone_number">
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -301,42 +336,24 @@ import Sidebar from "../../components/Sidebar.vue";
                                     <table class="table align-middle table-nowrap" id="customerTable">
                                       <thead class="table-light">
                                         <tr>
-                                          <th class="" data-sort="num">#</th>
                                           <th class="" data-sort="id">ID</th>
-                                          <th class="" data-sort="name">Nombre</th>
                                           <th class="" data-sort="description">Descripción</th>
 
                                         </tr>
                                       </thead>
                                       <tbody class="list form-check-all">
-                                        <tr>
-                                          <td class="id" style="display:none;"><a href="javascript:void(0);"
-                                              class="fw-medium link-primary">#VZ2101</a></td>
-                                          <td class="num">1</td>
-                                          <td class="id">1</td>
+                                        <tr v-if="order.presentations" v-for="presentation in order.presentations"
+                                          :key="presentation.id">
+                                          <td class="id">{{ presentation.id }}</td>
 
                                           <td>
                                             <div class="d-flex align-items-center">
-                                              <div class="flex-shrink-0 me-3">
-                                                <div class="avatar-sm bg-light rounded p-1">
-                                                  <img src="../../assets/images/products/img-1.png" alt=""
-                                                    class="img-fluid d-block">
-                                                </div>
-                                              </div>
                                               <div class="flex-grow-1">
-                                                <h5 class="fs-14 mb-1">
-                                                  <a href="apps-ecommerce-product-details.html" class="text-dark">Half
-                                                    Sleeve Round Neck T-Shirts</a>
-                                                </h5>
-                                                <p class="text-muted mb-0">Marca : <span
-                                                    class="fw-medium">Fashion</span></p>
+                                                <h5 class="fs-14 mb-1">{{ presentation.description }}</h5>
                                               </div>
                                             </div>
 
                                           </td>
-
-                                          <td class="description">Este moderno comedor Ikal, es una excelente opción
-                                            para complementar los muebles del interior de tu hogar.</td>
 
                                         </tr>
                                       </tbody>
@@ -344,7 +361,7 @@ import Sidebar from "../../components/Sidebar.vue";
 
                                   </div>
 
-                                  <div class="d-flex justify-content-end">
+                                  <!-- <div class="d-flex justify-content-end">
                                     <div class="pagination-wrap hstack gap-2">
                                       <a class="page-item pagination-prev disabled" href="#">
                                         Previous
@@ -354,7 +371,7 @@ import Sidebar from "../../components/Sidebar.vue";
                                         Next
                                       </a>
                                     </div>
-                                  </div>
+                                  </div> -->
                                 </div>
 
                               </div><!-- end card -->

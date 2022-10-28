@@ -1,6 +1,35 @@
 <script setup>
+import axios from "axios"
+import { ref } from "vue"
+import { useRoute, RouterLink } from 'vue-router'
 import Nav from "../../components/Nav.vue";
 import Sidebar from "../../components/Sidebar.vue";
+
+let user = JSON.parse(localStorage.getItem('user'))
+const address = ref(null)
+const route = useRoute()
+
+const getAddress = () => {
+  var data = new FormData();
+  data.append('action', 'getAddress');
+  data.append('id', route.params.idAddress);
+  data.append('token', user.token);
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost/app/AddressController.php',
+    data: data
+  };
+
+  axios(config)
+    .then((response) => {
+      address.value = response.data.data
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+getAddress();
 </script>
 
 <template>
@@ -22,7 +51,7 @@ import Sidebar from "../../components/Sidebar.vue";
             <div class="col">
               <div class="p-2">
                 <h3 class="text-white mb-1">Detalles de dirección</h3>
-                <p class="text-white-75">Calle y número</p>
+                <p class="text-white-75">{{ address.street_and_use_number }}</p>
 
               </div>
             </div>
@@ -58,7 +87,7 @@ import Sidebar from "../../components/Sidebar.vue";
                           <div class="mb-3">
                             <label for="firstnameInput" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="firstnameInput" placeholder="Nombre"
-                              value="Dave">
+                              :value="address.first_name">
                           </div>
                         </div>
 
@@ -66,7 +95,7 @@ import Sidebar from "../../components/Sidebar.vue";
                           <div class="mb-3">
                             <label for="lastnameInput" class="form-label">Apellido</label>
                             <input type="text" class="form-control" id="lastnameInput" placeholder="Apellido"
-                              value="Adame">
+                              :value="address.last_name">
                           </div>
                         </div>
 
@@ -75,7 +104,7 @@ import Sidebar from "../../components/Sidebar.vue";
                           <div class="mb-3">
                             <label for="phonenumberInput" class="form-label">Calle y número</label>
                             <input type="text" class="form-control" id="phonenumberInput" placeholder="Calle y número"
-                              value="+(1) 987 6543">
+                              :value="address.street_and_use_number">
                           </div>
                         </div>
 
@@ -83,7 +112,7 @@ import Sidebar from "../../components/Sidebar.vue";
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Apartamento</label>
                             <input type="email" class="form-control" id="emailInput" placeholder="Apartamento"
-                              value="daveadame@velzon.com">
+                              :value="address.apartment">
                           </div>
                         </div>
 
@@ -91,7 +120,7 @@ import Sidebar from "../../components/Sidebar.vue";
                           <div class="mb-3">
                             <label for="lastnameInput" class="form-label">Código postal</label>
                             <input type="text" class="form-control" id="lastnameInput" placeholder="Apellido"
-                              value="Adame">
+                              :value="address.postal_code">
                           </div>
                         </div>
 
@@ -100,7 +129,7 @@ import Sidebar from "../../components/Sidebar.vue";
                           <div class="mb-3">
                             <label for="phonenumberInput" class="form-label">Ciudad</label>
                             <input type="text" class="form-control" id="phonenumberInput" placeholder="Calle y número"
-                              value="+(1) 987 6543">
+                              :value="address.city">
                           </div>
                         </div>
 
@@ -108,7 +137,7 @@ import Sidebar from "../../components/Sidebar.vue";
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Provincia</label>
                             <input type="email" class="form-control" id="emailInput" placeholder="Apartamento"
-                              value="daveadame@velzon.com">
+                              :value="address.province">
                           </div>
                         </div>
 
@@ -116,8 +145,8 @@ import Sidebar from "../../components/Sidebar.vue";
                         <div class="col-lg-12">
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Teléfono</label>
-                            <input type="email" class="form-control" id="emailInput" placeholder="Correo electrónico"
-                              value="daveadame@velzon.com">
+                            <input type="email" class="form-control" id="emailInput" placeholder="(612) 000-0000"
+                              :value="address.phone_number">
                           </div>
                         </div>
 

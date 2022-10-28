@@ -1,4 +1,58 @@
 <script setup>
+import axios from "axios";
+import { useRouter, RouterLink } from 'vue-router'
+const router = useRouter()
+
+let user = JSON.parse(localStorage.getItem('user'))
+
+const logout = () => {
+  let data = new FormData()
+  data.append('action', 'logout')
+  data.append('email', user.email)
+  data.append('token', user.token)
+
+  let config = {
+    method: 'post',
+    url: 'http://localhost/app/AuthController.php',
+    data: data
+  }
+
+  axios(config)
+    .then(function (response) {
+      console.log(response.data)
+      if (response.data.code > 0) {
+        router.push({ path: '/' })
+      }
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
+}
+
+const getUser = () => {
+  var data = new FormData();
+  data.append('action', 'getuser');
+  data.append('id', user.id);
+  data.append('token', user.token);
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost/app/UsersController.php',
+    data: data
+  };
+
+  axios(config)
+    .then((response) => {
+      user = response.data
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+}
+
+getUser()
+
 </script>
 
 <template>
@@ -8,30 +62,30 @@
     <header id="page-topbar">
       <div class="layout-width">
         <div class="navbar-header">
-          <div class="d-flex">
+          <div class="d-md-none">
             <!-- LOGO -->
-            <div class="navbar-brand-box horizontal-logo">
-              <a href="index.html" class="logo logo-dark">
+            <div class=" horizontal-logo">
+              <RouterLink :to="{ name: 'users' }" class="logo logo-dark">
                 <span class="logo-sm">
                   <img src="../assets/images/logo-sm.png" alt="" height="22">
                 </span>
                 <span class="logo-lg">
                   <img src="../assets/images/logo-dark.png" alt="" height="17">
                 </span>
-              </a>
+              </RouterLink>
 
-              <a href="index.html" class="logo logo-light">
+              <RouterLink :to="{ name: 'users' }" class="logo logo-light">
                 <span class="logo-sm">
                   <img src="../assets/images/logo-sm.png" alt="" height="22">
                 </span>
                 <span class="logo-lg">
                   <img src="../assets/images/logo-light.png" alt="" height="17">
                 </span>
-              </a>
+              </RouterLink>
             </div>
           </div>
 
-          <div class="d-flex align-items-center">
+          <div class="ms-auto d-flex align-items-center">
 
 
             <div class="ms-1 header-item d-none d-sm-flex">
@@ -62,24 +116,24 @@
               <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="d-flex align-items-center">
-                  <img class="rounded-circle header-profile-user" src="../assets/images/users/avatar-1.jpg"
-                    alt="Header Avatar">
+                  <img class="rounded-circle header-profile-user" :src="user.avatar" alt="Header Avatar">
                   <span class="text-start ms-xl-2">
-                    <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Anna Adame</span>
-                    <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
+                    <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ user.name }}</span>
+                    <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ user.role }}</span>
                   </span>
                 </span>
               </button>
 
               <div class="dropdown-menu dropdown-menu-end">
                 <!-- item-->
-                <h6 class="dropdown-header">Welcome Anna!</h6>
-                <a class="dropdown-item" href="">
-                  <span class="align-middle">Profile</span></a>
+                <h6 class="dropdown-header">Welcome {{ user.name }}!</h6>
+                <RouterLink :to="{ path: '/users/' + user.id }" class="dropdown-item">
+                  <span class="align-middle">Profile</span>
+                </RouterLink>
 
-                <a class="dropdown-item" href="auth-logout-basic.html"><i
+                <RouterLink :to="{ path: '/' }" v-on:click="logout" class="dropdown-item"><i
                     class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle"
-                    data-key="t-logout">Logout</span></a>
+                    data-key="t-logout">Logout</span></RouterLink>
               </div>
             </div>
           </div>

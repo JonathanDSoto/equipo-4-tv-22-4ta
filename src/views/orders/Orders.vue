@@ -1,6 +1,13 @@
 <script setup>
+import axios from "axios"
+import { ref } from "vue"
+import { RouterLink } from 'vue-router'
 import Nav from "../../components/Nav.vue";
 import Sidebar from "../../components/Sidebar.vue";
+
+
+let user = JSON.parse(localStorage.getItem('user'))
+const orders = ref(null)
 
 function eliminar() {
   const swalWithBootstrapButtons = Swal.mixin({
@@ -39,6 +46,28 @@ function eliminar() {
   })
 
 }
+
+const getOrders = () => {
+  var data = new FormData();
+  data.append('action', 'getOrders');
+  data.append('token', user.token);
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost/app/OrdersController.php',
+    data: data
+  };
+
+  axios(config)
+    .then((response) => {
+      orders.value = response.data.data
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+}
+getOrders()
 </script>
 
 <template>
@@ -78,8 +107,6 @@ function eliminar() {
                       <div class="">
                         <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
                           data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Agregar</button>
-                        <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i
-                            class="ri-delete-bin-2-line"></i></button>
                       </div>
                     </div>
                     <div class="col-sm">
@@ -101,12 +128,6 @@ function eliminar() {
                     <table class="table align-middle table-nowrap" id="customerTable">
                       <thead class="table-light">
                         <tr>
-                          <th scope="col" style="width: 50px;">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                            </div>
-                          </th>
-                          <th class="" data-sort="num">#</th>
                           <th class="" data-sort="id">ID</th>
                           <th class="" data-sort="name">Folio</th>
                           <th class="" data-sort="lastname">Total</th>
@@ -116,29 +137,21 @@ function eliminar() {
                         </tr>
                       </thead>
                       <tbody class="list form-check-all">
-                        <tr>
-                          <th scope="row">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
-                            </div>
-                          </th>
-                          <td class="id" style="display:none;"><a href="javascript:void(0);"
-                              class="fw-medium link-primary">#VZ2101</a></td>
-                          <td class="num">1</td>
-                          <td class="id">1</td>
-                          <td class="name">Mary Cousar</td>
-                          <td class="lastname">Mary Cousar</td>
-                          <td class="email">marycousar@velzon.com</td>
+                        <tr v-if="orders" v-for="order in orders" :key="order.id">
+                          <td class="id">{{ order.id }}</td>
+                          <td class="name">{{ order.folio }}</td>
+                          <td class="lastname">{{ order.total }}</td>
+                          <td class="email">{{ order.client_id }}</td>
                           <td class="subscription">
-                            <span class="badge badge-soft-success text-uppercase">Active</span>
+                            {{ order.is_paid > 0 ? 'Active' : 'Inactive' }}
                           </td>
 
                           <td>
                             <div class="d-flex gap-2">
                               <div class="edit">
                                 <a href="details.php">
-                                  <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal"
-                                    data-bs-target="">Ver</button>
+                                  <RouterLink :to="{ path: '/orders/' + order.id }"
+                                    class="btn btn-sm btn-primary edit-item-btn">Ver</RouterLink>
                                 </a>
                               </div>
                               <div class="edit">

@@ -1,6 +1,225 @@
 <script setup>
+import axios from "axios"
+import { ref } from "vue"
+import { useRouter, RouterLink } from 'vue-router'
 import Nav from "../../components/Nav.vue";
 import Sidebar from "../../components/Sidebar.vue";
+
+let user = JSON.parse(localStorage.getItem('user'))
+const clients = ref(null)
+const router = useRouter()
+
+
+const edit = async (id) => {
+  const editswal = await Swal.fire({
+    title: 'Edit',
+    html:
+      '<input placeholder="name" id="name" class="form-control mb-3" required>' +
+      '<input placeholder="email" id="email" class="form-control mb-3">' +
+      '<input placeholder="phone_number" type="number" id="phone_number" class="form-control mb-3">' +
+      '<input placeholder="password" type="password" id="password" class="form-control mb-3">' +
+      '<input placeholder="is_suscribed" type="is_suscribed" id="is_suscribed" class="form-control mb-3">' +
+      '<input placeholder="level_id" type="level_id" id="level_id" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      var data = new FormData();
+      data.append('name', document.getElementById('name').value);
+      data.append('email', document.getElementById('email').value);
+      data.append('password', document.getElementById('password').value);
+      data.append('phone_number', document.getElementById('phone_number').value);
+      data.append('action', 'updateClient');
+      data.append('token', user.token);
+      data.append('id', id);
+      data.append('is_suscribed', document.getElementById('is_suscribed').value);
+      data.append('level_id', document.getElementById('level_id').value);
+
+      var config = {
+        method: 'post',
+        url: 'http://localhost/app/ClientsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then(function (response) {
+          if (response.data.data) {
+            swal.fire(
+              'Editado',
+              'El registro ha sido Editado.',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error!',
+              'El registro no ha sido Editado.',
+              'error'
+            )
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+    }
+  })
+  console.log(editswal)
+
+  if (!editswal.isConfirmed) {
+    editswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido actualizado.',
+      'error'
+    )
+  }
+}
+
+const deleteElement = async (id) => {
+  const deleteswal = await Swal.fire({
+    title: 'Estas Seguro que quieres eliminarlo',
+    icon: 'error',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      var data = new FormData();
+      data.append('action', 'deleteClient');
+      data.append('id', id);
+      data.append('token', user.token);
+
+      var config = {
+        method: 'post',
+        url: 'http://localhost/app/ClientsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then(function (response) {
+          if (response.data.code === 2) {
+            swal.fire(
+              'Eliminado',
+              'El registro ha sido Eliminado.',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error!',
+              'El registro no ha sido Eliminado.',
+              'error'
+            )
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+    }
+  })
+  console.log(deleteswal)
+
+  if (!deleteswal.isConfirmed) {
+    router.go(0)
+    deleteswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Eliminado.',
+      'error'
+    )
+  }
+}
+
+const create = async () => {
+  const createswal = await Swal.fire({
+    title: 'Crear Usuario',
+    html:
+      '<input placeholder="name" id="name" class="form-control mb-3" required>' +
+      '<input placeholder="email" id="email" class="form-control mb-3">' +
+      '<input placeholder="phone_number" type="number" id="phone_number" class="form-control mb-3">' +
+      '<input placeholder="password" type="password" id="password" class="form-control mb-3">' +
+      '<input placeholder="is_suscribed" type="is_suscribed" id="is_suscribed" class="form-control mb-3">' +
+      '<input placeholder="level_id" type="level_id" id="level_id" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      var data = new FormData();
+      data.append('name', document.getElementById('name').value);
+      data.append('email', document.getElementById('email').value);
+      data.append('password', document.getElementById('password').value);
+      data.append('phone_number', document.getElementById('phone_number').value);
+      data.append('action', 'createClient');
+      data.append('token', user.token);
+      data.append('is_suscribed', document.getElementById('is_suscribed').value);
+      data.append('level_id', document.getElementById('level_id').value);
+
+      var config = {
+        method: 'post',
+        url: 'http://localhost/app/ClientsController.php',
+        data: data
+      };
+
+      return axios(config)
+        .then(function (response) {
+          if (response.data.data) {
+            swal.fire(
+              'Creado',
+              'El registro no ha sido Creado.',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error!',
+              'El registro no ha sido Creado.',
+              'error'
+            )
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  })
+  console.log(createswal)
+
+  if (!createswal.isConfirmed) {
+    createswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Creado.',
+      'error'
+    )
+  }
+}
+
+
+
+const getClients = () => {
+  var data = new FormData();
+  data.append('action', 'getClients');
+  data.append('token', user.token);
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost/app/ClientsController.php',
+    data: data
+  };
+
+  axios(config)
+    .then((response) => {
+      clients.value = response.data.data
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+getClients();
 </script>
 
 <template>
@@ -40,15 +259,8 @@ import Sidebar from "../../components/Sidebar.vue";
                   <div class="row g-4 mb-3">
                     <div class="col-sm-auto">
                       <div>
-                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
-                          data-bs-target="#showModal">Agregar</button>
-                        <button class="btn btn-danger mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                            height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                            <path
-                              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                            <path fill-rule="evenodd"
-                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                          </svg></button>
+                        <button @click="create" class="btn btn-success add-btn">Agregar</button>
+
                       </div>
                     </div>
 
@@ -58,12 +270,6 @@ import Sidebar from "../../components/Sidebar.vue";
                     <table class="table align-middle table-nowrap" id="customerTable">
                       <thead class="table-light">
                         <tr>
-                          <th scope="col" style="width: 50px;">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                            </div>
-                          </th>
-                          <th class="" data-sort="num">#</th>
                           <th class="" data-sort="id">ID</th>
                           <th class="" data-sort="name">Nombre</th>
                           <th class="" data-sort="phone">Teléfono</th>
@@ -73,38 +279,31 @@ import Sidebar from "../../components/Sidebar.vue";
                         </tr>
                       </thead>
                       <tbody class="list form-check-all">
-                        <tr>
-                          <th scope="row">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
-                            </div>
-                          </th>
-                          <td class="id" style="display:none;"><a href="javascript:void(0);"
-                              class="fw-medium link-primary">#VZ2101</a></td>
-                          <td class="num">1</td>
-                          <td class="id">1</td>
-                          <td class="name">Mary Cousar</td>
-                          <td class="email">marycousar@velzon.com</td>
-                          <td class="phone">marycousar@velzon.com</td>
+                        <tr v-for="item in clients" :key="item.id">
+                          <td class="id">{{ item.id }}</td>
+                          <td class="name">{{ item.name }}</td>
+                          <td class="email">{{ item.phone_number }}</td>
+                          <td class="phone">{{ item.email }}</td>
                           <td class="subscription">
-                            <span class="badge badge-primary text-uppercase">Active</span>
+                            <span class="btn  btn-outline-success disabled">Active</span>
                           </td>
 
                           <td>
                             <div class="d-flex gap-2">
                               <div class="edit">
                                 <a href="details.php">
-                                  <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal"
-                                    data-bs-target="">Ver</button>
+                                  <RouterLink :to="{ path: '/clients/' + item.id }"
+                                    class="btn btn-sm btn-primary edit-item-btn">
+                                    Ver</RouterLink>
                                 </a>
                               </div>
                               <div class="edit">
-                                <button class="btn btn-sm btn-warning edit-item-btn" data-bs-toggle="modal"
-                                  data-bs-target="#showModal">Editar</button>
+                                <button @click="edit(item.id)"
+                                  class="btn btn-sm btn-warning edit-item-btn">Editar</button>
                               </div>
                               <div class="remove">
-                                <button onclick="eliminar()" class="btn btn-sm btn-danger remove-item-btn"
-                                  data-bs-toggle="modal" data-bs-target="#deleteRecordModal">Eliminar</button>
+                                <button @click="deleteElement(item.id)"
+                                  class="btn btn-sm btn-danger remove-item-btn">Eliminar</button>
                               </div>
                             </div>
                           </td>
@@ -188,7 +387,7 @@ import Sidebar from "../../components/Sidebar.vue";
                 <label for="exampleFormControlTextarea5" class="form-label">Suscripción</label>
                 <div class="input-group">
                   <label class="input-group-text" for="inputGroupSelect01">Opciones</label>
-                  <select class="form-select" id="inputGroupSelect01">
+                  <select class="form-select">
                     <option selected>...</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -202,7 +401,7 @@ import Sidebar from "../../components/Sidebar.vue";
                 <label for="exampleFormControlTextarea5" class="form-label">Nivel</label>
                 <div class="input-group">
                   <label class="input-group-text" for="inputGroupSelect01">Opciones</label>
-                  <select class="form-select" id="inputGroupSelect01">
+                  <select class="form-select">
                     <option selected>...</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>

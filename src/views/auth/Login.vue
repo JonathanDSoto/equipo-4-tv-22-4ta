@@ -1,9 +1,8 @@
 <script setup>
 import { ref } from "vue"
 import axios from 'axios'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 const router = useRouter()
-const route = useRoute()
 
 const mail = ref(null)
 const pass = ref(null)
@@ -23,7 +22,7 @@ const login = () => {
   axios(config)
     .then(function (response) {
       if (response.data.code > 0) {
-        localStorage.setItem('email', response.data.data.email)
+        localStorage.setItem('user', JSON.stringify(response.data.data))
         router.push({ path: '/users' })
       }
     })

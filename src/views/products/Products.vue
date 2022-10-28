@@ -1,6 +1,34 @@
 <script setup>
+import axios from "axios"
+import { ref } from "vue"
+import { RouterLink } from 'vue-router'
 import Nav from "../../components/Nav.vue";
 import Sidebar from "../../components/Sidebar.vue";
+
+let user = JSON.parse(localStorage.getItem('user'))
+const products = ref(null)
+
+const getProducts = () => {
+  var data = new FormData();
+  data.append('action', 'getProducts');
+  data.append('token', user.token);
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost/app/ProductsController.php',
+    data: data
+  };
+
+  axios(config)
+    .then(function (response) {
+      products.value = response.data.data
+      console.log(products.value)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+getProducts()
 </script>
 
 <template>
@@ -41,8 +69,6 @@ import Sidebar from "../../components/Sidebar.vue";
                       <div>
                         <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
                           data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Agregar</button>
-                        <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i
-                            class="ri-delete-bin-2-line"></i></button>
                       </div>
                     </div>
 
@@ -52,12 +78,6 @@ import Sidebar from "../../components/Sidebar.vue";
                     <table class="table align-middle table-nowrap" id="customerTable">
                       <thead class="table-light">
                         <tr>
-                          <th scope="col" style="width: 50px;">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                            </div>
-                          </th>
-                          <th class="" data-sort="num">#</th>
                           <th class="" data-sort="id">ID</th>
                           <th class="" data-sort="name">Nombre</th>
                           <th class="" data-sort="description">Descripción</th>
@@ -65,44 +85,40 @@ import Sidebar from "../../components/Sidebar.vue";
                         </tr>
                       </thead>
                       <tbody class="list form-check-all">
-                        <tr>
-                          <th scope="row">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
-                            </div>
-                          </th>
-                          <td class="id" style="display:none;"><a href="javascript:void(0);"
-                              class="fw-medium link-primary">#VZ2101</a></td>
-                          <td class="num">1</td>
-                          <td class="id">1</td>
+                        <tr v-for="product in products" :key="product.id">
+                          <td class="id">{{ product.id }}</td>
 
                           <td>
                             <div class="d-flex align-items-center">
                               <div class="flex-shrink-0 me-3">
                                 <div class="avatar-sm bg-light rounded p-1">
-                                  <!-- <img src="../../assets/images/products/img-1.png" alt="" class="img-fluid d-block"> -->
+                                  <img :src="product.cover" alt="" class="img-fluid d-block">
                                 </div>
                               </div>
                               <div class="flex-grow-1">
                                 <h5 class="fs-14 mb-1">
-                                  <a href="apps-ecommerce-product-details.html" class="text-dark">Half Sleeve Round Neck
-                                    T-Shirts</a>
+                                  <RouterLink :to="{ path: '/products/' + product.slug }" class="text-dark">{{
+                                      product.name
+                                  }}</RouterLink>
                                 </h5>
-                                <p class="text-muted mb-0">Marca : <span class="fw-medium">Fashion</span></p>
+                                <p class="text-muted mb-0" v-if="product.brand">Marca : <span class="fw-medium">{{
+                                    product.brand.name
+                                }}</span></p>
                               </div>
                             </div>
 
                           </td>
 
-                          <td class="description">Este moderno comedor Ikal, es una excelente opción para complementar
-                            los muebles del interior de tu hogar.</td>
+                          <td class="description text-break col-md-3" v-if="product.description">{{ product.description
+                          }}
+                          </td>
 
                           <td>
                             <div class="d-flex gap-2">
                               <div class="edit">
                                 <a href="details.php">
-                                  <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal"
-                                    data-bs-target="">Ver</button>
+                                  <RouterLink :to="{ path: '/products/' + product.slug }"
+                                    class="btn btn-sm btn-primary edit-item-btn">Ver</RouterLink>
                                 </a>
 
                               </div>

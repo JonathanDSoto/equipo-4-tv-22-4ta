@@ -1,13 +1,55 @@
 <script setup>
-import Nav from '../../components/Nav.vue';
-import Sidebar from '../../components/Sidebar.vue';
+import axios from "axios"
+import { ref } from "vue"
+import { RouterLink, useRoute } from 'vue-router'
+import Nav from "../../components/Nav.vue";
+import Sidebar from "../../components/Sidebar.vue";
+
+let user = JSON.parse(localStorage.getItem('user'))
+const route = useRoute()
+
+
+const client = ref(null)
+const addresses = ref(null)
+const level = ref(null)
+const orders = ref(null)
+
+let cantOrders = ref(null)
+
+
+const getClient = () => {
+  var data = new FormData();
+  data.append('action', 'getClient');
+  data.append('id', route.params.idClient);
+  data.append('token', user.token);
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost/app/ClientsController.php',
+    data: data
+  };
+
+  axios(config)
+    .then(function (response) {
+      client.value = response.data.data
+      addresses.value = response.data.data.addresses
+      level.value = response.data.data.level
+      orders.value = response.data.data.orders
+      cantOrders.value = Object.keys(orders.value)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+getClient();
+
 </script>
 
 <template>
   <Nav />
   <Sidebar />
 
-  <div class="main-content">
+  <div v-if="client" class="main-content">
     <div class="page-content">
       <div class="container-fluid">
         <div class="profile-foreground position-relative mx-n4 mt-n4">
@@ -19,13 +61,15 @@ import Sidebar from '../../components/Sidebar.vue';
           <div class="row g-4">
             <div class="col-auto">
               <div class="avatar-lg">
-                <img src="../../assets/images/users/avatar-1.jpg" alt="user-img" class="img-thumbnail rounded-circle" />
+                <img
+                  src="https://images.vexels.com/media/users/3/136558/isolated/lists/43cc80b4c098e43a988c535eaba42c53-icono-de-usuario-de-persona.png"
+                  alt="user-img" class="img-thumbnail rounded-circle" />
               </div>
             </div>
             <!--end col-->
             <div class="col">
               <div class="p-2">
-                <h3 class="text-white mb-1">Anna Adame</h3>
+                <h3 class="text-white mb-1">{{ client.name }}</h3>
                 <p class="text-white-75">Cliente</p>
 
               </div>
@@ -56,15 +100,15 @@ import Sidebar from '../../components/Sidebar.vue';
                               <tbody>
                                 <tr>
                                   <th class="ps-0" scope="row">Nombre :</th>
-                                  <td class="text-muted">Anna Adame</td>
+                                  <td class="text-muted">{{ client.name }}</td>
                                 </tr>
                                 <tr>
                                   <th class="ps-0" scope="row">Correo electrónico :</th>
-                                  <td class="text-muted">+(1) 987 6543</td>
+                                  <td class="text-muted">{{ client.email }}</td>
                                 </tr>
                                 <tr>
                                   <th class="ps-0" scope="row">Teléfono :</th>
-                                  <td class="text-muted">daveadame@velzon.com</td>
+                                  <td class="text-muted">{{ client.phone_number }}</td>
                                 </tr>
 
                               </tbody>
@@ -76,8 +120,9 @@ import Sidebar from '../../components/Sidebar.vue';
 
                       <div class="card">
                         <div class="card-body">
-                          <h5 class="card-title mb-3">Nivel</h5>
-                          <p>Normal</p>
+                          <h5 class="card-title mb-3">Nivel {{ level.id }}</h5>
+                          <p>{{ level.name }}</p>
+                          <p>Discount: {{ level.percentage_discount }} %</p>
                         </div>
                       </div>
 
@@ -88,16 +133,11 @@ import Sidebar from '../../components/Sidebar.vue';
                               <div class="flex-grow-1">
                                 <p class="text-uppercase fw-medium text-white-50 mb-0">Orders</p>
                               </div>
-                              <div class="flex-shrink-0">
-                                <h5 class="text-warning fs-14 mb-0">
-                                  <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
-                                </h5>
-                              </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                               <div>
                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4 text-white"><span class="counter-value"
-                                    data-target="36894">0</span></h4>
+                                    data-target="36894">{{ cantOrders.length }}</span></h4>
                                 <a href="#" class="text-decoration-underline text-white-50">View all
                                   orders</a>
                               </div>
@@ -133,7 +173,7 @@ import Sidebar from '../../components/Sidebar.vue';
                         <div class="card-body pt-0">
                           <div>
 
-                            <div class="table-responsive table-card mb-1">
+                            <div v-if="cantOrders.length > 0" class="table-responsive table-card mb-1 ">
                               <table class="table table-nowrap align-middle" id="orderTable">
                                 <thead class="text-muted table-light">
                                   <tr class="text-uppercase">
@@ -147,23 +187,24 @@ import Sidebar from '../../components/Sidebar.vue';
                                   </tr>
                                 </thead>
                                 <tbody class="list form-check-all">
-                                  <tr>
-                                    <td class="id"><a href="apps-ecommerce-order-details.html"
-                                        class="fw-medium link-primary">#VZ2101</a></td>
-                                    <td class="customer_name">Frank Hook</td>
-                                    <td class="product_name">Puma Tshirt</td>
-                                    <td class="date">20 Dec, 2021, <small class="text-muted">02:21 AM</small></td>
-                                    <td class="status"><span
-                                        class="badge badge-soft-warning text-uppercase">Pending</span></td>
+                                  <tr v-for="order in orders" :key="order.id">
+                                    <td class="id">
+                                      <RouterLink :to="{}">{{ order.id }}</RouterLink>
+                                    </td>
+                                    <td class="folio">#{{ order.folio }}</td>
+                                    <td class="customer_name">{{ client.name }}</td>
+                                    <td class="date">{{ client.name }}</td>
+                                    <td class="status"><span class="">{{ order.presentations[0].status }}</span></td>
                                   </tr>
                                 </tbody>
                               </table>
 
                             </div>
 
-
-
-                            <div class="d-flex justify-content-end">
+                            <div v-else class="mb-5">
+                              <h3>No hay Ordenes</h3>
+                            </div>
+                            <!-- <div class="d-flex justify-content-end">
                               <div class="pagination-wrap hstack gap-2">
                                 <a class="page-item pagination-prev disabled" href="#">
                                   Previous
@@ -173,7 +214,7 @@ import Sidebar from '../../components/Sidebar.vue';
                                   Next
                                 </a>
                               </div>
-                            </div>
+                            </div> -->
                           </div>
 
 
@@ -192,7 +233,7 @@ import Sidebar from '../../components/Sidebar.vue';
                         </div>
 
                         <div class="card-body">
-                          <div id="customerList">
+                          <div v-if="addresses[0]" id="customerList">
                             <div class="row g-4 mb-3">
                               <div class="col-sm-auto">
 
@@ -211,12 +252,6 @@ import Sidebar from '../../components/Sidebar.vue';
                               <table class="table align-middle table-nowrap" id="customerTable">
                                 <thead class="table-light">
                                   <tr>
-                                    <th scope="col" style="width: 50px;">
-                                      <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                                      </div>
-                                    </th>
-                                    <th class="" data-sort="num">#</th>
                                     <th class="" data-sort="id">ID</th>
                                     <th class="" data-sort="streetandusenumber">Calle y número</th>
                                     <th class="" data-sort="postalcode">Código postal</th>
@@ -226,29 +261,22 @@ import Sidebar from '../../components/Sidebar.vue';
                                   </tr>
                                 </thead>
                                 <tbody class="list form-check-all">
-                                  <tr>
-                                    <th scope="row">
-                                      <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="chk_child"
-                                          value="option1">
-                                      </div>
-                                    </th>
-                                    <td class="id" style="display:none;"><a href="javascript:void(0);"
-                                        class="fw-medium link-primary">#VZ2101</a></td>
-                                    <td class="num">1</td>
-                                    <td class="id">1</td>
-                                    <td class="streetandusenumber">Mary Cousar</td>
-                                    <td class="postalcode">marycousar@velzon.com</td>
-                                    <td class="city">marycousar@velzon.com</td>
-                                    <td class="province">marycousar@velzon.com</td>
+                                  <tr v-for="addresse in addresses" :key="addresse">
+                                    <td class="num">{{ addresse.id }}</td>
+                                    <td class="streetandusenumber">{{ addresse.street_and_use_number }}</td>
+                                    <td class="num">{{ addresse.phone_number }}</td>
+                                    <td class="postalcode">{{ addresse.postal_code }}</td>
+                                    <td class="city">{{ addresse.city }}</td>
+                                    <td class="province">{{ addresse.province }}</td>
 
 
                                     <td>
                                       <div class="d-flex gap-2">
                                         <div class="edit">
                                           <a href="details-address.php">
-                                            <button class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal"
-                                              data-bs-target="">Ver</button>
+                                            <RouterLink :to="{ path: '/address/' + addresse.id }"
+                                              class="btn btn-sm btn-primary edit-item-btn">Ver
+                                            </RouterLink>
                                           </a>
                                         </div>
                                         <div class="edit">
@@ -267,7 +295,7 @@ import Sidebar from '../../components/Sidebar.vue';
 
                             </div>
 
-                            <div class="d-flex justify-content-end">
+                            <!-- <div class="d-flex justify-content-end">
                               <div class="pagination-wrap hstack gap-2">
                                 <a class="page-item pagination-prev disabled" href="#">
                                   Previous
@@ -277,7 +305,11 @@ import Sidebar from '../../components/Sidebar.vue';
                                   Next
                                 </a>
                               </div>
-                            </div>
+                            </div> -->
+                          </div>
+
+                          <div v-else class="mb-5">
+                            <h3>No hay Direcciones</h3>
                           </div>
 
                         </div><!-- end card -->
