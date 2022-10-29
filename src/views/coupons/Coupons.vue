@@ -16,7 +16,7 @@ const getCoupons = () => {
 
   var config = {
     method: 'post',
-    url: 'http://localhost/app/CouponsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
     data: data
   };
 

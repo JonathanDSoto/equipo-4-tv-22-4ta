@@ -56,7 +56,7 @@ const getProduct = () => {
 
   var config = {
     method: 'post',
-    url: 'http://localhost/app/ProductsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
     data: data
   };
 
