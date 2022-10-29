@@ -6,7 +6,6 @@ import { useRoute } from "vue-router"
 import { ref } from "vue"
 
 const route = useRoute()
-console.log(route.params.idUser)
 
 let user = JSON.parse(localStorage.getItem('user'))
 let userInfo = ref(null)
@@ -19,7 +18,7 @@ const getUser = () => {
 
   var config = {
     method: 'post',
-    url: 'http://localhost/app/UsersController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
     data: data
   }
 
@@ -33,6 +32,8 @@ const getUser = () => {
 
 }
 
+
+
 getUser()
 
 </script>
@@ -41,7 +42,7 @@ getUser()
 
   <Nav />
   <Sidebar />
-  <div class="main-content">
+  <div v-if="userInfo" class="main-content">
 
     <div class="page-content">
       <div class="container-fluid">

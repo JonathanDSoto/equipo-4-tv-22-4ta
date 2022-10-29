@@ -36,21 +36,23 @@ const edit = async (id) => {
       console.log(typeof document.getElementById('email').value)
       var config = {
         method: 'post',
-        url: 'http://localhost/app/UsersController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
         data: data
       };
 
       return axios(config)
         .then(function (response) {
           if (response.data.data) {
-            router.go(0)
             swal.fire(
               'Actualizado!',
               'El registro ha sido actualizado.',
               'success'
-            )
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
           } else {
-            router.go(0)
             swal.fire(
               'Error!',
               'El registro no ha sido actualizado. Uno de los datos ya esta registrado',
@@ -66,7 +68,6 @@ const edit = async (id) => {
   console.log(editswal)
 
   if (!editswal.isConfirmed) {
-    router.go(0)
     editswal = await swal.fire(
       'Cancelado',
       'El registro no ha sido actualizado.',
@@ -89,21 +90,23 @@ const deleteElement = async (id) => {
 
       var config = {
         method: 'post',
-        url: 'http://localhost/app/UsersController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
         data: data
       };
 
       return axios(config)
         .then(function (response) {
           if (response.data.code === 2) {
-            router.go(0)
             swal.fire(
               'Eliminado!',
               'El registro ha sido Eliminado.',
               'success'
-            )
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
           } else {
-            router.go(0)
             swal.fire(
               'Error',
               'El registro no ha sido Eliminado.',
@@ -120,7 +123,6 @@ const deleteElement = async (id) => {
   console.log(deleteswal)
 
   if (!deleteswal.isConfirmed) {
-    router.go(0)
     deleteswal = await swal.fire(
       'Cancelado',
       'El registro no ha sido Eliminado.',
@@ -138,7 +140,7 @@ const create = async () => {
       '<input placeholder="email" id="email" class="form-control mb-3">' +
       '<input placeholder="phone_number" type="number" id="phone_number" class="form-control mb-3">' +
       '<input placeholder="password" type="password" id="password" class="form-control mb-3">' +
-      '<input placeholder="profile_photo" type="file" id="profile_photo" class="form-control mb-3">',
+      '<input placeholder="profile_photo"  accept="image/png,image/jpeg" type="file" id="profile_photo" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -148,12 +150,12 @@ const create = async () => {
       data.append('email', document.getElementById('email').value);
       data.append('phone_number', document.getElementById('phone_number').value);
       data.append('password', document.getElementById('password').value);
-      data.append('profile_photo', document.getElementById('profile_photo').value);
+      data.append('profile_photo', document.getElementById('profile_photo').files[0]);
       data.append('action', 'create');
       data.append('token', user.token);
       var config = {
         method: 'post',
-        url: 'http://localhost/app/UsersController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
         data: data
       };
 
@@ -163,11 +165,15 @@ const create = async () => {
             swal.fire(
               'Usuario Creado',
               'El Usuario ha sido Creado.',
-              'error'
-            )
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
           } else {
             swal.fire(
-              'Cancelado',
+              'Error',
               'El registro no ha sido Creado.',
               'error'
             )
@@ -196,7 +202,7 @@ const getAllusers = () => {
 
   var config = {
     method: 'post',
-    url: 'http://localhost/app/UsersController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
     data: data
   }
 
