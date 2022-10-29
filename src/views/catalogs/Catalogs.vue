@@ -21,7 +21,7 @@ const getcategories = () => {
 
   var config = {
     method: 'post',
-    url: 'http://localhost/app/CategoriesController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
     data: data
   };
 
@@ -42,7 +42,7 @@ const getbrands = () => {
 
   var config = {
     method: 'post',
-    url: 'http://localhost/app/BrandsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com//app/BrandsController.php',
     data: data
   };
 
@@ -63,7 +63,7 @@ const getTags = () => {
 
   var config = {
     method: 'post',
-    url: 'http://localhost/app/TagsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com//app/TagsController.php',
     data: data
   };
 
