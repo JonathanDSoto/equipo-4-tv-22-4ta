@@ -102,42 +102,42 @@ getUser()
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="firstnameInput" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="firstnameInput" :placeholder="userInfo.name">
+                            <input type="text" class="form-control" id="firstnameInput" :placeholder="userInfo.name" disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="lastnameInput" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" id="lastnameInput" :placeholder="userInfo.lastname">
+                            <input type="text" class="form-control" id="lastnameInput" :placeholder="userInfo.lastname" disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="phonenumberInput" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="phonenumberInput" placeholder="Teléfono">
+                            <input type="text" class="form-control" id="phonenumberInput" placeholder="Teléfono" disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Correo electrónico</label>
-                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.email">
+                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.email" disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-12">
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Rol</label>
-                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.role">
+                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.role" disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-12">
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Creador</label>
-                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.created_by">
+                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.created_by" disabled>
                           </div>
                         </div>
                         <!--end col-->
@@ -145,14 +145,14 @@ getUser()
                           <div class="mb-3">
                             <label for="phonenumberInput" class="form-label">Fecha de creación</label>
                             <input type="text" class="form-control" id="phonenumberInput"
-                              :placeholder="userInfo.created_at">
+                              :placeholder="userInfo.created_at" disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Ultima actualización</label>
-                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.updated_at">
+                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.updated_at" disabled>
                           </div>
                         </div>
 
