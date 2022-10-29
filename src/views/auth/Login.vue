@@ -8,27 +8,50 @@ const mail = ref(null)
 const pass = ref(null)
 
 const login = () => {
-  let data = new FormData()
-  data.append('action', 'access')
-  data.append('email', mail.value)
-  data.append('password', pass.value)
+  if(mail.value==null && pass.value==null){
+    swal.fire(
+      'Error!',
+      'No puede dejar espacios vacios.',
+      'error'
+    )
+  }else if(!mail.value.includes('@') || !mail.value.includes('.')){
+    swal.fire(
+      'Error!',
+      'Formato de correo invalido.',
+      'error'
+    )
+  }else{
+    
+    let data = new FormData()
+    data.append('action', 'access')
+    data.append('email', mail.value)
+    data.append('password', pass.value)
 
-  let config = {
-    method: 'post',
-    url: 'http://localhost/app/AuthController.php',
-    data: data
+    let config = {
+      method: 'post',
+      url: 'https://ecommerce-app-0a.herokuapp.com/auth',
+      data: data
+    }
+
+    axios(config)
+      .then(function (response) {
+        if (response.data.code > 0) {
+          localStorage.setItem('user', JSON.stringify(response.data.data))
+          router.push({ path: '/users' })
+        }else{
+          swal.fire(
+              'Error!',
+              'Correo o Contraseña incorrectos.',
+              'error'
+            )
+        }
+      })
+      .catch(function (error) {
+        alert("Correo o Contraseña incorrectos");
+        console.log("Correo o Contraseña incorrect");
+      })
   }
-
-  axios(config)
-    .then(function (response) {
-      if (response.data.code > 0) {
-        localStorage.setItem('user', JSON.stringify(response.data.data))
-        router.push({ path: '/users' })
-      }
-    })
-    .catch(function (error) {
-      console.log(error)
-    })
+  
 }
 
 </script>
