@@ -1,12 +1,357 @@
 <script setup>
 import axios from "axios"
 import { ref } from "vue"
-import { RouterLink } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 import Nav from "../../components/Nav.vue";
 import Sidebar from "../../components/Sidebar.vue";
 
+const productsCounter = ref(0)
+
 let user = JSON.parse(localStorage.getItem('user'))
 const products = ref(null)
+const router = useRouter()
+
+const edit = async (id) => {
+  const editswal = await Swal.fire({
+    title: 'Edit',
+    html:
+      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="slug-name" type="text" id="slug" class="form-control mb-3">' +
+      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
+      '<select placeholder="brand" id="brand"  name="select" class="form-control mb-3"><option value="" disabled selected>Marca</option></select>' +
+      '<select placeholder="categorie" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
+      '<select placeholder="tag" id="tag"  name="select" class="form-control mb-3"><option value="" disabled selected>Tag</option></select>' +
+      '<textarea rows="4" cols="50" placeholder="features" id="features" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append('name', document.querySelector('#name').value);
+      data.append('slug', document.querySelector('#slug').value);
+      data.append('description', document.querySelector('#description').value);
+      data.append('features', document.querySelector('#features').value);
+      data.append('brand_id', document.querySelector('#brand').value);
+      data.append('categories', document.querySelector('#categorie').value);
+      data.append('tags', document.querySelector('#tag').value);
+      data.append('token', user.token);
+      data.append('action', 'update');
+      data.append('id', id);
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          if (response.data.data) {
+            swal.fire(
+              'Actualizado',
+              'El registro ha sido actualizado.',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error',
+              'El registro no ha sido actualizado.',
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    },
+    willOpen: () => {
+      const brandSelect = document.querySelector('#brand')
+      const categorieSelect = document.querySelector('#categorie')
+      const tagSelect = document.querySelector('#tag')
+      var data = new FormData();
+      data.append('action', 'getBrands');
+      data.append('token', user.token);
+      var config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+        data: data
+      };
+      axios(config)
+        .then((response) => {
+          for (const iterator of response.data.data) {
+            const option = document.createElement('option')
+            option.value = iterator.id
+            option.text = iterator.name
+            brandSelect.appendChild(option)
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+      data = new FormData();
+      data.append('action', 'getCategories');
+      data.append('token', user.token);
+
+      config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          for (const iterator of response.data.data) {
+            const option = document.createElement('option')
+            option.value = iterator.id
+            option.text = iterator.name
+            categorieSelect.appendChild(option)
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+      data = new FormData();
+      data.append('action', 'getTags');
+      data.append('token', user.token);
+
+      config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          for (const iterator of response.data.data) {
+            const option = document.createElement('option')
+            option.value = iterator.id
+            option.text = iterator.name
+            tagSelect.appendChild(option)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    }
+  })
+  console.log(editswal)
+
+  if (!editswal.isConfirmed) {
+    editswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido actualizado.',
+      'error'
+    )
+  }
+}
+
+const deleteElement = async (id) => {
+  const deleteswal = await Swal.fire({
+    title: 'Estas Seguro que quieres eliminarlo',
+    icon: 'error',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append('action', 'delete');
+      data.append('token', user.token);
+      data.append('id', id);
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          if (response.data.code === 2) {
+            swal.fire(
+              'Eliminado',
+              'El registro ha sido Eliminado correctamente.',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error!',
+              'El registro no ha sido Eliminado.',
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    }
+  })
+  console.log(deleteswal)
+
+  if (!deleteswal.isConfirmed) {
+    deleteswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Eliminado.',
+      'error'
+    )
+  }
+}
+
+const create = async () => {
+  const createswal = await Swal.fire({
+    title: 'Crear Producto',
+    html:
+      '<input placeholder="cover" type="file" accept="image/png,image/jpeg" id="cover" class="form-control mb-3">' +
+      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="slug-name" type="text" id="slug" class="form-control mb-3">' +
+      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
+      '<select placeholder="brand" id="brand"  name="select" class="form-control mb-3"><option value="" disabled selected>Marca</option></select>' +
+      '<select placeholder="categorie" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
+      '<select placeholder="tag" id="tag"  name="select" class="form-control mb-3"><option value="" disabled selected>Tag</option></select>' +
+      '<textarea rows="4" cols="50" placeholder="features" id="features" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      var data = new FormData();
+      data.append('name', document.querySelector('#name').value);
+      data.append('slug', document.querySelector('#slug').value);
+      data.append('description', document.querySelector('#description').value);
+      data.append('features', document.querySelector('#features').value);
+      data.append('brand_id', document.querySelector('#brand').value);
+      data.append('cover', document.querySelector('#cover').files[0]);
+      data.append('categories', document.querySelector('#categorie').value);
+      data.append('tags', document.querySelector('#tag').value);
+      data.append('token', user.token);
+      data.append('action', 'create');
+
+      var config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then(function (response) {
+          if (response.data.data) {
+            swal.fire(
+              'Creado',
+              'El registro ha sido Creado.',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error!',
+              'El registro no ha sido Creado.',
+              'error'
+            )
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    willOpen: () => {
+      const brandSelect = document.querySelector('#brand')
+      const categorieSelect = document.querySelector('#categorie')
+      const tagSelect = document.querySelector('#tag')
+      var data = new FormData();
+      data.append('action', 'getBrands');
+      data.append('token', user.token);
+      var config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+        data: data
+      };
+      axios(config)
+        .then((response) => {
+          for (const iterator of response.data.data) {
+            const option = document.createElement('option')
+            option.value = iterator.id
+            option.text = iterator.name
+            brandSelect.appendChild(option)
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+      data = new FormData();
+      data.append('action', 'getCategories');
+      data.append('token', user.token);
+
+      config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          for (const iterator of response.data.data) {
+            const option = document.createElement('option')
+            option.value = iterator.id
+            option.text = iterator.name
+            categorieSelect.appendChild(option)
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+      data = new FormData();
+      data.append('action', 'getTags');
+      data.append('token', user.token);
+
+      config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          for (const iterator of response.data.data) {
+            const option = document.createElement('option')
+            option.value = iterator.id
+            option.text = iterator.name
+            tagSelect.appendChild(option)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    }
+  })
+  console.log(createswal)
+
+  if (!createswal.isConfirmed) {
+    createswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Creado.',
+      'error'
+    )
+  }
+}
+
 
 const getProducts = () => {
   var data = new FormData();
@@ -22,7 +367,6 @@ const getProducts = () => {
   axios(config)
     .then(function (response) {
       products.value = response.data.data
-      console.log(products.value)
     })
     .catch(function (error) {
       console.log(error);
@@ -67,8 +411,8 @@ getProducts()
                   <div class="row g-4 mb-3">
                     <div class="col-sm-auto">
                       <div>
-                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
-                          data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Agregar</button>
+                        <button @click="create" class="btn btn-success add-btn"><i
+                            class="ri-add-line align-bottom me-1"></i> Agregar</button>
                       </div>
                     </div>
 
@@ -85,7 +429,8 @@ getProducts()
                         </tr>
                       </thead>
                       <tbody class="list form-check-all">
-                        <tr v-for="product in products" :key="product.id">
+                        <tr v-if="products" v-for="product in products.slice(productsCounter, productsCounter + 7)"
+                          :key="product.id">
                           <td class="id">{{ product.id }}</td>
 
                           <td>
@@ -123,12 +468,12 @@ getProducts()
 
                               </div>
                               <div class="edit">
-                                <button class="btn btn-sm btn-warning edit-item-btn" data-bs-toggle="modal"
-                                  data-bs-target="#showModal">Editar</button>
+                                <button @click="edit(product.id)"
+                                  class="btn btn-sm btn-warning edit-item-btn">Editar</button>
                               </div>
                               <div class="remove">
-                                <button onclick="eliminar()" class="btn btn-sm btn-danger remove-item-btn"
-                                  data-bs-toggle="modal" data-bs-target="#deleteRecordModal">Eliminar</button>
+                                <button @click="deleteElement(product.id)"
+                                  class="btn btn-sm btn-danger remove-item-btn">Eliminar</button>
                               </div>
                             </div>
                           </td>
@@ -140,11 +485,12 @@ getProducts()
 
                   <div class="d-flex justify-content-end">
                     <div class="pagination-wrap hstack gap-2">
-                      <a class="page-item pagination-prev disabled" href="#">
+                      <a class="page-item pagination-prev "
+                        @click="productsCounter > 0 ? productsCounter -= 7 : productsCounter">
                         Previous
                       </a>
                       <ul class="pagination listjs-pagination mb-0"></ul>
-                      <a class="page-item pagination-next" href="#">
+                      <a class="page-item pagination-next" @click="productsCounter += 7">
                         Next
                       </a>
                     </div>

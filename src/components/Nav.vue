@@ -13,7 +13,7 @@ const logout = () => {
 
   let config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/AuthController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/AuthController.php',
     data: data
   }
 
@@ -37,7 +37,7 @@ const getUser = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/UsersController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
     data: data
   };
 

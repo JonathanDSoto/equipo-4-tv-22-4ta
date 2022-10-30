@@ -8,20 +8,20 @@ const mail = ref(null)
 const pass = ref(null)
 
 const login = () => {
-  if(mail.value==null && pass.value==null){
+  if (mail.value == null && pass.value == null) {
     swal.fire(
       'Error!',
       'No puede dejar espacios vacios.',
       'error'
     )
-  }else if(!mail.value.includes('@') || !mail.value.includes('.')){
+  } else if (!mail.value.includes('@') || !mail.value.includes('.')) {
     swal.fire(
       'Error!',
       'Formato de correo invalido.',
       'error'
     )
-  }else{
-    
+  } else {
+
     let data = new FormData()
     data.append('action', 'access')
     data.append('email', mail.value)
@@ -38,12 +38,12 @@ const login = () => {
         if (response.data.code > 0) {
           localStorage.setItem('user', JSON.stringify(response.data.data))
           router.push({ path: '/users' })
-        }else{
+        } else {
           swal.fire(
-              'Error!',
-              'Correo o Contraseña incorrectos.',
-              'error'
-            )
+            'Error!',
+            'Correo o Contraseña incorrectos.',
+            'error'
+          )
         }
       })
       .catch(function (error) {
@@ -51,7 +51,7 @@ const login = () => {
         console.log("Correo o Contraseña incorrect");
       })
   }
-  
+
 }
 
 </script>
