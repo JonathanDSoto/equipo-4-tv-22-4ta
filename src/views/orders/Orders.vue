@@ -1,10 +1,11 @@
 <script setup>
 import axios from "axios"
 import { ref } from "vue"
-import { RouterLink } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 import Nav from "../../components/Nav.vue";
 import Sidebar from "../../components/Sidebar.vue";
 
+const router = useRouter()
 
 let user = JSON.parse(localStorage.getItem('user'))
 const orders = ref(null)
@@ -14,6 +15,192 @@ Swal.fire({
     Swal.showLoading()
   }
 })
+
+const edit = async (id) => {
+  const editswal = await Swal.fire({
+    title: 'Edit',
+    html:
+      '<input placeholder="order_status_id" type="text" id="order_status_id" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append('order_status_id', document.querySelector('#order_status_id').value);
+      data.append('id', id);
+      data.append('token', user.token);
+      data.append('action', 'update');
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          console.log(response.data)
+          if (response.data.data) {
+            swal.fire(
+              'Actualizado',
+              response.data.message,
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error!',
+              response.data.message,
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    }
+  })
+  console.log(editswal)
+
+  if (!editswal.isConfirmed) {
+    editswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido actualizado.',
+      'error'
+    )
+  }
+}
+
+const deleteElement = async (id) => {
+  const deleteswal = await Swal.fire({
+    title: 'Estas Seguro que quieres eliminarlo',
+    icon: 'error',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append('action', 'delete');
+      data.append('token', user.token);
+      data.append('id', id);
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          if (response.data.code === 2) {
+            swal.fire(
+              'Eliminado',
+              response.data.message,
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error!',
+              response.data.message,
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    }
+  })
+  console.log(deleteswal)
+
+  if (!deleteswal.isConfirmed) {
+    deleteswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Eliminado.',
+      'error'
+    )
+  }
+}
+
+const create = async () => {
+  const createswal = await Swal.fire({
+    title: 'Crear Orden',
+    html:
+      '<input placeholder="folio" type="text" id="folio" class="form-control mb-3">' +
+      '<input placeholder="total" type="number" id="total" class="form-control mb-3">' +
+      '<input placeholder="is_paid" type="number" id="is_paid" class="form-control mb-3">' +
+      '<input placeholder="client_id" type="number" id="client_id" class="form-control mb-3">' +
+      '<input placeholder="address_id" type="number" id="address_id" class="form-control mb-3">' +
+      '<input placeholder="order_status_id" type="number" id="order_status_id" class="form-control mb-3">' +
+      '<input placeholder="payment_type_id" type="number" id="payment_type_id" class="form-control mb-3">' +
+      '<input placeholder="coupon_id" type="number" id="coupon_id" class="form-control mb-3">' +
+      '<input placeholder="presentations_id" type="number" id="presentations_id" class="form-control mb-3">' +
+      '<input placeholder="presentations_quantity" type="number" id="presentations_quantity" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append('folio', document.querySelector('#folio').value);
+      data.append('total', document.querySelector('#total').value);
+      data.append('is_paid', document.querySelector('#is_paid').value);
+      data.append('client_id', document.querySelector('#client_id').value);
+      data.append('address_id', document.querySelector('#address_id').value);
+      data.append('order_status_id', document.querySelector('#order_status_id').value);
+      data.append('payment_type_id', document.querySelector('#payment_type_id').value);
+      data.append('coupon_id', document.querySelector('#coupon_id').value);
+      data.append('presentations_id', document.querySelector('#presentations_id').value);
+      data.append('presentations_quantity', document.querySelector('#presentations_quantity').value);
+      data.append('action', 'create');
+      data.append('token', user.token);
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          if (response.data.data) {
+            swal.fire(
+              'Creado',
+              response.data.message,
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error!',
+              response.data.message,
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  })
+  console.log(createswal)
+
+  if (!createswal.isConfirmed) {
+    createswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Creado.',
+      'error'
+    )
+  }
+}
 
 const getOrders = () => {
   var data = new FormData();
@@ -74,8 +261,8 @@ getOrders()
                   <div class="row g-4 mb-3">
                     <div class="col-sm-auto">
                       <div class="">
-                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
-                          data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Agregar</button>
+                        <button @click="create" class="btn btn-success add-btn"><i
+                            class="ri-add-line align-bottom me-1"></i> Agregar</button>
                       </div>
                     </div>
                     <div class="col-sm">
@@ -108,11 +295,14 @@ getOrders()
                       <tbody class="list form-check-all">
                         <tr v-if="orders" v-for="order in orders" :key="order.id">
                           <td class="id">{{ order.id }}</td>
-                          <td class="name">{{ order.folio }}</td>
+                          <td class="">
+                            <RouterLink class="text-primary" :to="{ path: '/orders/' + order.id }">{{ order.folio }}
+                            </RouterLink>
+                          </td>
                           <td class="lastname">{{ order.total }}</td>
                           <td class="email">{{ order.client_id }}</td>
                           <td class="subscription">
-                            {{ order.is_paid > 0 ? 'Active' : 'Inactive' }}
+                            {{ order.order_status_id === 1 ? 'Active' : 'Inactive' }}
                           </td>
 
                           <td>
@@ -124,12 +314,12 @@ getOrders()
                                 </a>
                               </div>
                               <div class="edit">
-                                <button class="btn btn-sm btn-warning edit-item-btn" data-bs-toggle="modal"
-                                  data-bs-target="#showModal">Editar</button>
+                                <button @click="edit(order.id)"
+                                  class="btn btn-sm btn-warning edit-item-btn">Editar</button>
                               </div>
                               <div class="remove">
-                                <button onclick="eliminar()" class="btn btn-sm btn-danger remove-item-btn"
-                                  data-bs-toggle="modal" data-bs-target="#deleteRecordModal">Eliminar</button>
+                                <button @click="deleteElement(order.id)"
+                                  class="btn btn-sm btn-danger remove-item-btn">Eliminar</button>
                               </div>
                             </div>
                           </td>
