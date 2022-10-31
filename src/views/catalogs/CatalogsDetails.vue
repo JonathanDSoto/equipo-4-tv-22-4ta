@@ -10,7 +10,12 @@ const route = useRoute()
 
 const item = ref(null)
 
-console.log(route.params)
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
 
 const getbrand = () => {
   let data = new FormData();
@@ -27,6 +32,7 @@ const getbrand = () => {
   axios(config)
     .then((response) => {
       item.value = response.data.data
+      Swal.close()
     })
     .catch((error) => {
       console.log(error);
@@ -34,8 +40,58 @@ const getbrand = () => {
 
 }
 
-if (route.params.type == 'brand') {
+const getTags = () => {
+  let data = new FormData();
+  data.append('action', 'getone');
+  data.append('id', route.params.id);
+  data.append('token', user.token);
+
+  let config = {
+    method: 'post',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+    data: data
+  };
+
+  axios(config)
+    .then((response) => {
+      item.value = response.data.data
+      Swal.close()
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+}
+
+const getCategories = () => {
+  let data = new FormData();
+  data.append('action', 'getCategory');
+  data.append('id', route.params.id);
+  data.append('token', user.token);
+
+  let config = {
+    method: 'post',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+    data: data
+  };
+
+  axios(config)
+    .then((response) => {
+      item.value = response.data.data
+      Swal.close()
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+}
+
+if (route.params.type === 'brand') {
   getbrand()
+} else if (route.params.type === 'tag') {
+  getTags()
+} else if (route.params.type === 'category') {
+  getCategories()
 }
 </script>
 
@@ -131,8 +187,9 @@ if (route.params.type == 'brand') {
                             <div class="d-flex align-items-center">
                               <div class="flex-shrink-0 me-3">
                                 <div class="avatar-sm bg-light rounded p-1">
-                                  <img :src="'https://crud.jonathansoto.mx/storage/products/' + product.cover" alt=""
-                                    class="img-fluid d-block">
+                                  <img
+                                    :src="route.params.type === 'brand' ? 'https://crud.jonathansoto.mx/storage/products/' + product.cover : product.cover"
+                                    alt="" class="img-fluid d-block">
                                 </div>
                               </div>
                               <div class="flex-grow-1">

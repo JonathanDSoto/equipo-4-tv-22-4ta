@@ -685,7 +685,12 @@ getTags()
                           v-for="category in categorias.slice(categoriasCounter, categoriasCounter + 5)"
                           :key="category.id">
                           <td class="id">{{ category.id }}</td>
-                          <td class="name">{{ category.name }}</td>
+                          <td>
+                            <RouterLink class="link-primary" :to="{ path: '/catalogs/category/' + category.id }">{{
+                                category.name
+                            }}
+                            </RouterLink>
+                          </td>
                           <td class="descripcion">{{ category.description }}</td>
 
 
@@ -767,8 +772,9 @@ getTags()
                         <tr v-if="brands" v-for="brand in brands.slice(brandsCounter, brandsCounter + 5)"
                           :key="brand.id">
                           <td class="id">{{ brand.id }}</td>
-                          <td class="text-primary">
-                            <RouterLink :to="{ path: '/catalogs/brand/' + brand.id }">{{ brand.name }}</RouterLink>
+                          <td>
+                            <RouterLink class="link-primary" :to="{ path: '/catalogs/brand/' + brand.id }">{{ brand.name
+                            }}</RouterLink>
                           </td>
                           <td class="descripcion">{{ brand.description }}</td>
 
@@ -851,7 +857,10 @@ getTags()
                       <tbody class="list form-check-all">
                         <tr v-if="tags" v-for="tag in tags.slice(tagsCounter, tagsCounter + 5)" :key="tag.id">
                           <td class="id">{{ tag.id }}</td>
-                          <td class="name">{{ tag.name }}</td>
+                          <td>
+                            <RouterLink class="link-primary" :to="{ path: '/catalogs/tag/' + tag.id }">{{ tag.name }}
+                            </RouterLink>
+                          </td>
                           <td class="descripcion">{{ tag.description }}</td>
 
 
