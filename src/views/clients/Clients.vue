@@ -13,7 +13,7 @@ const router = useRouter()
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Edit',
+    title: 'Editar Cliente',
     html:
       '<input placeholder="name" id="name" class="form-control mb-3" required>' +
       '<input placeholder="email" id="email" class="form-control mb-3">' +
@@ -30,6 +30,42 @@ const edit = async (id) => {
               'No puede dejar campos vacios.',
               'error'
             )
+      }else if(document.getElementById('password').value.length <8){
+        swal.fire(
+          'Error!',
+          'La contraseña debe contener 8 digitos o más.',
+          'error'
+        )
+      }else if(document.getElementById('phone_number').value.includes('e') || document.getElementById('phone_number').value.includes('E')){
+        swal.fire(
+          'Error!',
+          'El numero de telefono no puede contener letras.',
+          'error'
+        )
+      }else if(document.getElementById('level_id').value.includes('e') || document.getElementById('level_id').value.includes('E') || document.getElementById('level_id').value.length <1 || document.getElementById('level_id').value.length >3){
+        swal.fire(
+          'Error!',
+          'El id del nivel de cliente tiene que ser un numero.',
+          'error'
+        )
+      }else if(document.getElementById('is_suscribed').value.includes('e') || document.getElementById('is_suscribed').value.includes('E') || document.getElementById('is_suscribed').value.length >1|| document.getElementById('is_suscribed').value.length <0){
+        swal.fire(
+          'Error!',
+          'El estado de suscripcion del cliente solo puede ser 1 o 0 .',
+          'error'
+        )
+      }else if(!document.getElementById('phone_number').value.length == 10 ){
+        swal.fire(
+          'Error!',
+          'El numero de telefono debe constar de 10 digitos.',
+          'error'
+        )
+      }else if(!document.getElementById('email').value.includes('@') || !document.getElementById('email').value.includes('.')){
+        swal.fire(
+          'Error!',
+          'Formato de correo invalido.',
+          'error'
+        )
       }else{
         var data = new FormData();
         data.append('name', document.getElementById('name').value);
@@ -108,7 +144,7 @@ const deleteElement = async (id) => {
           if (response.data.code === 2) {
             swal.fire(
               'Eliminado',
-              'El registro ha sido Eliminado.',
+              'El cliente ha sido Eliminado.',
               'success'
             ).then((result) => {
               if (result.isConfirmed) {
@@ -118,7 +154,7 @@ const deleteElement = async (id) => {
           } else {
             swal.fire(
               'Error!',
-              'El registro no ha sido Eliminado.',
+              'El cliente no ha sido Eliminado.',
               'error'
             )
           }
@@ -143,7 +179,7 @@ const deleteElement = async (id) => {
 
 const create = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Usuario',
+    title: 'Crear Cliente',
     html:
       '<input placeholder="name" id="name" class="form-control mb-3" required>' +
       '<input placeholder="email" id="email" type="email" class="form-control mb-3">' +
@@ -196,6 +232,12 @@ const create = async () => {
           'El numero de telefono debe constar de 10 digitos.',
           'error'
         )
+      }else if(!document.getElementById('email').value.includes('@') || !document.getElementById('email').value.includes('.')){
+        swal.fire(
+          'Error!',
+          'Formato de correo invalido.',
+          'error'
+        )
       }else{
         var data = new FormData();
       data.append('name', document.getElementById('name').value);
@@ -218,7 +260,7 @@ const create = async () => {
           if (response.data.data) {
             swal.fire(
               'Creado',
-              'El registro ha sido Creado.',
+              'El cliente ha sido Creado.',
               'success'
             ).then((result) => {
               if (result.isConfirmed) {
@@ -228,7 +270,7 @@ const create = async () => {
           } else {
             swal.fire(
               'Error!',
-              'El registro no ha sido Creado.',
+              'El cliente no ha sido Creado.',
               'error'
             )
           }
@@ -244,7 +286,7 @@ const create = async () => {
   if (!createswal.isConfirmed) {
     createswal = await swal.fire(
       'Cancelado',
-      'El registro no ha sido Creado.',
+      'El cliente no ha sido Creado.',
       'error'
     )
   }
