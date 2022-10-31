@@ -14,7 +14,15 @@ const brandsCounter = ref(0)
 const tags = ref(null)
 const tagsCounter = ref(0)
 
+
+
 const getcategories = () => {
+  Swal.fire({
+    title: '',
+    didOpen: () => {
+      Swal.showLoading()
+    }
+  })
   var data = new FormData();
   data.append('action', 'getCategories');
   data.append('token', user.token);
@@ -28,6 +36,7 @@ const getcategories = () => {
   axios(config)
     .then((response) => {
       categorias.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);
@@ -36,6 +45,12 @@ const getcategories = () => {
 getcategories()
 
 const getbrands = () => {
+  Swal.fire({
+    title: '',
+    didOpen: () => {
+      Swal.showLoading()
+    }
+  })
   var data = new FormData();
   data.append('action', 'getBrands');
   data.append('token', user.token);
@@ -49,6 +64,7 @@ const getbrands = () => {
   axios(config)
     .then(function (response) {
       brands.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);
@@ -57,6 +73,12 @@ const getbrands = () => {
 getbrands()
 
 const getTags = () => {
+  Swal.fire({
+    title: '',
+    didOpen: () => {
+      Swal.showLoading()
+    }
+  })
   var data = new FormData();
   data.append('action', 'getTags');
   data.append('token', user.token);
@@ -70,6 +92,7 @@ const getTags = () => {
   axios(config)
     .then((response) => {
       tags.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);

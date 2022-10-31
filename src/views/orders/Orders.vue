@@ -8,44 +8,12 @@ import Sidebar from "../../components/Sidebar.vue";
 
 let user = JSON.parse(localStorage.getItem('user'))
 const orders = ref(null)
-
-function eliminar() {
-  const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-      confirmButton: 'btn btn-success m-2',
-      cancelButton: 'btn btn-danger m-2'
-    },
-    buttonsStyling: false
-  })
-
-  swalWithBootstrapButtons.fire({
-    title: '¿Estas seguro?',
-    text: "¡No podrás revertir esto!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Si, eliminar!',
-    cancelButtonText: 'No, cancelar!',
-    reverseButtons: true
-  }).then((result) => {
-    if (result.isConfirmed) {
-      swalWithBootstrapButtons.fire(
-        'Eliminado!',
-        'El registro ha sido eliminado.',
-        'success'
-      )
-    } else if (
-      /* Read more about handling dismissals below */
-      result.dismiss === Swal.DismissReason.cancel
-    ) {
-      swalWithBootstrapButtons.fire(
-        'Cancelado',
-        'El registro no ha sido eliminado.',
-        'error'
-      )
-    }
-  })
-
-}
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
 
 const getOrders = () => {
   var data = new FormData();
@@ -61,6 +29,7 @@ const getOrders = () => {
   axios(config)
     .then((response) => {
       orders.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);

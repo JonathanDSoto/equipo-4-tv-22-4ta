@@ -8,6 +8,12 @@ const mail = ref(null)
 const pass = ref(null)
 
 const login = () => {
+  Swal.fire({
+    title: '',
+    didOpen: () => {
+      Swal.showLoading()
+    }
+  })
   if (mail.value == null && pass.value == null) {
     swal.fire(
       'Error!',
@@ -38,6 +44,7 @@ const login = () => {
         if (response.data.code > 0) {
           localStorage.setItem('user', JSON.stringify(response.data.data))
           router.push({ path: '/users' })
+          Swal.close()
         } else {
           swal.fire(
             'Error!',

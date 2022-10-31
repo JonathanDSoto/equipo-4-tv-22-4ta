@@ -10,6 +10,13 @@ const route = useRoute()
 let user = JSON.parse(localStorage.getItem('user'))
 let product = ref(null)
 
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
+
 function eliminar() {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
@@ -63,7 +70,7 @@ const getProduct = () => {
   axios(config)
     .then(function (response) {
       product.value = response.data.data
-      console.log(product.value);
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);

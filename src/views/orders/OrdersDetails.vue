@@ -10,6 +10,13 @@ const route = useRoute()
 let user = JSON.parse(localStorage.getItem('user'))
 let order = ref(null)
 
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
+
 
 const getOrder = () => {
   var data = new FormData();
@@ -26,6 +33,7 @@ const getOrder = () => {
   axios(config)
     .then(function (response) {
       order.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);

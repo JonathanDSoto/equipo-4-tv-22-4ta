@@ -11,6 +11,13 @@ let user = JSON.parse(localStorage.getItem('user'))
 const products = ref(null)
 const router = useRouter()
 
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
+
 const edit = async (id) => {
   const editswal = await Swal.fire({
     title: 'Edit',
@@ -367,6 +374,7 @@ const getProducts = () => {
   axios(config)
     .then(function (response) {
       products.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);

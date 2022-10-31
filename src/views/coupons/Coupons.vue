@@ -9,6 +9,13 @@ import Sidebar from "../../components/Sidebar.vue";
 let user = JSON.parse(localStorage.getItem('user'))
 const coupons = ref(null)
 
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
+
 const getCoupons = () => {
   var data = new FormData();
   data.append('action', 'getCoupons');
@@ -23,6 +30,7 @@ const getCoupons = () => {
   axios(config)
     .then(function (response) {
       coupons.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);
