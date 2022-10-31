@@ -48,7 +48,7 @@ const login = () => {
       })
       .catch(function (error) {
         alert("Correo o Contraseña incorrectos");
-        console.log("Correo o Contraseña incorrect");
+        
       })
   }
 

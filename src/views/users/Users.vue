@@ -21,48 +21,96 @@ const edit = async (id) => {
       '<input placeholder="password" type="password" id="password" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
+    
     preConfirm: () => {
-      var data = new FormData();
-      data.append('name', document.getElementById('name').value);
-      data.append('lastname', document.getElementById('lastname').value);
-      data.append('email', document.getElementById('email').value);
-      data.append('phone_number', document.getElementById('phone_number').value.toString());
-      data.append('created_by', 'jonathan soto');
-      data.append('role', 'Administrador');
-      data.append('password', document.getElementById('password').value);
-      data.append('action', 'edit');
-      data.append('token', user.token);
-      data.append('id', id);
-      console.log(typeof document.getElementById('email').value)
-      var config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
-        data: data
-      };
+      if(document.getElementById('name').value=='' || document.getElementById('email').value=='' || document.getElementById('phone_number').value=='' || document.getElementById('password').value=='' || document.getElementById('lastname').value=='' ){
+        swal.fire(
+          'Error!',
+          'No puede dejar campos vacios.',
+          'error'
+        )
+      }else if(document.getElementById('name').value.includes('1') || document.getElementById('name').value.includes('2') || document.getElementById('name').value.includes('3') || document.getElementById('name').value.includes('4') || document.getElementById('name').value.includes('5') || document.getElementById('name').value.includes('6') || document.getElementById('name').value.includes('7') || document.getElementById('name').value.includes('8') || document.getElementById('name').value.includes('9') || document.getElementById('name').value.includes('0') ){
+        swal.fire(
+          'Error!',
+          'El nombre del usuario no puede contener numeros.',
+          'error'
+        )
+      }else if(document.getElementById('lastname').value.includes('1') || document.getElementById('lastname').value.includes('2') || document.getElementById('lastname').value.includes('3') || document.getElementById('lastname').value.includes('4') || document.getElementById('lastname').value.includes('5') || document.getElementById('lastname').value.includes('6') || document.getElementById('lastname').value.includes('7') || document.getElementById('lastname').value.includes('8') || document.getElementById('lastname').value.includes('9') || document.getElementById('lastname').value.includes('0') ){
+        swal.fire(
+          'Error!',
+          'El apellido del usuario no puede contener numeros.',
+          'error'
+        )
+      }else if(document.getElementById('password').value.length <8){
+        swal.fire(
+          'Error!',
+          'La contraseña debe contener 8 digitos o más.',
+          'error'
+        )
+      }else if(document.getElementById('phone_number').value.includes('e') || document.getElementById('phone_number').value.includes('E')){
+        swal.fire(
+          'Error!',
+          'El numero de telefono no puede contener letras.',
+          'error'
+        )
+      } 
+      else if(!document.getElementById('email').value.includes('@') || !document.getElementById('email').value.includes('.')){
+        swal.fire(
+          'Error!',
+          'Formato de correo invalido.',
+          'error'
+        )
+      }
+      else if(!document.getElementById('phone_number').value.length == 10 ){
+        swal.fire(
+          'Error!',
+          'El numero de telefono debe constar de 10 digitos.',
+          'error'
+        )
+      }
+      else{
+        var data = new FormData();
+        data.append('name', document.getElementById('name').value);
+        data.append('lastname', document.getElementById('lastname').value);
+        data.append('email', document.getElementById('email').value);
+        data.append('phone_number', document.getElementById('phone_number').value.toString());
+        data.append('created_by', 'jonathan soto');
+        data.append('role', 'Administrador');
+        data.append('password', document.getElementById('password').value);
+        data.append('action', 'edit');
+        data.append('token', user.token);
+        data.append('id', id);
+        console.log(typeof document.getElementById('email').value)
+        var config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
+          data: data
+        };
 
-      return axios(config)
-        .then(function (response) {
-          if (response.data.data) {
-            swal.fire(
-              'Actualizado!',
-              'El registro ha sido actualizado.',
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error!',
-              'El registro no ha sido actualizado. Uno de los datos ya esta registrado',
-              'error'
-            )
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        return axios(config)
+          .then(function (response) {
+            if (response.data.data) {
+              swal.fire(
+                'Actualizado!',
+                'El registro ha sido actualizado.',
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error!',
+                'El registro no ha sido actualizado. Uno de los datos ya esta registrado',
+                'error'
+              )
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        }
     }
   })
   console.log(editswal)
@@ -144,44 +192,90 @@ const create = async () => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      var data = new FormData();
-      data.append('name', document.getElementById('name').value);
-      data.append('lastname', document.getElementById('lastname').value);
-      data.append('email', document.getElementById('email').value);
-      data.append('phone_number', document.getElementById('phone_number').value);
-      data.append('password', document.getElementById('password').value);
-      data.append('profile_photo', document.getElementById('profile_photo').files[0]);
-      data.append('action', 'create');
-      data.append('token', user.token);
-      var config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
-        data: data
-      };
+      if(document.getElementById('name').value=='' || document.getElementById('email').value=='' || document.getElementById('phone_number').value=='' || document.getElementById('password').value=='' || document.getElementById('lastname').value=='' ){
+        swal.fire(
+          'Error!',
+          'No puede dejar campos vacios.',
+          'error'
+        )
+      }else if(document.getElementById('name').value.includes('1') || document.getElementById('name').value.includes('2') || document.getElementById('name').value.includes('3') || document.getElementById('name').value.includes('4') || document.getElementById('name').value.includes('5') || document.getElementById('name').value.includes('6') || document.getElementById('name').value.includes('7') || document.getElementById('name').value.includes('8') || document.getElementById('name').value.includes('9') || document.getElementById('name').value.includes('0') ){
+        swal.fire(
+          'Error!',
+          'El nombre del usuario no puede contener numeros.',
+          'error'
+        )
+      }else if(document.getElementById('lastname').value.includes('1') || document.getElementById('lastname').value.includes('2') || document.getElementById('lastname').value.includes('3') || document.getElementById('lastname').value.includes('4') || document.getElementById('lastname').value.includes('5') || document.getElementById('lastname').value.includes('6') || document.getElementById('lastname').value.includes('7') || document.getElementById('lastname').value.includes('8') || document.getElementById('lastname').value.includes('9') || document.getElementById('lastname').value.includes('0') ){
+        swal.fire(
+          'Error!',
+          'El apellido del usuario no puede contener numeros.',
+          'error'
+        )
+      }else if(document.getElementById('password').value.length <8){
+        swal.fire(
+          'Error!',
+          'La contraseña debe contener 8 digitos o más.',
+          'error'
+        )
+      }else if(document.getElementById('phone_number').value.includes('e') || document.getElementById('phone_number').value.includes('E')){
+        swal.fire(
+          'Error!',
+          'El numero de telefono no puede contener letras.',
+          'error'
+        )
+      } 
+      else if(!document.getElementById('email').value.includes('@') || !document.getElementById('email').value.includes('.')){
+        swal.fire(
+          'Error!',
+          'Formato de correo invalido.',
+          'error'
+        )
+      }
+      else if(!document.getElementById('phone_number').value.length == 10 ){
+        swal.fire(
+          'Error!',
+          'El numero de telefono debe constar de 10 digitos.',
+          'error'
+        )
+      }else{
+        var data = new FormData();
+        data.append('name', document.getElementById('name').value);
+        data.append('lastname', document.getElementById('lastname').value);
+        data.append('email', document.getElementById('email').value);
+        data.append('phone_number', document.getElementById('phone_number').value);
+        data.append('password', document.getElementById('password').value);
+        data.append('profile_photo', document.getElementById('profile_photo').files[0]);
+        data.append('action', 'create');
+        data.append('token', user.token);
+        var config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
+          data: data
+        };
 
-      return axios(config)
-        .then(function (response) {
-          if (response.data.data) {
-            swal.fire(
-              'Usuario Creado',
-              'El Usuario ha sido Creado.',
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error',
-              'El registro no ha sido Creado.',
-              'error'
-            )
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        return axios(config)
+          .then(function (response) {
+            if (response.data.data) {
+              swal.fire(
+                'Usuario Creado',
+                'El Usuario ha sido Creado.',
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error',
+                'El registro no ha sido Creado.',
+                'error'
+              )
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     }
   })
   console.log(createswal)

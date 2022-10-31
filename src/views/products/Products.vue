@@ -25,48 +25,76 @@ const edit = async (id) => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append('name', document.querySelector('#name').value);
-      data.append('slug', document.querySelector('#slug').value);
-      data.append('description', document.querySelector('#description').value);
-      data.append('features', document.querySelector('#features').value);
-      data.append('brand_id', document.querySelector('#brand').value);
-      data.append('categories', document.querySelector('#categorie').value);
-      data.append('tags', document.querySelector('#tag').value);
-      data.append('token', user.token);
-      data.append('action', 'update');
-      data.append('id', id);
+      if(document.getElementById('name').value=='' || document.getElementById('slug').value=='' || document.getElementById('description').value=='' || document.getElementById('features').value=='') {
+        swal.fire(
+          'Error!',
+          'No puedes dejar espacios vacios.',
+          'error'
+        )
+      }else if(document.getElementById('brand').value=='')
+      {
+        swal.fire(
+          'Error!',
+          'No ha seleccionado una marca.',
+          'error'
+        )
+      }else if(document.getElementById('categorie').value=='')
+      {
+        swal.fire(
+          'Error!',
+          'No ha seleccionado una categoria.',
+          'error'
+        )
+      }else if(document.getElementById('tag').value=='')
+      {
+        swal.fire(
+          'Error!',
+          'No ha seleccionado una etiqueta.',
+          'error'
+        )
+      }else{
+        let data = new FormData();
+        data.append('name', document.querySelector('#name').value);
+        data.append('slug', document.querySelector('#slug').value);
+        data.append('description', document.querySelector('#description').value);
+        data.append('features', document.querySelector('#features').value);
+        data.append('brand_id', document.querySelector('#brand').value);
+        data.append('categories', document.querySelector('#categorie').value);
+        data.append('tags', document.querySelector('#tag').value);
+        data.append('token', user.token);
+        data.append('action', 'update');
+        data.append('id', id);
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
-        data: data
-      };
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+          data: data
+        };
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Actualizado',
-              'El registro ha sido actualizado.',
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error',
-              'El registro no ha sido actualizado.',
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Actualizado',
+                'El registro ha sido actualizado.',
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error',
+                'El registro no ha sido actualizado.',
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
     willOpen: () => {
       const brandSelect = document.querySelector('#brand')
@@ -224,47 +252,77 @@ const create = async () => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      var data = new FormData();
-      data.append('name', document.querySelector('#name').value);
-      data.append('slug', document.querySelector('#slug').value);
-      data.append('description', document.querySelector('#description').value);
-      data.append('features', document.querySelector('#features').value);
-      data.append('brand_id', document.querySelector('#brand').value);
-      data.append('cover', document.querySelector('#cover').files[0]);
-      data.append('categories', document.querySelector('#categorie').value);
-      data.append('tags', document.querySelector('#tag').value);
-      data.append('token', user.token);
-      data.append('action', 'create');
+      if(document.getElementById('name').value=='' || document.getElementById('slug').value=='' || document.getElementById('description').value=='' || document.getElementById('features').value=='') {
+        swal.fire(
+          'Error!',
+          'No puedes dejar espacios vacios.',
+          'error'
+        )
+      }else if(document.getElementById('brand').value=='')
+      {
+        swal.fire(
+          'Error!',
+          'No ha seleccionado una marca.',
+          'error'
+        )
+      }else if(document.getElementById('categorie').value=='')
+      {
+        swal.fire(
+          'Error!',
+          'No ha seleccionado una categoria.',
+          'error'
+        )
+      }else if(document.getElementById('tag').value=='')
+      {
+        swal.fire(
+          'Error!',
+          'No ha seleccionado una etiqueta.',
+          'error'
+        )
+      }else{ 
+        var data = new FormData();
+        data.append('name', document.querySelector('#name').value);
+        data.append('slug', document.querySelector('#slug').value);
+        data.append('description', document.querySelector('#description').value);
+        data.append('features', document.querySelector('#features').value);
+        data.append('brand_id', document.querySelector('#brand').value);
+        data.append('cover', document.querySelector('#cover').files[0]);
+        data.append('categories', document.querySelector('#categorie').value);
+        data.append('tags', document.querySelector('#tag').value);
+        data.append('token', user.token);
+        data.append('action', 'create');
 
-      var config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
-        data: data
-      };
+        var config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+          data: data
+        };
 
-      axios(config)
-        .then(function (response) {
-          if (response.data.data) {
-            swal.fire(
-              'Creado',
-              'El registro ha sido Creado.',
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error!',
-              'El registro no ha sido Creado.',
-              'error'
-            )
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        axios(config)
+          .then(function (response) {
+            if (response.data.data) {
+              swal.fire(
+                'Creado',
+                'El producto ha sido Creado.',
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error!',
+                'El producto no ha sido Creado.',
+                'error'
+              )
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+      
     },
     willOpen: () => {
       const brandSelect = document.querySelector('#brand')
