@@ -20,9 +20,9 @@ const editcategories = async (id) => {
   const editswal = await Swal.fire({
     title: 'Editar categoria',
     html:
-      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
-      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
-      '<input placeholder="slug" type="text" id="slug" class="form-control mb-3">',
+      '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
+      '<input placeholder="Slug" type="text" id="slug" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -211,9 +211,9 @@ const createbrands = async () => {
   const createswal = await Swal.fire({
     title: 'Crear Marca',
     html:
-      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
-      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
-      '<input placeholder="slug" type="text" id="slug" class="form-control mb-3">',
+      '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
+      '<input placeholder="Slug" type="text" id="slug" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -329,9 +329,9 @@ const editbrands = async (id) => {
   const editswal = await Swal.fire({
     title: 'Editar Marca',
     html:
-      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
-      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
-      '<input placeholder="slug" type="text" id="slug" class="form-control mb-3">',
+      '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
+      '<input placeholder="Slug" type="text" id="slug" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -398,9 +398,9 @@ const createtags = async () => {
   const createswal = await Swal.fire({
     title: 'Crear Etiqueta',
     html:
-      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
-      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
-      '<input placeholder="slug" type="text" id="slug" class="form-control mb-3">',
+      '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
+      '<input placeholder="Slug" type="text" id="slug" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -516,9 +516,9 @@ const edittags = async (id) => {
   const editswal = await Swal.fire({
     title: 'Editar Marca',
     html:
-      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
-      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
-      '<input placeholder="slug" type="text" id="slug" class="form-control mb-3">',
+      '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
+      '<input placeholder="Slug" type="text" id="slug" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {

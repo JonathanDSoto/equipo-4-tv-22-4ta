@@ -22,13 +22,13 @@ const edit = async (id) => {
   const editswal = await Swal.fire({
     title: 'Edit',
     html:
-      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="slug-name" type="text" id="slug" class="form-control mb-3">' +
-      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
-      '<select placeholder="brand" id="brand"  name="select" class="form-control mb-3"><option value="" disabled selected>Marca</option></select>' +
-      '<select placeholder="categorie" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
-      '<select placeholder="tag" id="tag"  name="select" class="form-control mb-3"><option value="" disabled selected>Tag</option></select>' +
-      '<textarea rows="4" cols="50" placeholder="features" id="features" class="form-control mb-3">',
+      '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
+      '<select placeholder="Marca" id="brand"  name="select" class="form-control mb-3"><option value="" disabled selected>Marca</option></select>' +
+      '<select placeholder="Categorie" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
+      '<select placeholder="Etiquetas" id="tag"  name="select" class="form-control mb-3"><option value="" disabled selected>Etiqueta</option></select>' +
+      '<textarea rows="4" cols="50" placeholder="Caracteristicas" id="features" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -249,13 +249,13 @@ const create = async () => {
     title: 'Crear Producto',
     html:
       '<input placeholder="cover" type="file" accept="image/png,image/jpeg" id="cover" class="form-control mb-3">' +
-      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
-      '<input placeholder="slug-name" type="text" id="slug" class="form-control mb-3">' +
-      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
-      '<select placeholder="brand" id="brand"  name="select" class="form-control mb-3"><option value="" disabled selected>Marca</option></select>' +
-      '<select placeholder="categorie" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
-      '<select placeholder="tag" id="tag"  name="select" class="form-control mb-3"><option value="" disabled selected>Tag</option></select>' +
-      '<textarea rows="4" cols="50" placeholder="features" id="features" class="form-control mb-3">',
+      '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="Slug" type="text" id="slug" class="form-control mb-3">' +
+      '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
+      '<select placeholder="Marca" id="brand"  name="select" class="form-control mb-3"><option value="" disabled selected>Marca</option></select>' +
+      '<select placeholder="Categorie" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
+      '<select placeholder="Etiqueta" id="tag"  name="select" class="form-control mb-3"><option value="" disabled selected>Etiqueta</option></select>' +
+      '<textarea rows="4" cols="50" placeholder="Caracteristicas" id="features" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -484,7 +484,7 @@ getProducts()
 
                   </div>
 
-                  <div class="table-responsive table-card mt-3 mb-1">
+                  <div class="table-responsive table-card mt-3 mb-1" >
                     <table class="table align-middle table-nowrap" id="customerTable">
                       <thead class="table-light">
                         <tr>
@@ -494,7 +494,7 @@ getProducts()
                           <th class="" data-sort="action">Action</th>
                         </tr>
                       </thead>
-                      <tbody class="list form-check-all">
+                      <tbody class="list form-check-all" >
                         <tr v-if="products" v-for="product in products.slice(productsCounter, productsCounter + 7)"
                           :key="product.id">
                           <td class="id">{{ product.id }}</td>
@@ -520,7 +520,7 @@ getProducts()
 
                           </td>
 
-                          <td class="description text-break col-md-3" v-if="product.description">{{ product.description
+                          <td class="description text-break col-md-3 " v-if="product.description"> {{ product.description
                           }}
                           </td>
 

@@ -10,6 +10,8 @@ let users = ref(null)
 const idusuario = ref(null)
 const router = useRouter()
 
+var emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
 Swal.fire({
   title: '',
   didOpen: () => {
@@ -21,14 +23,14 @@ const edit = async (id) => {
   const editswal = await Swal.fire({
     title: 'Edit',
     html:
-      '<input placeholder="name" id="name" class="form-control mb-3" required>' +
-      '<input placeholder="lastname" id="lastname" class="form-control mb-3">' +
-      '<input placeholder="email" id="email" class="form-control mb-3">' +
-      '<input placeholder="phone_number" type="number" id="phone_number" class="form-control mb-3">' +
+      '<input placeholder="Nombre" id="name" class="form-control mb-3" required>' +
+      '<input placeholder="Apellido" id="lastname" class="form-control mb-3">' +
+      '<input placeholder="Correo Electrónico" id="email" class="form-control mb-3">' +
+      '<input placeholder="Numero Telefonico" type="number" id="phone_number" class="form-control mb-3">' +
       '<input placeholder="password" type="password" id="password" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
-    
+
     preConfirm: () => {
       if(document.getElementById('name').value=='' || document.getElementById('email').value=='' || document.getElementById('phone_number').value=='' || document.getElementById('password').value=='' || document.getElementById('lastname').value=='' ){
         swal.fire(
@@ -61,14 +63,14 @@ const edit = async (id) => {
           'error'
         )
       } 
-      else if(!document.getElementById('email').value.includes('@') || !document.getElementById('email').value.includes('.')){
+      else if(!emailRegex.test(document.getElementById('email').value)){
         swal.fire(
           'Error!',
           'Formato de correo invalido.',
           'error'
         )
       }
-      else if(!document.getElementById('phone_number').value.length == 10 ){
+      else if(!document.querySelector('phone_number').value.length == 10 ){
         swal.fire(
           'Error!',
           'El numero de telefono debe constar de 10 digitos.',
@@ -190,12 +192,12 @@ const create = async () => {
   const createswal = await Swal.fire({
     title: 'Crear Usuario',
     html:
-      '<input placeholder="name" id="name" class="form-control mb-3" required>' +
-      '<input placeholder="lastname" id="lastname" class="form-control mb-3">' +
-      '<input placeholder="email" id="email" class="form-control mb-3">' +
-      '<input placeholder="phone_number" type="number" id="phone_number" class="form-control mb-3">' +
-      '<input placeholder="password" type="password" id="password" class="form-control mb-3">' +
-      '<input placeholder="profile_photo"  accept="image/png,image/jpeg" type="file" id="profile_photo" class="form-control mb-3">',
+      '<input placeholder="Nombre" id="name" type="text" class="form-control mb-3" required>' +
+      '<input placeholder="Apellido" id="lastname" type="text" class="form-control mb-3">' +
+      '<input placeholder="Correo Electronico" id="email" type="text" class="form-control mb-3">' +
+      '<input placeholder="Numero Telefonico" type="number" id="phone_number" class="form-control mb-3" >' +
+      '<input placeholder="Contraseña" type="password" id="password" class="form-control mb-3">' +
+      '<input placeholder="Foto Perfil"  accept="image/png,image/jpeg" type="file" id="profile_photo" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -230,7 +232,7 @@ const create = async () => {
           'error'
         )
       } 
-      else if(!document.getElementById('email').value.includes('@') || !document.getElementById('email').value.includes('.')){
+      else if(!emailRegex.test(document.getElementById('email').value)){
         swal.fire(
           'Error!',
           'Formato de correo invalido.',

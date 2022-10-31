@@ -42,16 +42,16 @@ const edit = async (id) => {
   const editswal = await Swal.fire({
     title: 'Editar Cupón',
     html:
-      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
-      '<input placeholder="code" type="text" id="code" class="form-control mb-3">' +
-      '<input placeholder="percentage_discount" type="number" id="percentage_discount" class="form-control mb-3">' +
-      '<input placeholder="min_amount_required" type="number" id="min_amount_required" class="form-control mb-3">' +
-      '<input placeholder="min_product_required" type="number" id="min_product_required" class="form-control mb-3">' +
-      '<input placeholder="start_date" type="date" id="start_date" class="form-control mb-3">' +
-      '<input placeholder="end_date" type="date" id="end_date" class="form-control mb-3">' +
-      '<input placeholder="max_uses" type="number" id="max_uses" class="form-control mb-3">' +
-      '<input placeholder="count_uses" type="number" id="count_uses" class="form-control mb-3">' +
-      '<input placeholder="valid_only_first_purchase" type="number" id="valid_only_first_purchase" class="form-control mb-3">',
+      '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="Code" type="text" id="code" class="form-control mb-3">' +
+      '<input placeholder="Porcentaje Descuento" type="number" id="percentage_discount" class="form-control mb-3">' +
+      '<input placeholder="Cantidad Min. Requerida" type="number" id="min_amount_required" class="form-control mb-3">' +
+      '<input placeholder="Productos Min. Requeridos" type="number" id="min_product_required" class="form-control mb-3">' +
+      '<input placeholder="Fecha inicio" type="date" id="start_date" class="form-control mb-3">' +
+      '<input placeholder="Fecha final" type="date" id="end_date" class="form-control mb-3">' +
+      '<input placeholder="Usos Maximos" type="number" id="max_uses" class="form-control mb-3">' +
+      '<input placeholder="Contador Usos" type="number" id="count_uses" class="form-control mb-3">' +
+      '<input placeholder="Valido solo primera compra" type="number" id="valid_only_first_purchase" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -220,16 +220,16 @@ const create = async () => {
   const createswal = await Swal.fire({
     title: 'Crear Cupón',
     html:
-      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
-      '<input placeholder="code" type="text" id="code" class="form-control mb-3">' +
-      '<input placeholder="percentage_discount" type="number" id="percentage_discount" class="form-control mb-3">' +
-      '<input placeholder="min_amount_required" type="number" id="min_amount_required" class="form-control mb-3">' +
-      '<input placeholder="min_product_required" type="number" id="min_product_required" class="form-control mb-3">' +
-      '<input placeholder="start_date" type="date" id="start_date" class="form-control mb-3">' +
-      '<input placeholder="end_date" type="date" id="end_date" class="form-control mb-3">' +
-      '<input placeholder="max_uses" type="number" id="max_uses" class="form-control mb-3">' +
-      '<input placeholder="count_uses" type="number" id="count_uses" class="form-control mb-3">' +
-      '<input placeholder="valid_only_first_purchase" type="number" id="valid_only_first_purchase" class="form-control mb-3">',
+      '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="Code" type="text" id="code" class="form-control mb-3">' +
+      '<input placeholder="Porcentaje Descuento" type="number" id="percentage_discount" class="form-control mb-3">' +
+      '<input placeholder="Cantidad Min. Requerida" type="number" id="min_amount_required" class="form-control mb-3">' +
+      '<input placeholder="Productos Min. Requeridos" type="number" id="min_product_required" class="form-control mb-3">' +
+      '<input placeholder="Fecha inicio" type="date" id="start_date" class="form-control mb-3">' +
+      '<input placeholder="Fecha final" type="date" id="end_date" class="form-control mb-3">' +
+      '<input placeholder="Usos Maximos" type="number" id="max_uses" class="form-control mb-3">' +
+      '<input placeholder="Contador Usos" type="number" id="count_uses" class="form-control mb-3">' +
+      '<input placeholder="Valido solo primera compra" type="number" id="valid_only_first_purchase" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {

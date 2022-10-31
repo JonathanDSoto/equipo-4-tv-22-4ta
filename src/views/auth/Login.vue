@@ -6,6 +6,7 @@ const router = useRouter()
 
 const mail = ref(null)
 const pass = ref(null)
+var emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 const login = () => {
   Swal.fire({
@@ -20,7 +21,7 @@ const login = () => {
       'No puede dejar espacios vacios.',
       'error'
     )
-  } else if (!mail.value.includes('@') || !mail.value.includes('.')) {
+  } else if (!emailRegex.test(document.getElementById('email').value)) {
     swal.fire(
       'Error!',
       'Formato de correo invalido.',

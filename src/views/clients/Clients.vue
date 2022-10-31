@@ -9,18 +9,18 @@ import Sidebar from "../../components/Sidebar.vue";
 let user = JSON.parse(localStorage.getItem('user'))
 const clients = ref(null)
 const router = useRouter()
-
+var emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
     title: 'Editar Cliente',
     html:
-      '<input placeholder="name" id="name" class="form-control mb-3" required>' +
-      '<input placeholder="email" id="email" class="form-control mb-3">' +
-      '<input placeholder="phone_number" type="number" id="phone_number" class="form-control mb-3">' +
-      '<input placeholder="password" type="password" id="password" class="form-control mb-3">' +
-      '<input placeholder="is_suscribed" type="is_suscribed" id="is_suscribed" class="form-control mb-3">' +
-      '<input placeholder="level_id" type="level_id" id="level_id" class="form-control mb-3">',
+      '<input placeholder="Nombre" id="name" class="form-control mb-3" required>' +
+      '<input placeholder="Correo Electrónico" id="email" class="form-control mb-3">' +
+      '<input placeholder="Número Telefonico" type="number" id="phone_number" class="form-control mb-3">' +
+      '<input placeholder="Contraseña" type="password" id="password" class="form-control mb-3">' +
+      '<input placeholder="Suscrito" type="is_suscribed" id="is_suscribed" class="form-control mb-3">' +
+      '<input placeholder="Level_id" type="level_id" id="level_id" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -60,7 +60,7 @@ const edit = async (id) => {
           'El numero de telefono debe constar de 10 digitos.',
           'error'
         )
-      }else if(!document.getElementById('email').value.includes('@') || !document.getElementById('email').value.includes('.')){
+      }else if(!emailRegex.test(document.getElementById('email').value)){
         swal.fire(
           'Error!',
           'Formato de correo invalido.',
@@ -181,12 +181,12 @@ const create = async () => {
   const createswal = await Swal.fire({
     title: 'Crear Cliente',
     html:
-      '<input placeholder="name" id="name" class="form-control mb-3" required>' +
-      '<input placeholder="email" id="email" type="email" class="form-control mb-3">' +
-      '<input placeholder="phone_number" type="number" id="phone_number" class="form-control mb-3">' +
-      '<input placeholder="password" type="password" id="password" class="form-control mb-3">' +
-      '<input placeholder="is_suscribed" type="number" id="is_suscribed" class="form-control mb-3">' +
-      '<input placeholder="level_id" type="number" id="level_id" class="form-control mb-3">',
+      '<input placeholder="Nombre" id="name" class="form-control mb-3" required>' +
+      '<input placeholder="Correo Electrónico" id="email" type="email" class="form-control mb-3">' +
+      '<input placeholder="Número Telefonico" type="number" id="phone_number" class="form-control mb-3">' +
+      '<input placeholder="Contraseña" type="password" id="password" class="form-control mb-3">' +
+      '<input placeholder="Suscrito" type="number" id="is_suscribed" class="form-control mb-3">' +
+      '<input placeholder="Level_id" type="number" id="level_id" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -232,7 +232,7 @@ const create = async () => {
           'El numero de telefono debe constar de 10 digitos.',
           'error'
         )
-      }else if(!document.getElementById('email').value.includes('@') || !document.getElementById('email').value.includes('.')){
+      }else if(!emailRegex.test(document.getElementById('email').value)){
         swal.fire(
           'Error!',
           'Formato de correo invalido.',
