@@ -1,33 +1,245 @@
 <script setup>
 import axios from "axios"
 import { ref } from "vue"
-import { RouterLink } from 'vue-router'
-import Nav from "../../components/Nav.vue";
-import Sidebar from "../../components/Sidebar.vue";
+import { useRouter, RouterLink } from 'vue-router'
+import Nav from "../../components/Nav.vue"
+import Sidebar from "../../components/Sidebar.vue"
 
 
 let user = JSON.parse(localStorage.getItem('user'))
 const coupons = ref(null)
+const router = useRouter()
+
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
 
 const getCoupons = () => {
-  var data = new FormData();
-  data.append('action', 'getCoupons');
-  data.append('token', user.token);
+  var data = new FormData()
+  data.append('action', 'getCoupons')
+  data.append('token', user.token)
 
   var config = {
     method: 'post',
     url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
     data: data
-  };
+  }
 
   axios(config)
     .then(function (response) {
       coupons.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
-      console.log(error);
-    });
+      console.log(error)
+    })
 }
+
+const edit = async (id) => {
+  const editswal = await Swal.fire({
+    title: 'Edit',
+    html:
+      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="code" type="text" id="code" class="form-control mb-3">' +
+      '<input placeholder="percentage_discount" type="number" id="percentage_discount" class="form-control mb-3">' +
+      '<input placeholder="min_amount_required" type="number" id="min_amount_required" class="form-control mb-3">' +
+      '<input placeholder="min_product_required" type="number" id="min_product_required" class="form-control mb-3">' +
+      '<input placeholder="start_date" type="date" id="start_date" class="form-control mb-3">' +
+      '<input placeholder="end_date" type="date" id="end_date" class="form-control mb-3">' +
+      '<input placeholder="max_uses" type="number" id="max_uses" class="form-control mb-3">' +
+      '<input placeholder="count_uses" type="number" id="count_uses" class="form-control mb-3">' +
+      '<input placeholder="valid_only_first_purchase" type="number" id="valid_only_first_purchase" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData()
+      data.append('name', document.querySelector('#name').value)
+      data.append('code', document.querySelector('#code').value)
+      data.append('percentage_discount', document.querySelector('#percentage_discount').value)
+      data.append('min_amount_required', document.querySelector('#min_amount_required').value)
+      data.append('min_product_required', document.querySelector('#min_product_required').value)
+      data.append('start_date', document.querySelector('#start_date').value)
+      data.append('end_date', document.querySelector('#end_date').value)
+      data.append('max_uses', document.querySelector('#max_uses').value)
+      data.append('count_uses', document.querySelector('#count_uses').value)
+      data.append('valid_only_first_purchase', document.querySelector('#valid_only_first_purchase').value)
+      data.append('status', '1')
+      data.append('token', user.token)
+      data.append('action', 'update')
+      data.append('id', id)
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
+        data: data
+      }
+
+      axios(config)
+        .then((response) => {
+          if (response.data.data) {
+            swal.fire(
+              'Actualizado',
+              response.data.message,
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error',
+              response.data.message,
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+  })
+  console.log(editswal)
+
+  if (!editswal.isConfirmed) {
+    editswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido actualizado.',
+      'error'
+    )
+  }
+}
+
+const deleteElement = async (id) => {
+  const deleteswal = await Swal.fire({
+    title: 'Estas Seguro que quieres eliminarlo',
+    icon: 'error',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append('token', user.token);
+      data.append('action', 'delete');
+      data.append('id', id);
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          if (response.data.code === 2) {
+            swal.fire(
+              'Eliminado',
+              response.data.message,
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Eliminado',
+              response.data.message,
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  })
+
+  if (!deleteswal.isConfirmed) {
+    deleteswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Eliminado.',
+      'error'
+    )
+  }
+}
+
+const create = async () => {
+  const createswal = await Swal.fire({
+    title: 'Crear Coupons',
+    html:
+      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="code" type="text" id="code" class="form-control mb-3">' +
+      '<input placeholder="percentage_discount" type="number" id="percentage_discount" class="form-control mb-3">' +
+      '<input placeholder="min_amount_required" type="number" id="min_amount_required" class="form-control mb-3">' +
+      '<input placeholder="min_product_required" type="number" id="min_product_required" class="form-control mb-3">' +
+      '<input placeholder="start_date" type="date" id="start_date" class="form-control mb-3">' +
+      '<input placeholder="end_date" type="date" id="end_date" class="form-control mb-3">' +
+      '<input placeholder="max_uses" type="number" id="max_uses" class="form-control mb-3">' +
+      '<input placeholder="count_uses" type="number" id="count_uses" class="form-control mb-3">' +
+      '<input placeholder="valid_only_first_purchase" type="number" id="valid_only_first_purchase" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData()
+      data.append('name', document.querySelector('#name').value)
+      data.append('code', document.querySelector('#code').value)
+      data.append('percentage_discount', document.querySelector('#percentage_discount').value)
+      data.append('min_amount_required', document.querySelector('#min_amount_required').value)
+      data.append('min_product_required', document.querySelector('#min_product_required').value)
+      data.append('start_date', document.querySelector('#start_date').value)
+      data.append('end_date', document.querySelector('#end_date').value)
+      data.append('max_uses', document.querySelector('#max_uses').value)
+      data.append('count_uses', document.querySelector('#count_uses').value)
+      data.append('valid_only_first_purchase', document.querySelector('#valid_only_first_purchase').value)
+      data.append('status', '1')
+      data.append('token', user.token)
+      data.append('action', 'create')
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
+        data: data
+      }
+
+      axios(config)
+        .then((response) => {
+          if (response.data.data) {
+            swal.fire(
+              'Creado',
+              response.data.message,
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error',
+              response.data.message,
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  })
+  console.log(createswal)
+
+  if (!createswal.isConfirmed) {
+    createswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Creado.',
+      'error'
+    )
+  }
+}
+
 getCoupons()
 </script>
 
@@ -48,7 +260,7 @@ getCoupons()
 
               <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                  <li class="breadcrumb-item"><a href="javascript: void(0);">Tabla</a></li>
+                  <li class="breadcrumb-item"><a href="javascript: void(0)">Tabla</a></li>
                   <li class="breadcrumb-item active">Cupones</li>
                 </ol>
               </div>
@@ -67,8 +279,8 @@ getCoupons()
                   <div class="row g-4 mb-3">
                     <div class="col-sm-auto">
                       <div>
-                        <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
-                          data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Agregar</button>
+                        <button @click="create" class="btn btn-success add-btn"><i
+                            class="ri-add-line align-bottom me-1"></i> Agregar</button>
                       </div>
                     </div>
 
@@ -89,7 +301,10 @@ getCoupons()
                       <tbody class="list form-check-all">
                         <tr v-for="coupon in coupons" :key="coupon.id">
                           <td class="id">{{ coupon.id }}</td>
-                          <td class="name">{{ coupon.name }}</td>
+                          <td class="name">
+                            <RouterLink :to="{ path: '/coupons/' + coupon.id }" class="text-primary">{{ coupon.name }}
+                            </RouterLink>
+                          </td>
                           <td class="lastname">{{ coupon.start_date }}</td>
                           <td class="email">{{ coupon.end_date }}</td>
                           <td class="rol">{{ coupon.percentage_discount }}%</td>
@@ -103,12 +318,12 @@ getCoupons()
                                 </a>
                               </div>
                               <div class="edit">
-                                <button class="btn btn-sm btn-warning edit-item-btn" data-bs-toggle="modal"
-                                  data-bs-target="#showModal">Editar</button>
+                                <button @click="edit(coupon.id)"
+                                  class="btn btn-sm btn-warning edit-item-btn">Editar</button>
                               </div>
                               <div class="remove">
-                                <button onclick="eliminar()" class="btn btn-sm btn-danger remove-item-btn"
-                                  data-bs-toggle="modal" data-bs-target="#deleteRecordModal">Eliminar</button>
+                                <button @click="deleteElement(coupon.id)"
+                                  class="btn btn-sm btn-danger remove-item-btn">Eliminar</button>
                               </div>
                             </div>
                           </td>
@@ -160,7 +375,7 @@ getCoupons()
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="javascript:void(0);">
+          <form action="javascript:void(0)">
             <div class="row g-3">
 
               <div class="col-lg-12">

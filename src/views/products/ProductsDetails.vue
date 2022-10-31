@@ -2,50 +2,111 @@
 import axios from "axios"
 import Nav from "../../components/Nav.vue"
 import Sidebar from "../../components/Sidebar.vue"
-import { useRoute } from "vue-router"
+import { useRoute, useRouter, RouterLink } from "vue-router"
 import { ref } from "vue"
 
 const route = useRoute()
+const router = useRouter()
 
 let user = JSON.parse(localStorage.getItem('user'))
 let product = ref(null)
 
-function eliminar() {
-  const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-      confirmButton: 'btn btn-success m-2',
-      cancelButton: 'btn btn-danger m-2'
-    },
-    buttonsStyling: false
-  })
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
 
-  swalWithBootstrapButtons.fire({
-    title: '¿Estas seguro?',
-    text: "¡No podrás revertir esto!",
-    icon: 'warning',
+const set_Price = async (id, amount) => {
+  let data = qs.stringify({
+    'id': id,
+    'amount': amount
+  });
+  let config = {
+    method: 'put',
+    url: 'https://crud.jonathansoto.mx/api/presentations/set_new_price',
+    data: data
+  };
+
+  axios(config)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log(error);
+    });
+
+}
+
+const createPresentation = async (id) => {
+  const createswal = await Swal.fire({
+    title: 'Crear Producto',
+    html:
+      '<input placeholder="cover" type="file" accept="image/png,image/jpeg" id="cover" class="form-control mb-3">' +
+      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
+      '<input placeholder="code" type="text" id="code" class="form-control mb-3">' +
+      '<input placeholder="weight_in_grams" type="number" id="weight_in_grams" class="form-control mb-3">' +
+      '<input placeholder="stock" type="number" id="stock" class="form-control mb-3">' +
+      '<input placeholder="stock_min" type="number" id="stock_min" class="form-control mb-3">' +
+      '<input placeholder="stock_max" type="number" id="stock_max" class="form-control mb-3">' +
+      '<input placeholder="amount" type="number" id="amount" class="form-control mb-3">',
     showCancelButton: true,
-    confirmButtonText: 'Si, eliminar!',
-    cancelButtonText: 'No, cancelar!',
-    reverseButtons: true
-  }).then((result) => {
-    if (result.isConfirmed) {
-      swalWithBootstrapButtons.fire(
-        'Eliminado!',
-        'El registro ha sido eliminado.',
-        'success'
-      )
-    } else if (
-      /* Read more about handling dismissals below */
-      result.dismiss === Swal.DismissReason.cancel
-    ) {
-      swalWithBootstrapButtons.fire(
-        'Cancelado',
-        'El registro no ha sido eliminado.',
-        'error'
-      )
-    }
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append('description', document.querySelector('#description').value);
+      data.append('code', document.querySelector('#code').value);
+      data.append('weight_in_grams', document.querySelector('#weight_in_grams').value);
+      data.append('status', 'active');
+      data.append('cover', document.querySelector('#cover').files[0]);
+      data.append('stock', document.querySelector('#stock').value);
+      data.append('stock_min', document.querySelector('#stock_min').value);
+      data.append('stock_max', document.querySelector('#stock_max').value);
+      data.append('product_id', id);
+      data.append('amount', document.querySelector('#amount').value);
+      data.append('action', 'createPresentation');
+      data.append('token', user.token);
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/PresentationsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          if (response.data.data) {
+            swal.fire(
+              'Creado',
+              response.data.message,
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+            set_Price(response.data.data.id, document.querySelector('#amount').value)
+          } else {
+            swal.fire(
+              'Error!',
+              response.data.message,
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    },
   })
 
+  if (!createswal.isConfirmed) {
+    createswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Creado.',
+      'error'
+    )
+  }
 }
 
 const getProduct = () => {
@@ -63,7 +124,20 @@ const getProduct = () => {
   axios(config)
     .then(function (response) {
       product.value = response.data.data
-      console.log(product.value);
+      if (product.value) {
+        Swal.close()
+      } else {
+        swal.fire(
+          'Error al cargar',
+          response.data.message,
+          'error'
+        ).then((result) => {
+          if (result.isConfirmed) {
+            router.go(-1)
+          }
+        })
+      }
+
     })
     .catch(function (error) {
       console.log(error);
@@ -105,6 +179,15 @@ getProduct()
             <div class="card">
               <div class="card-body">
                 <div class="row gx-lg-5">
+                  <div class="d-flex">
+                    <div class="ms-auto">
+                      <button @click="createPresentation(product.id)" class="btn btn-success add-btn">
+                        <i class="ri-add-line align-bottom me-1"></i>
+                        Agregar
+                      </button>
+                    </div>
+                  </div>
+
 
                   <div class="col mx-auto">
                     <div class="">
@@ -119,6 +202,7 @@ getProduct()
 
                     </div>
                   </div>
+
                   <!-- end col -->
 
                   <div class="col-xl-8">
@@ -127,8 +211,12 @@ getProduct()
                         <div class="flex-grow-1">
                           <h4>{{ product.name }}</h4>
                           <div class="hstack gap-3 flex-wrap">
-                            <div><a href="#" class="text-primary d-block" v-if="product.brand">{{ product.brand.name
-                            }}</a></div>
+                            <div>
+                              <RouterLink :to="{ path: '/catalogs/brand/' + product.brand.id }"
+                                class="text-primary d-block" v-if="product.brand">{{
+                                    product.brand.name
+                                }}</RouterLink>
+                            </div>
                             <div class="vr"></div>
                             <div class="text-muted">Slug : <span class="text-body fw-medium">{{ product.slug }}</span>
                             </div>
@@ -147,23 +235,30 @@ getProduct()
                       </div>
 
                       <div class="row">
-                        <div class="col-sm-6">
+                        <div v-if="product.tags[0]" class="col-sm-6">
                           <div class="mt-3">
                             <h5 class="fs-14">Etiquetas :</h5>
                             <ul v-if="product.tags" class="list-unstyled">
                               <li class="py-1" v-for="tag in product.tags" :key="tag.id">
-                                <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> {{ tag.name }}
+                                <i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
+                                <RouterLink :to="{ path: '/catalogs/tag/' + tag.id }" class="text-primary">{{
+                                    tag.name
+                                }}
+                                </RouterLink>
                               </li>
                             </ul>
                           </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div v-if="product.categories[0]" class="col-sm-6">
                           <div class="mt-3">
                             <h5 class="fs-14">Categorias :</h5>
                             <ul class="list-unstyled product-desc-list">
-                              <li class="py-1" v-for="categorie in product.categories" :key="categorie.id">{{
-                                  categorie.name
-                              }}</li>
+                              <li class="py-1" v-for="category in product.categories" :key="category.id">
+                                <RouterLink :to="{ path: '/catalogs/category/' + category.id }" class="text-primary">{{
+                                    category.name
+                                }}
+                                </RouterLink>
+                              </li>
                             </ul>
                           </div>
                         </div>
@@ -197,14 +292,21 @@ getProduct()
 
 
                     </div>
-
-
-
-
-
-
                     <!-- PRESENTACIONES -->
+                    <div v-if="product.presentations[0]" class="mt-5">
 
+                      <h5 class="fs-14 mb-3">Presentaciones :</h5>
+
+                      <div id="carouselExampleFade" class="container-fluid " data-bs-ride="carousel">
+                        <div class="d-flex overflow-auto">
+                          <div v-for="presentation in product.presentations" :key="presentation" class="w-25">
+                            <RouterLink :to="{ path: '/products/presentation/' + presentation.id }">
+                              <img :src="product.cover" class="w-100" :alt="product.slug">
+                            </RouterLink>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <!-- end col -->
 
@@ -259,7 +361,10 @@ getProduct()
                         <tr v-for="order in product.presentations[0].orders" :key="order.id">
 
                           <td class="id">{{ order.id }}</td>
-                          <td class="customer_name ">{{ order.folio }}</td>
+                          <td>
+                            <RouterLink :to="{ path: '/orders/' + order.id }" class="text-primary">{{ order.folio }}
+                            </RouterLink>
+                          </td>
                           <td class="product_name">{{ order.total }}</td>
                           <td class="date">{{ order.client_id }}</td>
                           <td class="status">{{ order.order_status_id }}</td>
@@ -300,81 +405,11 @@ getProduct()
   </div>
   <!-- end main content-->
 
-
+  <div v-else class="main-content">
+    <h5 class="text-center">No se encontro el producto</h5>
+  </div>
 
 
   <!-- Grids in modals -->
 
-  <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalgridLabel">Presentación</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="javascript:void(0);">
-            <div class="row g-3">
-              <div class="col-lg-12">
-                <label for="formFile" class="form-label">Imagen</label>
-                <input class="form-control" type="file" id="formFile">
-              </div>
-              <div class="col-lg-12">
-                <div>
-                  <label for="exampleFormControlTextarea5" class="form-label">Descripción</label>
-                  <textarea class="form-control" id="descripcion" rows="3" placeholder="Descripción"></textarea>
-                </div>
-              </div>
-              <!--end col-->
-              <div class="col-lg-12">
-                <div>
-                  <label for="lastName" class="form-label">Código</label>
-                  <input type="text" class="form-control" id="codigo" placeholder="Código">
-                </div>
-              </div>
-              <!--end col-->
-              <div class="col-lg-12">
-                <div>
-                  <label for="lastName" class="form-label">Peso</label>
-                  <input type="text" class="form-control" id="peso" placeholder="Peso">
-                </div>
-              </div>
-              <!--end col-->
-              <div class="col-lg-12">
-                <div>
-                  <label for="lastName" class="form-label">Stock</label>
-                  <input type="text" class="form-control" id="stock" placeholder="Stock">
-                </div>
-              </div>
-              <!--end col-->
-              <div class="col-lg-12">
-                <div>
-                  <label for="lastName" class="form-label">Stock mínimo</label>
-                  <input type="text" class="form-control" id="stock_min" placeholder="Stock mínimo">
-                </div>
-              </div>
-              <!--end col-->
-              <div class="col-lg-12">
-                <div>
-                  <label for="lastName" class="form-label">Stock máximo</label>
-                  <input type="text" class="form-control" id="stock_max" placeholder="Stock máximo">
-                </div>
-              </div>
-              <!--end col-->
-
-
-              <div class="col-lg-12">
-                <div class="hstack gap-2 justify-content-end">
-                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                  <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-              </div>
-              <!--end col-->
-            </div>
-            <!--end row-->
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>

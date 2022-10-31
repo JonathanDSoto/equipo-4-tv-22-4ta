@@ -9,7 +9,12 @@ const route = useRoute()
 
 let user = JSON.parse(localStorage.getItem('user'))
 let userInfo = ref(null)
-
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
 const getUser = () => {
   var data = new FormData()
   data.append('action', 'getuser')
@@ -25,6 +30,7 @@ const getUser = () => {
   axios(config)
     .then((response) => {
       userInfo.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error)
@@ -102,42 +108,48 @@ getUser()
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="firstnameInput" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="firstnameInput" :placeholder="userInfo.name" disabled>
+                            <input type="text" class="form-control" id="firstnameInput" :placeholder="userInfo.name"
+                              disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="lastnameInput" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" id="lastnameInput" :placeholder="userInfo.lastname" disabled>
+                            <input type="text" class="form-control" id="lastnameInput" :placeholder="userInfo.lastname"
+                              disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="phonenumberInput" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="phonenumberInput" placeholder="Teléfono" disabled>
+                            <input type="text" class="form-control" id="phonenumberInput" placeholder="Teléfono"
+                              disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Correo electrónico</label>
-                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.email" disabled>
+                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.email"
+                              disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-12">
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Rol</label>
-                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.role" disabled>
+                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.role"
+                              disabled>
                           </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-12">
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Creador</label>
-                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.created_by" disabled>
+                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.created_by"
+                              disabled>
                           </div>
                         </div>
                         <!--end col-->
@@ -152,7 +164,8 @@ getUser()
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Ultima actualización</label>
-                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.updated_at" disabled>
+                            <input type="email" class="form-control" id="emailInput" :placeholder="userInfo.updated_at"
+                              disabled>
                           </div>
                         </div>
 

@@ -10,6 +10,13 @@ let users = ref(null)
 const idusuario = ref(null)
 const router = useRouter()
 
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
+
 const edit = async (id) => {
   const editswal = await Swal.fire({
     title: 'Edit',
@@ -304,6 +311,7 @@ const getAllusers = () => {
     .then((response) => {
       if (response.data.code > 0) {
         users.value = response.data.data
+        Swal.close()
       }
     })
     .catch(function (error) {

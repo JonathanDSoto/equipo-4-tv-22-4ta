@@ -10,6 +10,13 @@ const route = useRoute()
 let user = JSON.parse(localStorage.getItem('user'))
 let order = ref(null)
 
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
+
 
 const getOrder = () => {
   var data = new FormData();
@@ -26,6 +33,8 @@ const getOrder = () => {
   axios(config)
     .then(function (response) {
       order.value = response.data.data
+      console.log(order.value)
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);
@@ -337,6 +346,7 @@ getOrder()
                                       <thead class="table-light">
                                         <tr>
                                           <th class="" data-sort="id">ID</th>
+                                          <th class="" data-sort="name">name</th>
                                           <th class="" data-sort="description">Descripción</th>
 
                                         </tr>
@@ -345,14 +355,17 @@ getOrder()
                                         <tr v-if="order.presentations" v-for="presentation in order.presentations"
                                           :key="presentation.id">
                                           <td class="id">{{ presentation.id }}</td>
-
                                           <td>
-                                            <div class="d-flex align-items-center">
-                                              <div class="flex-grow-1">
-                                                <h5 class="fs-14 mb-1">{{ presentation.description }}</h5>
-                                              </div>
+                                            <div class="fs-14 mb-1">
+                                              <RouterLink v-if="presentation.product" class="text-primary"
+                                                :to="{ path: '/products/' + presentation.product.slug }">{{
+                                                    presentation.product.name
+                                                }}</RouterLink>
+                                              <p v-else>Sin presentacion</p>
                                             </div>
-
+                                          </td>
+                                          <td>
+                                            <h5 class="fs-14 mb-1">{{ presentation.description }}</h5>
                                           </td>
 
                                         </tr>
