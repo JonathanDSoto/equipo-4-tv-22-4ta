@@ -5,6 +5,7 @@ import { useRouter, RouterLink } from 'vue-router'
 import Nav from "../../components/Nav.vue";
 import Sidebar from "../../components/Sidebar.vue";
 
+
 let user = JSON.parse(localStorage.getItem('user'))
 const clients = ref(null)
 const router = useRouter()
@@ -23,47 +24,54 @@ const edit = async (id) => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      var data = new FormData();
-      data.append('name', document.getElementById('name').value);
-      data.append('email', document.getElementById('email').value);
-      data.append('password', document.getElementById('password').value);
-      data.append('phone_number', document.getElementById('phone_number').value);
-      data.append('action', 'updateClient');
-      data.append('token', user.token);
-      data.append('id', id);
-      data.append('is_suscribed', document.getElementById('is_suscribed').value);
-      data.append('level_id', document.getElementById('level_id').value);
-
-      var config = {
-        method: 'post',
-        url: 'http://localhost/app/ClientsController.php',
-        data: data
-      };
-
-      axios(config)
-        .then(function (response) {
-          if (response.data.data) {
-            swal.fire(
-              'Editado',
-              'El registro ha sido Editado.',
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
+      if(document.getElementById('name').value=='' || document.getElementById('email').value=='' || document.getElementById('phone_number').value=='' || document.getElementById('password').value=='' || document.getElementById('is_suscribed').value=='' || document.getElementById('level_id').value==''){
+        swal.fire(
               'Error!',
-              'El registro no ha sido Editado.',
+              'No puede dejar campos vacios.',
               'error'
             )
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      }else{
+        var data = new FormData();
+        data.append('name', document.getElementById('name').value);
+        data.append('email', document.getElementById('email').value);
+        data.append('password', document.getElementById('password').value);
+        data.append('phone_number', document.getElementById('phone_number').value);
+        data.append('action', 'updateClient');
+        data.append('token', user.token);
+        data.append('id', id);
+        data.append('is_suscribed', document.getElementById('is_suscribed').value);
+        data.append('level_id', document.getElementById('level_id').value);
 
+        var config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
+          data: data
+        };
+
+        axios(config)
+          .then(function (response) {
+            if (response.data.data) {
+              swal.fire(
+                'Editado',
+                'El registro ha sido Editado.',
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error!',
+                'El registro no ha sido Editado.',
+                'error'
+              )
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     }
   })
   console.log(editswal)
@@ -91,7 +99,7 @@ const deleteElement = async (id) => {
 
       var config = {
         method: 'post',
-        url: 'http://localhost/app/ClientsController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
         data: data
       };
 
@@ -138,15 +146,58 @@ const create = async () => {
     title: 'Crear Usuario',
     html:
       '<input placeholder="name" id="name" class="form-control mb-3" required>' +
-      '<input placeholder="email" id="email" class="form-control mb-3">' +
+      '<input placeholder="email" id="email" type="email" class="form-control mb-3">' +
       '<input placeholder="phone_number" type="number" id="phone_number" class="form-control mb-3">' +
       '<input placeholder="password" type="password" id="password" class="form-control mb-3">' +
-      '<input placeholder="is_suscribed" type="is_suscribed" id="is_suscribed" class="form-control mb-3">' +
-      '<input placeholder="level_id" type="level_id" id="level_id" class="form-control mb-3">',
+      '<input placeholder="is_suscribed" type="number" id="is_suscribed" class="form-control mb-3">' +
+      '<input placeholder="level_id" type="number" id="level_id" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      var data = new FormData();
+      if(document.getElementById('name').value=='' || document.getElementById('email').value=='' || document.getElementById('phone_number').value=='' || document.getElementById('password').value=='' || document.getElementById('is_suscribed').value=='' || document.getElementById('level_id').value==''){
+        swal.fire(
+          'Error!',
+          'No puede dejar campos vacios.',
+          'error'
+        )
+      }else if(document.getElementById('name').value.includes('1') || document.getElementById('name').value.includes('2') || document.getElementById('name').value.includes('3') || document.getElementById('name').value.includes('4') || document.getElementById('name').value.includes('5') || document.getElementById('name').value.includes('6') || document.getElementById('name').value.includes('7') || document.getElementById('name').value.includes('8') || document.getElementById('name').value.includes('9') || document.getElementById('name').value.includes('0') ){
+        swal.fire(
+          'Error!',
+          'El nombre del cliente no puede contener numeros.',
+          'error'
+        )
+      }else if(document.getElementById('password').value.length <8){
+        swal.fire(
+          'Error!',
+          'La contraseña debe contener 8 digitos o más.',
+          'error'
+        )
+      }else if(document.getElementById('phone_number').value.includes('e') || document.getElementById('phone_number').value.includes('E')){
+        swal.fire(
+          'Error!',
+          'El numero de telefono no puede contener letras.',
+          'error'
+        )
+      }else if(document.getElementById('level_id').value.includes('e') || document.getElementById('level_id').value.includes('E') || document.getElementById('level_id').value.length <1 || document.getElementById('level_id').value.length >3){
+        swal.fire(
+          'Error!',
+          'El id del nivel de cliente tiene que ser un numero.',
+          'error'
+        )
+      }else if(document.getElementById('is_suscribed').value.includes('e') || document.getElementById('is_suscribed').value.includes('E') || document.getElementById('is_suscribed').value.length >1|| document.getElementById('is_suscribed').value.length <0){
+        swal.fire(
+          'Error!',
+          'El estado de suscripcion del cliente solo puede ser 1 o 0 .',
+          'error'
+        )
+      }else if(!document.getElementById('phone_number').value.length == 10 ){
+        swal.fire(
+          'Error!',
+          'El numero de telefono debe constar de 10 digitos.',
+          'error'
+        )
+      }else{
+        var data = new FormData();
       data.append('name', document.getElementById('name').value);
       data.append('email', document.getElementById('email').value);
       data.append('password', document.getElementById('password').value);
@@ -158,7 +209,7 @@ const create = async () => {
 
       var config = {
         method: 'post',
-        url: 'http://localhost/app/ClientsController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
         data: data
       };
 
@@ -167,7 +218,7 @@ const create = async () => {
           if (response.data.data) {
             swal.fire(
               'Creado',
-              'El registro no ha sido Creado.',
+              'El registro ha sido Creado.',
               'success'
             ).then((result) => {
               if (result.isConfirmed) {
@@ -185,6 +236,7 @@ const create = async () => {
         .catch(function (error) {
           console.log(error);
         });
+      }  
     }
   })
   console.log(createswal)
@@ -207,7 +259,7 @@ const getClients = () => {
 
   var config = {
     method: 'post',
-    url: 'http://localhost/app/ClientsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
     data: data
   };
 

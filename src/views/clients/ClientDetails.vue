@@ -25,7 +25,7 @@ const getClient = () => {
 
   var config = {
     method: 'post',
-    url: 'http://localhost/app/ClientsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
     data: data
   };
 

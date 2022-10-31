@@ -17,7 +17,7 @@ const getAddress = () => {
 
   var config = {
     method: 'post',
-    url: 'http://localhost/app/AddressController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/AddressController.php',
     data: data
   };
 
