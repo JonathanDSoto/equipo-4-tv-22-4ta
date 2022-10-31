@@ -197,7 +197,7 @@ getOrder()
                                         <div class="mb-3">
                                           <label for="firstnameInput" class="form-label">Nombre</label>
                                           <input type="text" class="form-control" id="firstnameInput"
-                                            placeholder="Nombre" :value="order.client.name">
+                                            placeholder="Nombre" :value="order.client.name" disabled>
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -205,7 +205,7 @@ getOrder()
                                         <div class="mb-3">
                                           <label for="lastnameInput" class="form-label">Correo electrónico</label>
                                           <input type="text" class="form-control" id="lastnameInput"
-                                            placeholder="Correo electrónico" :value="order.client.email">
+                                            placeholder="Correo electrónico" :value="order.client.email" disabled>
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -214,7 +214,7 @@ getOrder()
                                         <div class="mb-3">
                                           <label for="emailInput" class="form-label">Teléfono</label>
                                           <input type="email" class="form-control" id="emailInput"
-                                            placeholder="Correo electrónico" :value="order.client.phone_number">
+                                            placeholder="Correo electrónico" :value="order.client.phone_number" disabled>
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -230,29 +230,11 @@ getOrder()
                                 <div class="tab-pane" id="changePassword" role="tabpanel">
                                   <form action="javascript:void(0);">
                                     <div class="row">
-
-                                      <div class="col-lg-6">
-                                        <div class="mb-3">
-                                          <label for="firstnameInput" class="form-label">Nombre</label>
-                                          <input type="text" class="form-control" id="firstnameInput"
-                                            placeholder="Nombre" :value="order.address.first_name">
-                                        </div>
-                                      </div>
-                                      <!--end col-->
-                                      <div class="col-lg-6">
-                                        <div class="mb-3">
-                                          <label for="lastnameInput" class="form-label">Apellido</label>
-                                          <input type="text" class="form-control" id="lastnameInput"
-                                            placeholder="Apellido" :value="order.address.last_name">
-                                        </div>
-                                      </div>
-                                      <!--end col-->
-
                                       <div class="col-lg-6">
                                         <div class="mb-3">
                                           <label for="phonenumberInput" class="form-label">Calle y número</label>
                                           <input type="text" class="form-control" id="phonenumberInput"
-                                            placeholder="Calle y número" :value="order.address.street_and_use_number">
+                                            placeholder="Calle y número" :value="order.address.street_and_use_number" disabled>
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -260,7 +242,7 @@ getOrder()
                                         <div class="mb-3">
                                           <label for="emailInput" class="form-label">Apartamento</label>
                                           <input type="email" class="form-control" id="emailInput"
-                                            placeholder="Apartamento" :value="order.address.apartment">
+                                            placeholder="Apartamento" :value="order.address.apartment" disabled>
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -268,7 +250,7 @@ getOrder()
                                         <div class="mb-3">
                                           <label for="lastnameInput" class="form-label">Código postal</label>
                                           <input type="text" class="form-control" id="lastnameInput"
-                                            placeholder="Apellido" :value="order.address.postal_code">
+                                            placeholder="Apellido" :value="order.address.postal_code" disabled>
                                         </div>
                                       </div>
 
@@ -277,7 +259,7 @@ getOrder()
                                         <div class="mb-3">
                                           <label for="phonenumberInput" class="form-label">Ciudad</label>
                                           <input type="text" class="form-control" id="phonenumberInput"
-                                            placeholder="Calle y número" :value="order.address.city">
+                                            placeholder="Calle y número" :value="order.address.city" disabled>
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -285,7 +267,7 @@ getOrder()
                                         <div class="mb-3">
                                           <label for="emailInput" class="form-label">Provincia</label>
                                           <input type="email" class="form-control" id="emailInput"
-                                            placeholder="Apartamento" :value="order.address.province">
+                                            placeholder="Apartamento" :value="order.address.province" disabled>
                                         </div>
                                       </div>
                                       <!--end col-->
@@ -294,7 +276,7 @@ getOrder()
                                         <div class="mb-3">
                                           <label for="emailInput" class="form-label">Teléfono</label>
                                           <input type="email" class="form-control" id="emailInput"
-                                            placeholder="612 000 0000" :value="order.address.phone_number">
+                                            placeholder="612 000 0000" :value="order.address.phone_number" disabled>
                                         </div>
                                       </div>
                                       <!--end col-->

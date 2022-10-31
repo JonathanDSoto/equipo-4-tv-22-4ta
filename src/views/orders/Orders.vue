@@ -18,49 +18,63 @@ Swal.fire({
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Edit',
+    title: 'Editar Orden',
     html:
-      '<input placeholder="order_status_id" type="text" id="order_status_id" class="form-control mb-3">',
+      '<input placeholder="order_status_id" type="number" id="order_status_id" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append('order_status_id', document.querySelector('#order_status_id').value);
-      data.append('id', id);
-      data.append('token', user.token);
-      data.append('action', 'update');
+      
+      if(document.getElementById('order_status_id').value==''){
+        swal.fire(
+          'Error!',
+          'No puedes dejar el campo vacio!',
+          'error'
+        )
+      }else if(document.getElementById('order_status_id').value=='e' || document.getElementById('order_status_id').value=='E'){
+        swal.fire(
+          'Error',
+          'Este campo solo acepta numeros',
+          'error'
+        )
+      }else{
+        let data = new FormData();
+        data.append('order_status_id', document.querySelector('#order_status_id').value);
+        data.append('id', id);
+        data.append('token', user.token);
+        data.append('action', 'update');
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
-        data: data
-      };
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
+          data: data
+        };
 
-      axios(config)
-        .then((response) => {
-          console.log(response.data)
-          if (response.data.data) {
-            swal.fire(
-              'Actualizado',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error!',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
+        axios(config)
+          .then((response) => {
+            console.log(response.data)
+            if (response.data.data) {
+              swal.fire(
+                'Actualizado',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error!',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
   })
   console.log(editswal)
@@ -146,49 +160,114 @@ const create = async () => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append('folio', document.querySelector('#folio').value);
-      data.append('total', document.querySelector('#total').value);
-      data.append('is_paid', document.querySelector('#is_paid').value);
-      data.append('client_id', document.querySelector('#client_id').value);
-      data.append('address_id', document.querySelector('#address_id').value);
-      data.append('order_status_id', document.querySelector('#order_status_id').value);
-      data.append('payment_type_id', document.querySelector('#payment_type_id').value);
-      data.append('coupon_id', document.querySelector('#coupon_id').value);
-      data.append('presentations_id', document.querySelector('#presentations_id').value);
-      data.append('presentations_quantity', document.querySelector('#presentations_quantity').value);
-      data.append('action', 'create');
-      data.append('token', user.token);
+      if(document.getElementById('folio').value=='' || document.getElementById('total').value=='' || document.getElementById('is_paid').value=='' 
+      || document.getElementById('address_id').value=='' || document.getElementById('order_status_id').value=='' || document.getElementById('payment_type_id').value=='' 
+      || document.getElementById('presentations_id').value=='' || document.getElementById('presentations_quantity').value==''){
+        swal.fire(
+          'Error!',
+          'No puedes dejar espacios vacios',
+          'error'
+        )
+      }else if(document.getElementById('order_status_id').value=='e' || document.getElementById('order_status_id').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo order_status_id solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('payment_type_id').value=='e' || document.getElementById('payment_type_id').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo payment_type_id solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('coupon_id').value=='e' || document.getElementById('coupon_id').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo coupon_id solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('address_id').value=='e' || document.getElementById('address_id').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo address_id solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('client_id').value=='e' || document.getElementById('client_id').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo client_id solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('is_paid').value=='e' || document.getElementById('is_paid').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo is_paid solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('total').value=='e' || document.getElementById('total').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo total solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('presentations_id').value=='e' || document.getElementById('presentations_id').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo presentations_id solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('presentations_quantity').value=='e' || document.getElementById('presentations_quantity').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo presentations_quantity solo acepta numeros',
+          'error'
+        )
+      }else{
+        let data = new FormData();
+        data.append('folio', document.querySelector('#folio').value);
+        data.append('total', document.querySelector('#total').value);
+        data.append('is_paid', document.querySelector('#is_paid').value);
+        data.append('client_id', document.querySelector('#client_id').value);
+        data.append('address_id', document.querySelector('#address_id').value);
+        data.append('order_status_id', document.querySelector('#order_status_id').value);
+        data.append('payment_type_id', document.querySelector('#payment_type_id').value);
+        data.append('coupon_id', document.querySelector('#coupon_id').value);
+        data.append('presentations_id', document.querySelector('#presentations_id').value);
+        data.append('presentations_quantity', document.querySelector('#presentations_quantity').value);
+        data.append('action', 'create');
+        data.append('token', user.token);
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
-        data: data
-      };
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
+          data: data
+        };
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Creado',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error!',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Creado',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error!',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+      
     },
   })
   console.log(createswal)
