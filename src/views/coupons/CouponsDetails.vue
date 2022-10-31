@@ -103,7 +103,7 @@ getcoupon()
                                     <div class="mb-3">
                                       <label for="firstnameInput" class="form-label">Nombre</label>
                                       <input type="text" class="form-control" id="firstnameInput" placeholder="Nombre"
-                                        :value="coupon.name">
+                                        :value="coupon.name" disabled>
                                     </div>
                                   </div>
                                   <!--end col-->
@@ -111,14 +111,14 @@ getcoupon()
                                     <div class="mb-3">
                                       <label for="lastnameInput" class="form-label">Código</label>
                                       <input type="text" class="form-control" id="lastnameInput" placeholder="Apellido"
-                                        :value="coupon.code">
+                                        :value="coupon.code" disabled>
                                     </div>
                                   </div>
                                   <!--end col-->
                                   <div class="col-lg-12">
                                     <div class="mb-3">
                                       <label for="phonenumberInput" class="form-label">Porcentaje de descuento</label>
-                                      <input type="text" class="form-control" :value="coupon.percentage_discount + '%'">
+                                      <input type="text" class="form-control" :value="coupon.percentage_discount + '%'" disabled>
                                     </div>
                                   </div>
                                   <!--end col-->
@@ -126,7 +126,7 @@ getcoupon()
                                     <div class="mb-3">
                                       <label for="emailInput" class="form-label">Cantidad mínima requerida</label>
                                       <input type="email" class="form-control"
-                                        :value="'$' + coupon.min_amount_required">
+                                        :value="'$' + coupon.min_amount_required" disabled>
                                     </div>
                                   </div>
                                   <!--end col-->
@@ -135,7 +135,7 @@ getcoupon()
                                     <div class="mb-3">
                                       <label for="emailInput" class="form-label">Fecha de inicio</label>
                                       <input type="email" class="form-control" id="emailInput" placeholder="Apartamento"
-                                        :value="coupon.start_date">
+                                        :value="coupon.start_date" disabled>
                                     </div>
                                   </div>
                                   <!--end col-->
@@ -144,7 +144,7 @@ getcoupon()
                                     <div class="mb-3">
                                       <label for="emailInput" class="form-label">Fecha final</label>
                                       <input type="email" class="form-control" id="emailInput"
-                                        placeholder="Correo electrónico" :value="coupon.end_date">
+                                        placeholder="Correo electrónico" :value="coupon.end_date" disabled>
                                     </div>
                                   </div>
                                   <!--end col-->
@@ -163,14 +163,14 @@ getcoupon()
                                     <div class="mb-3">
                                       <label for="emailInput" class="form-label">Usos maximos</label>
                                       <input type="email" class="form-control" id="emailInput" placeholder="ID"
-                                        :value="coupon.max_uses">
+                                        :value="coupon.max_uses" disabled>
                                     </div>
                                   </div>
                                   <div class="col-lg-12">
                                     <div class="mb-3">
                                       <label for="firstnameInput" class="form-label">Usos</label>
                                       <input type="text" class="form-control" id="firstnameInput" placeholder="Nombre"
-                                        :value="coupon.count_uses">
+                                        :value="coupon.count_uses" disabled>
                                     </div>
                                   </div>
                                   <!--end col-->
@@ -180,7 +180,7 @@ getcoupon()
                                         compra</label>
                                       <input type="text" class="form-control" id="lastnameInput"
                                         placeholder="Correo electrónico"
-                                        :value="coupon.valid_only_first_purchase == 0 ? 'no' : 'si'">
+                                        :value="coupon.valid_only_first_purchase == 0 ? 'no' : 'si'" disabled>
                                     </div>
                                   </div>
                                   <!--end col-->
@@ -190,7 +190,7 @@ getcoupon()
                                       <label for="emailInput" class="form-label">Estatus</label>
                                       <input type="email" class="form-control" id="emailInput"
                                         placeholder="Correo electrónico"
-                                        :value="coupon.status == 0 ? 'inactivo' : 'activo'">
+                                        :value="coupon.status == 0 ? 'inactivo' : 'activo'" disabled>
                                     </div>
                                   </div>
                                   <!--end col-->

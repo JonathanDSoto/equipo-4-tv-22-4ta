@@ -40,7 +40,7 @@ const getCoupons = () => {
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Edit',
+    title: 'Editar Cupón',
     html:
       '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="code" type="text" id="code" class="form-control mb-3">' +
@@ -55,51 +55,101 @@ const edit = async (id) => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData()
-      data.append('name', document.querySelector('#name').value)
-      data.append('code', document.querySelector('#code').value)
-      data.append('percentage_discount', document.querySelector('#percentage_discount').value)
-      data.append('min_amount_required', document.querySelector('#min_amount_required').value)
-      data.append('min_product_required', document.querySelector('#min_product_required').value)
-      data.append('start_date', document.querySelector('#start_date').value)
-      data.append('end_date', document.querySelector('#end_date').value)
-      data.append('max_uses', document.querySelector('#max_uses').value)
-      data.append('count_uses', document.querySelector('#count_uses').value)
-      data.append('valid_only_first_purchase', document.querySelector('#valid_only_first_purchase').value)
-      data.append('status', '1')
-      data.append('token', user.token)
-      data.append('action', 'update')
-      data.append('id', id)
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
-        data: data
+      if(document.getElementById('name').value=='' || document.getElementById('code').value=='' ||
+        document.getElementById('percentage_discount').value=='' || document.getElementById('min_amount_required').value=='' ||
+        document.getElementById('min_product_required').value=='' || document.getElementById('start_date').value=='' ||
+        document.getElementById('end_date').value=='' || document.getElementById('max_uses').value=='' || 
+        document.getElementById('count_uses').value=='' || document.getElementById('valid_only_first_purchase').value==''){
+        swal.fire(
+          'Error',
+          'No puedes dejar espacios vacios',
+          'error'
+        )
+      }else if(document.getElementById('percentage_discount').value=='e' || document.getElementById('percentage_discount').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo percentage_discount solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('min_amount_required').value=='e' || document.getElementById('min_amount_required').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo min_amount_required solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('min_product_required').value=='e' || document.getElementById('min_product_required').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo min_product_required solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('max_uses').value=='e' || document.getElementById('max_uses').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo max_uses solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('count_uses').value=='e' || document.getElementById('count_uses').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo count_uses solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('valid_only_first_purchase').value=='e' || document.getElementById('valid_only_first_purchase').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo valid_only_first_purchase solo acepta numeros',
+          'error'
+        )
+      }else{
+        let data = new FormData()
+        data.append('name', document.querySelector('#name').value)
+        data.append('code', document.querySelector('#code').value)
+        data.append('percentage_discount', document.querySelector('#percentage_discount').value)
+        data.append('min_amount_required', document.querySelector('#min_amount_required').value)
+        data.append('min_product_required', document.querySelector('#min_product_required').value)
+        data.append('start_date', document.querySelector('#start_date').value)
+        data.append('end_date', document.querySelector('#end_date').value)
+        data.append('max_uses', document.querySelector('#max_uses').value)
+        data.append('count_uses', document.querySelector('#count_uses').value)
+        data.append('valid_only_first_purchase', document.querySelector('#valid_only_first_purchase').value)
+        data.append('status', '1')
+        data.append('token', user.token)
+        data.append('action', 'update')
+        data.append('id', id)
+
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
+          data: data
+        }
+
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Actualizado',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       }
-
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Actualizado',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      
     },
   })
   console.log(editswal)
@@ -168,7 +218,7 @@ const deleteElement = async (id) => {
 
 const create = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Coupons',
+    title: 'Crear Cupón',
     html:
       '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="code" type="text" id="code" class="form-control mb-3">' +
@@ -183,50 +233,98 @@ const create = async () => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData()
-      data.append('name', document.querySelector('#name').value)
-      data.append('code', document.querySelector('#code').value)
-      data.append('percentage_discount', document.querySelector('#percentage_discount').value)
-      data.append('min_amount_required', document.querySelector('#min_amount_required').value)
-      data.append('min_product_required', document.querySelector('#min_product_required').value)
-      data.append('start_date', document.querySelector('#start_date').value)
-      data.append('end_date', document.querySelector('#end_date').value)
-      data.append('max_uses', document.querySelector('#max_uses').value)
-      data.append('count_uses', document.querySelector('#count_uses').value)
-      data.append('valid_only_first_purchase', document.querySelector('#valid_only_first_purchase').value)
-      data.append('status', '1')
-      data.append('token', user.token)
-      data.append('action', 'create')
+      if(document.getElementById('name').value=='' || document.getElementById('code').value=='' ||
+        document.getElementById('percentage_discount').value=='' || document.getElementById('min_amount_required').value=='' ||
+        document.getElementById('min_product_required').value=='' || document.getElementById('start_date').value=='' ||
+        document.getElementById('end_date').value=='' || document.getElementById('max_uses').value=='' || 
+        document.getElementById('count_uses').value=='' || document.getElementById('valid_only_first_purchase').value==''){
+        swal.fire(
+          'Error',
+          'No puedes dejar espacios vacios',
+          'error'
+        )
+      }else if(document.getElementById('percentage_discount').value=='e' || document.getElementById('percentage_discount').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo percentage_discount solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('min_amount_required').value=='e' || document.getElementById('min_amount_required').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo min_amount_required solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('min_product_required').value=='e' || document.getElementById('min_product_required').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo min_product_required solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('max_uses').value=='e' || document.getElementById('max_uses').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo max_uses solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('count_uses').value=='e' || document.getElementById('count_uses').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo count_uses solo acepta numeros',
+          'error'
+        )
+      }else if(document.getElementById('valid_only_first_purchase').value=='e' || document.getElementById('valid_only_first_purchase').value=='E'){
+        swal.fire(
+          'Error!',
+          'El campo valid_only_first_purchase solo acepta numeros',
+          'error'
+        )
+      }else{
+        let data = new FormData()
+        data.append('name', document.querySelector('#name').value)
+        data.append('code', document.querySelector('#code').value)
+        data.append('percentage_discount', document.querySelector('#percentage_discount').value)
+        data.append('min_amount_required', document.querySelector('#min_amount_required').value)
+        data.append('min_product_required', document.querySelector('#min_product_required').value)
+        data.append('start_date', document.querySelector('#start_date').value)
+        data.append('end_date', document.querySelector('#end_date').value)
+        data.append('max_uses', document.querySelector('#max_uses').value)
+        data.append('count_uses', document.querySelector('#count_uses').value)
+        data.append('valid_only_first_purchase', document.querySelector('#valid_only_first_purchase').value)
+        data.append('status', '1')
+        data.append('token', user.token)
+        data.append('action', 'create')
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
-        data: data
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
+          data: data
+        }
+
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Creado',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       }
-
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Creado',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     }
   })
   console.log(createswal)
