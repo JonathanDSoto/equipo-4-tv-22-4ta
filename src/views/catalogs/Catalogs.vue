@@ -18,7 +18,7 @@ const router = useRouter()
 
 const editcategories = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Edit',
+    title: 'Editar categoria',
     html:
       '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
@@ -26,43 +26,52 @@ const editcategories = async (id) => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append('action', 'updateCategory');
-      data.append('token', user.token);
-      data.append('name', document.querySelector('#name').value);
-      data.append('description', document.querySelector('#description').value);
-      data.append('slug', document.querySelector('#slug').value);
-      data.append('id', id);
+      
+      if(document.getElementById('name').value=='' || document.getElementById('description').value=='' || document.getElementById('slug').value==''){
+        swal.fire(
+          'Cancelado',
+          'No puedes dejar campos vacios',
+          'error'
+        )
+      }else{
+        let data = new FormData();
+        data.append('action', 'updateCategory');
+        data.append('token', user.token);
+        data.append('name', document.querySelector('#name').value);
+        data.append('description', document.querySelector('#description').value);
+        data.append('slug', document.querySelector('#slug').value);
+        data.append('id', id);
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
-        data: data
-      };
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+          data: data
+        };
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Actualizar',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Cancelado',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Actualizar',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Cancelado',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            //console.log(error);
+          });
+      }
     },
   })
   console.log(editswal)
@@ -115,7 +124,7 @@ const deletecategories = async (id) => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
 
     }
@@ -132,7 +141,7 @@ const deletecategories = async (id) => {
 
 const createcategories = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Producto',
+    title: 'Crear categoria',
     html:
       '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
@@ -140,43 +149,51 @@ const createcategories = async () => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append('action', 'createCategory');
-      data.append('token', user.token);
-      data.append('name', document.querySelector('#name').value);
-      data.append('description', document.querySelector('#description').value);
-      data.append('slug', document.querySelector('#slug').value);
+      if(document.getElementById('name').value=='' || document.getElementById('description').value=='' || document.getElementById('slug').value==''){
+        swal.fire(
+          'Cancelado',
+          'No puedes dejar campos vacios',
+          'error'
+        )
+      }else{
+        
+        let data = new FormData();
+        data.append('action', 'createCategory');
+        data.append('token', user.token);
+        data.append('name', document.querySelector('#name').value);
+        data.append('description', document.querySelector('#description').value);
+        data.append('slug', document.querySelector('#slug').value);
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
-        data: data
-      };
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+          data: data
+        };
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Creado',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Creado',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
   })
 
@@ -192,7 +209,7 @@ const createcategories = async () => {
 
 const createbrands = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Producto',
+    title: 'Crear Marca',
     html:
       '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
@@ -200,43 +217,50 @@ const createbrands = async () => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append('action', 'createBrand');
-      data.append('token', user.token);
-      data.append('name', document.querySelector('#name').value);
-      data.append('description', document.querySelector('#description').value);
-      data.append('slug', document.querySelector('#slug').value);
+      if(document.getElementById('name').value=='' || document.getElementById('description').value=='' || document.getElementById('slug').value==''){
+        swal.fire(
+          'Cancelado',
+          'No puedes dejar campos vacios',
+          'error'
+        )
+      }else{
+        let data = new FormData();
+        data.append('action', 'createBrand');
+        data.append('token', user.token);
+        data.append('name', document.querySelector('#name').value);
+        data.append('description', document.querySelector('#description').value);
+        data.append('slug', document.querySelector('#slug').value);
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
-        data: data
-      };
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+          data: data
+        };
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Creado',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Creado',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            //console.log(error);
+          });
+        }
     }
   })
 
@@ -287,7 +311,7 @@ const deletebrands = async (id) => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
 
     }
@@ -303,7 +327,7 @@ const deletebrands = async (id) => {
 }
 const editbrands = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Edit',
+    title: 'Editar Marca',
     html:
       '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
@@ -311,43 +335,51 @@ const editbrands = async (id) => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append('action', 'updateBrand');
-      data.append('token', user.token);
-      data.append('name', document.querySelector('#name').value);
-      data.append('description', document.querySelector('#description').value);
-      data.append('slug', document.querySelector('#slug').value);
-      data.append('id', id);
+      if(document.getElementById('name').value=='' || document.getElementById('description').value=='' || document.getElementById('slug').value==''){
+        swal.fire(
+          'Cancelado',
+          'No puedes dejar campos vacios',
+          'error'
+        )
+      }else{
+        let data = new FormData();
+        data.append('action', 'updateBrand');
+        data.append('token', user.token);
+        data.append('name', document.querySelector('#name').value);
+        data.append('description', document.querySelector('#description').value);
+        data.append('slug', document.querySelector('#slug').value);
+        data.append('id', id);
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
-        data: data
-      };
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+          data: data
+        };
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Actualizar',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Cancelado',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Actualizar',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Cancelado',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            //console.log(error);
+          });
+      }
     },
   })
   console.log(editswal)
@@ -364,7 +396,7 @@ const editbrands = async (id) => {
 
 const createtags = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Producto',
+    title: 'Crear Etiqueta',
     html:
       '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
@@ -372,43 +404,50 @@ const createtags = async () => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append('action', 'create');
-      data.append('token', user.token);
-      data.append('name', document.querySelector('#name').value);
-      data.append('description', document.querySelector('#description').value);
-      data.append('slug', document.querySelector('#slug').value);
+      if(document.getElementById('name').value=='' || document.getElementById('description').value=='' || document.getElementById('slug').value==''){
+        swal.fire(
+          'Cancelado',
+          'No puedes dejar campos vacios',
+          'error'
+        )
+      }else{
+        let data = new FormData();
+        data.append('action', 'create');
+        data.append('token', user.token);
+        data.append('name', document.querySelector('#name').value);
+        data.append('description', document.querySelector('#description').value);
+        data.append('slug', document.querySelector('#slug').value);
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
-        data: data
-      };
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+          data: data
+        };
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Creado',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Creado',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            //console.log(error);
+          });
+      }
     }
   })
 
@@ -459,7 +498,7 @@ const deletetags = async (id) => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
 
     }
@@ -475,7 +514,7 @@ const deletetags = async (id) => {
 }
 const edittags = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Edit',
+    title: 'Editar Marca',
     html:
       '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
@@ -483,43 +522,51 @@ const edittags = async (id) => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append('action', 'update');
-      data.append('token', user.token);
-      data.append('name', document.querySelector('#name').value);
-      data.append('description', document.querySelector('#description').value);
-      data.append('slug', document.querySelector('#slug').value);
-      data.append('id', id);
+      if(document.getElementById('name').value=='' || document.getElementById('description').value=='' || document.getElementById('slug').value==''){
+        swal.fire(
+          'Cancelado',
+          'No puedes dejar campos vacios',
+          'error'
+        )
+      }else{
+        let data = new FormData();
+        data.append('action', 'update');
+        data.append('token', user.token);
+        data.append('name', document.querySelector('#name').value);
+        data.append('description', document.querySelector('#description').value);
+        data.append('slug', document.querySelector('#slug').value);
+        data.append('id', id);
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
-        data: data
-      };
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+          data: data
+        };
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Actualizar',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Cancelado',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Actualizar',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Cancelado',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            //console.log(error);
+          });
+      }
     },
   })
   console.log(editswal)
@@ -558,7 +605,7 @@ const getcategories = () => {
       Swal.close()
     })
     .catch(function (error) {
-      console.log(error);
+      //console.log(error);
     });
 }
 getcategories()
@@ -586,7 +633,7 @@ const getbrands = () => {
       Swal.close()
     })
     .catch(function (error) {
-      console.log(error);
+      //console.log(error);
     });
 }
 getbrands()
@@ -614,7 +661,7 @@ const getTags = () => {
       Swal.close()
     })
     .catch(function (error) {
-      console.log(error);
+      //console.log(error);
     });
 }
 getTags()
