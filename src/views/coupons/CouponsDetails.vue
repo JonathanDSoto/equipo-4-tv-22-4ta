@@ -266,7 +266,12 @@ getcoupon()
                                 <tbody class="list form-check-all">
                                   <tr v-if="coupon.orders" v-for="order in coupon.orders" :key="order.id">
                                     <td class="id">{{ order.id }}</td>
-                                    <td class="customer_name">{{ order.folio }}</td>
+                                    <td class="customer_name">
+                                      <RouterLink :to="{ path: '/orders/' + order.id }" class="text-primary">{{
+                                          order.folio
+                                      }}
+                                      </RouterLink>
+                                    </td>
                                     <td class="product_name">{{ order.total }}</td>
                                     <td class="date">{{ order.client_id }}</td>
                                     <td class="status">{{ order.is_paid > 0 ? 'paid' : 'pending' }}</td>
