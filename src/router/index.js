@@ -60,7 +60,7 @@ const router = createRouter({
       component: () => import("../views/orders/OrdersDetails.vue"),
     },
     {
-      path: "/catalogs/details",
+      path: "/catalogs/:type/:id",
       name: "catalog",
       component: () => import("../views/catalogs/CatalogsDetails.vue"),
     },

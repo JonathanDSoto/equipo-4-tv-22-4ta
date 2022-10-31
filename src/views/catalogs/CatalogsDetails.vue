@@ -1,13 +1,49 @@
 <script setup>
-import Nav from '../../components/Nav.vue';
-import Sidebar from '../../components/Sidebar.vue';
+import axios from "axios"
+import { ref } from "vue"
+import { useRoute } from 'vue-router'
+import Nav from "../../components/Nav.vue";
+import Sidebar from "../../components/Sidebar.vue";
+
+let user = JSON.parse(localStorage.getItem('user'))
+const route = useRoute()
+
+const item = ref(null)
+
+console.log(route.params)
+
+const getbrand = () => {
+  let data = new FormData();
+  data.append('action', 'getBrand');
+  data.append('id', route.params.id);
+  data.append('token', user.token);
+
+  let config = {
+    method: 'post',
+    url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+    data: data
+  };
+
+  axios(config)
+    .then((response) => {
+      item.value = response.data.data
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+}
+
+if (route.params.type == 'brand') {
+  getbrand()
+}
 </script>
 
 <template>
   <Nav />
   <Sidebar />
 
-  <div class="main-content">
+  <div v-if="item" class="main-content">
 
     <div class="page-content">
       <div class="container-fluid">
@@ -15,7 +51,7 @@ import Sidebar from '../../components/Sidebar.vue';
         <div class="row">
           <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-              <h4 class="mb-sm-0">Detalles de "titulo"</h4>
+              <h4 class="mb-sm-0">Detalles de {{ route.params.type }}</h4>
 
               <div class="page-title-right">
                 <ol class="breadcrumb m-0">
@@ -38,15 +74,15 @@ import Sidebar from '../../components/Sidebar.vue';
                   <tbody>
                     <tr>
                       <th scope="row" style="width: 200px;">Nombre</th>
-                      <td>T-Shirt</td>
+                      <td>{{ item.name }}</td>
                     </tr>
                     <tr>
                       <th scope="row">Descripción</th>
-                      <td>Blue</td>
+                      <td>{{ item.description }}</td>
                     </tr>
                     <tr>
                       <th scope="row">Slug</th>
-                      <td>Cotton</td>
+                      <td>{{ item.slug }}</td>
                     </tr>
 
                   </tbody>
@@ -81,7 +117,6 @@ import Sidebar from '../../components/Sidebar.vue';
                     <table class="table align-middle table-nowrap" id="customerTable">
                       <thead class="table-light">
                         <tr>
-                          <th class="" data-sort="num">#</th>
                           <th class="" data-sort="id">ID</th>
                           <th class="" data-sort="name">Nombre</th>
                           <th class="" data-sort="description">Descripción</th>
@@ -89,32 +124,28 @@ import Sidebar from '../../components/Sidebar.vue';
                         </tr>
                       </thead>
                       <tbody class="list form-check-all">
-                        <tr>
-                          <td class="id" style="display:none;"><a href="javascript:void(0);"
-                              class="fw-medium link-primary">#VZ2101</a></td>
-                          <td class="num">1</td>
-                          <td class="id">1</td>
+                        <tr v-if="item.products" v-for="product in item.products" :key="product.id">
+                          <td class="id">{{ product.id }}</td>
 
                           <td>
                             <div class="d-flex align-items-center">
                               <div class="flex-shrink-0 me-3">
                                 <div class="avatar-sm bg-light rounded p-1">
-                                  <img src="../../assets/images/products/img-1.png" alt="" class="img-fluid d-block">
+                                  <img :src="'https://crud.jonathansoto.mx/storage/products/' + product.cover" alt=""
+                                    class="img-fluid d-block">
                                 </div>
                               </div>
                               <div class="flex-grow-1">
                                 <h5 class="fs-14 mb-1">
-                                  <a href="apps-ecommerce-product-details.html" class="text-dark">Half Sleeve Round Neck
-                                    T-Shirts</a>
+                                  <RouterLink :to="{ path: '/products/' + product.slug }" class="link-primary">
+                                    {{ product.name }}</RouterLink>
                                 </h5>
-                                <p class="text-muted mb-0">Marca : <span class="fw-medium">Fashion</span></p>
                               </div>
                             </div>
 
                           </td>
 
-                          <td class="description">Este moderno comedor Ikal, es una excelente opción para complementar
-                            los muebles del interior de tu hogar.</td>
+                          <td class="description">{{ product.description }}</td>
 
                         </tr>
                       </tbody>
@@ -122,7 +153,7 @@ import Sidebar from '../../components/Sidebar.vue';
 
                   </div>
 
-                  <div class="d-flex justify-content-end">
+                  <!-- <div class="d-flex justify-content-end">
                     <div class="pagination-wrap hstack gap-2">
                       <a class="page-item pagination-prev disabled" href="#">
                         Previous
@@ -132,7 +163,7 @@ import Sidebar from '../../components/Sidebar.vue';
                         Next
                       </a>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
 
               </div><!-- end card -->

@@ -36,6 +36,250 @@ const getCoupons = () => {
       console.log(error);
     });
 }
+
+const edit = async (id) => {
+  const editswal = await Swal.fire({
+    title: 'Edit',
+    html:
+      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="slug-name" type="text" id="slug" class="form-control mb-3">' +
+      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
+      '<select placeholder="brand" id="brand"  name="select" class="form-control mb-3"><option value="" disabled selected>Marca</option></select>' +
+      '<select placeholder="categorie" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
+      '<select placeholder="tag" id="tag"  name="select" class="form-control mb-3"><option value="" disabled selected>Tag</option></select>' +
+      '<textarea rows="4" cols="50" placeholder="features" id="features" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append('name', document.querySelector('#name').value);
+      data.append('slug', document.querySelector('#slug').value);
+      data.append('description', document.querySelector('#description').value);
+      data.append('features', document.querySelector('#features').value);
+      data.append('brand_id', document.querySelector('#brand').value);
+      data.append('categories', document.querySelector('#categorie').value);
+      data.append('tags', document.querySelector('#tag').value);
+      data.append('token', user.token);
+      data.append('action', 'update');
+      data.append('id', id);
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          if (response.data.data) {
+            swal.fire(
+              'Actualizado',
+              'El registro ha sido actualizado.',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error',
+              'El registro no ha sido actualizado.',
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    },
+    willOpen: () => {
+      const brandSelect = document.querySelector('#brand')
+      const categorieSelect = document.querySelector('#categorie')
+      const tagSelect = document.querySelector('#tag')
+      var data = new FormData();
+      data.append('action', 'getBrands');
+      data.append('token', user.token);
+      var config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+        data: data
+      };
+      axios(config)
+        .then((response) => {
+          for (const iterator of response.data.data) {
+            const option = document.createElement('option')
+            option.value = iterator.id
+            option.text = iterator.name
+            brandSelect.appendChild(option)
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+      data = new FormData();
+      data.append('action', 'getCategories');
+      data.append('token', user.token);
+
+      config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          for (const iterator of response.data.data) {
+            const option = document.createElement('option')
+            option.value = iterator.id
+            option.text = iterator.name
+            categorieSelect.appendChild(option)
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+      data = new FormData();
+      data.append('action', 'getTags');
+      data.append('token', user.token);
+
+      config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          for (const iterator of response.data.data) {
+            const option = document.createElement('option')
+            option.value = iterator.id
+            option.text = iterator.name
+            tagSelect.appendChild(option)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    }
+  })
+  console.log(editswal)
+
+  if (!editswal.isConfirmed) {
+    editswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido actualizado.',
+      'error'
+    )
+  }
+}
+
+const deleteElement = async (id) => {
+  const deleteswal = await Swal.fire({
+    title: 'Estas Seguro que quieres eliminarlo',
+    icon: 'error',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append('action', 'delete');
+      data.append('token', user.token);
+      data.append('id', id);
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          if (response.data.code === 2) {
+            swal.fire(
+              'Eliminado',
+              'El registro ha sido Eliminado correctamente.',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                router.go(0)
+              }
+            })
+          } else {
+            swal.fire(
+              'Error!',
+              'El registro no ha sido Eliminado.',
+              'error'
+            )
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    }
+  })
+  console.log(deleteswal)
+
+  if (!deleteswal.isConfirmed) {
+    deleteswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Eliminado.',
+      'error'
+    )
+  }
+}
+
+const create = async () => {
+  const createswal = await Swal.fire({
+    title: 'Crear Producto',
+    html:
+      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
+      '<input placeholder="slug" type="text" id="slug" class="form-control mb-3">' +
+      '<input placeholder="description" type="text" id="description" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append('action', 'createCategory');
+      data.append('token', user.token);
+      data.append('name', document.querySelector('#name'));
+      data.append('description', document.querySelector('#description'));
+      data.append('slug', document.querySelector('#slug'));
+
+      let config = {
+        method: 'post',
+        url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+        data: data
+      };
+
+      axios(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    }
+  })
+  console.log(createswal)
+
+  if (!createswal.isConfirmed) {
+    createswal = await swal.fire(
+      'Cancelado',
+      'El registro no ha sido Creado.',
+      'error'
+    )
+  }
+}
+
 getCoupons()
 </script>
 

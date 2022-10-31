@@ -17,43 +17,7 @@ Swal.fire({
   }
 })
 
-function eliminar() {
-  const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-      confirmButton: 'btn btn-success m-2',
-      cancelButton: 'btn btn-danger m-2'
-    },
-    buttonsStyling: false
-  })
 
-  swalWithBootstrapButtons.fire({
-    title: '¿Estas seguro?',
-    text: "¡No podrás revertir esto!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Si, eliminar!',
-    cancelButtonText: 'No, cancelar!',
-    reverseButtons: true
-  }).then((result) => {
-    if (result.isConfirmed) {
-      swalWithBootstrapButtons.fire(
-        'Eliminado!',
-        'El registro ha sido eliminado.',
-        'success'
-      )
-    } else if (
-      /* Read more about handling dismissals below */
-      result.dismiss === Swal.DismissReason.cancel
-    ) {
-      swalWithBootstrapButtons.fire(
-        'Cancelado',
-        'El registro no ha sido eliminado.',
-        'error'
-      )
-    }
-  })
-
-}
 
 const getProduct = () => {
   var data = new FormData();
@@ -134,8 +98,12 @@ getProduct()
                         <div class="flex-grow-1">
                           <h4>{{ product.name }}</h4>
                           <div class="hstack gap-3 flex-wrap">
-                            <div><a href="#" class="text-primary d-block" v-if="product.brand">{{ product.brand.name
-                            }}</a></div>
+                            <div>
+                              <RouterLink :to="{ path: '/catalogs/brand/' + product.brand.id }"
+                                class="text-primary d-block" v-if="product.brand">{{
+                                    product.brand.name
+                                }}</RouterLink>
+                            </div>
                             <div class="vr"></div>
                             <div class="text-muted">Slug : <span class="text-body fw-medium">{{ product.slug }}</span>
                             </div>
