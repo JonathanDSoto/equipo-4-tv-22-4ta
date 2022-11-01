@@ -3,14 +3,13 @@ RewriteEngine on
 
 #Rules
 
-RewriteRule ^adress$ app/AuthController.php
+RewriteRule ^adress$ app/AddressController.php
 RewriteRule ^auth$ app/AuthController.php
-RewriteRule ^categorie$ app/ProductsController.php
-RewriteRule ^brand$ app/ProductsController.php
-RewriteRule ^categorie$ app/ProductsController.php
-RewriteRule ^client$ app/ProductsController.php
-RewriteRule ^coupons$ app/ProductsController.php
-RewriteRule ^order$ app/ProductsController.php
-RewriteRule ^presentation$ app/ProductsController.php
-RewriteRule ^tag$ app/ProductsController.php
-RewriteRule ^user$ app/ProductsController.php
+RewriteRule ^brand$ app/BrandsController.php
+RewriteRule ^categorie$ app/CategoriesController.php
+RewriteRule ^client$ app/ClientsController.php
+RewriteRule ^coupons$ app/CouponsController.php
+RewriteRule ^order$ app/OrdersController.php
+RewriteRule ^presentation$ app/PresentationsController.php
+RewriteRule ^tag$ app/TagsController.php
+RewriteRule ^user$ app/UsersController.php
