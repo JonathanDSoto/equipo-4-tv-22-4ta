@@ -2,5 +2,15 @@ Options +FollowSymLinks -MultiViews
 RewriteEngine on
 
 #Rules
+
+RewriteRule ^adress$ app/AuthController.php
 RewriteRule ^auth$ app/AuthController.php
-RewriteRule ^prod$ app/ProductsController.php
+RewriteRule ^categorie$ app/ProductsController.php
+RewriteRule ^brand$ app/ProductsController.php
+RewriteRule ^categorie$ app/ProductsController.php
+RewriteRule ^client$ app/ProductsController.php
+RewriteRule ^coupons$ app/ProductsController.php
+RewriteRule ^order$ app/ProductsController.php
+RewriteRule ^presentation$ app/ProductsController.php
+RewriteRule ^tag$ app/ProductsController.php
+RewriteRule ^user$ app/ProductsController.php
