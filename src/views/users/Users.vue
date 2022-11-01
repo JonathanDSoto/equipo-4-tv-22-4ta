@@ -61,7 +61,7 @@ const edit = async (id) => {
       else if(!letras.test(document.getElementById('lastname').value)){
         swal.fire(
           'Error!',
-          'El apellido(s) solo puede contener letras y espacio.',
+          'El apellido solo puede contener letras y espacio.',
           'error'
         )
       }

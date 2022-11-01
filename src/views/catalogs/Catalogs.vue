@@ -44,7 +44,7 @@ const editcategories = async (id) => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/categorie',
           data: data
         };
 
