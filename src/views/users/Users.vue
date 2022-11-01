@@ -21,7 +21,7 @@ Swal.fire({
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Edit',
+    title: 'Editar usuario',
     html:
       '<input placeholder="Nombre" id="name" class="form-control mb-3" required>' +
       '<input placeholder="Apellido" id="lastname" class="form-control mb-3">' +
@@ -205,7 +205,7 @@ const deleteElement = async (id) => {
 
 const create = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Usuario',
+    title: 'Agregar usuario',
     html:
       '<input placeholder="Nombre" id="name" type="text" class="form-control mb-3" required>' +
       '<input placeholder="Apellido" id="lastname" type="text" class="form-control mb-3">' +

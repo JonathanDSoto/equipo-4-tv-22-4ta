@@ -209,7 +209,7 @@ const createcategories = async () => {
 
 const createbrands = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Marca',
+    title: 'Crear marca',
     html:
       '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
@@ -327,7 +327,7 @@ const deletebrands = async (id) => {
 }
 const editbrands = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Editar Marca',
+    title: 'Editar marca',
     html:
       '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
@@ -396,7 +396,7 @@ const editbrands = async (id) => {
 
 const createtags = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Etiqueta',
+    title: 'Crear etiqueta',
     html:
       '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +

@@ -21,7 +21,7 @@ Swal.fire({
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Editar Producto',
+    title: 'Editar producto',
     html:
       '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="slug-name" type="text" id="slug" class="form-control mb-3">' +
@@ -248,7 +248,7 @@ const deleteElement = async (id) => {
 
 const create = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Producto',
+    title: 'Crear producto',
     html:
       '<input placeholder="cover" type="file" accept="image/png,image/jpeg" id="cover" class="form-control mb-3">' +
       '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +

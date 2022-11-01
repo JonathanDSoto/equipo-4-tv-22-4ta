@@ -40,7 +40,7 @@ const getCoupons = () => {
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Editar Cupón',
+    title: 'Editar cupón',
     html:
       '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="Code" type="text" id="code" class="form-control mb-3">' +
@@ -218,7 +218,7 @@ const deleteElement = async (id) => {
 
 const create = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Cupón',
+    title: 'Crear cupón',
     html:
       '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="Code" type="text" id="code" class="form-control mb-3">' +

@@ -79,6 +79,11 @@ const router = createRouter({
       name: "coupons",
       component: () => import("../views/coupons/Coupons.vue"),
     },
+    {
+      path: "/error",
+      name: "error",
+      component: () => import("../views/Error.vue"),
+    },
   ],
 });
 

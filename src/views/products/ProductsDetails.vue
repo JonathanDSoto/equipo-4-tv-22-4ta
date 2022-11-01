@@ -39,7 +39,7 @@ const set_Price = async (id, amount) => {
 
 const createPresentation = async (id) => {
   const createswal = await Swal.fire({
-    title: 'Crear Producto',
+    title: 'Crear presentacion',
     html:
       '<input placeholder="cover" type="file" accept="image/png,image/jpeg" id="cover" class="form-control mb-3">' +
       '<input placeholder="Descripcion" type="text" id="description" class="form-control mb-3">' +

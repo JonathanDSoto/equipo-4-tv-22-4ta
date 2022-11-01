@@ -18,7 +18,7 @@ Swal.fire({
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Editar Orden',
+    title: 'Editar orden',
     html:
       '<input placeholder="order_status_id" type="number" id="order_status_id" class="form-control mb-3">',
     showCancelButton: true,
@@ -145,7 +145,7 @@ const deleteElement = async (id) => {
 
 const create = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Orden',
+    title: 'Crear orden',
     html:
       '<input placeholder="Folio" type="text" id="folio" class="form-control mb-3">' +
       '<input placeholder="Total" type="number" id="total" class="form-control mb-3">' +

@@ -14,7 +14,7 @@ var letras = /^[a-zA-ZñÑ ]+$/;
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Editar Cliente',
+    title: 'Editar cliente',
     html:
       '<input placeholder="Nombre" id="name" class="form-control mb-3" required>' +
       '<input placeholder="Correo Electrónico" id="email" class="form-control mb-3">' +
@@ -195,7 +195,7 @@ const deleteElement = async (id) => {
 
 const create = async () => {
   const createswal = await Swal.fire({
-    title: 'Crear Cliente',
+    title: 'Crear cliente',
     html:
       '<input placeholder="Nombre" id="name" class="form-control mb-3" required>' +
       '<input placeholder="Correo Electrónico" id="email" type="email" class="form-control mb-3">' +
