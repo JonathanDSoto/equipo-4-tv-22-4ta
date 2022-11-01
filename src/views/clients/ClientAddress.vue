@@ -87,7 +87,7 @@ getAddress();
                           <div class="mb-3">
                             <label for="firstnameInput" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="firstnameInput" placeholder="Nombre"
-                              :value="address.first_name">
+                              :value="address.first_name" disabled>
                           </div>
                         </div>
 
@@ -95,7 +95,7 @@ getAddress();
                           <div class="mb-3">
                             <label for="lastnameInput" class="form-label">Apellido</label>
                             <input type="text" class="form-control" id="lastnameInput" placeholder="Apellido"
-                              :value="address.last_name">
+                              :value="address.last_name" disabled>
                           </div>
                         </div>
 
@@ -104,7 +104,7 @@ getAddress();
                           <div class="mb-3">
                             <label for="phonenumberInput" class="form-label">Calle y número</label>
                             <input type="text" class="form-control" id="phonenumberInput" placeholder="Calle y número"
-                              :value="address.street_and_use_number">
+                              :value="address.street_and_use_number" disabled>
                           </div>
                         </div>
 
@@ -112,7 +112,7 @@ getAddress();
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Apartamento</label>
                             <input type="email" class="form-control" id="emailInput" placeholder="Apartamento"
-                              :value="address.apartment">
+                              :value="address.apartment" disabled>
                           </div>
                         </div>
 
@@ -120,7 +120,7 @@ getAddress();
                           <div class="mb-3">
                             <label for="lastnameInput" class="form-label">Código postal</label>
                             <input type="text" class="form-control" id="lastnameInput" placeholder="Apellido"
-                              :value="address.postal_code">
+                              :value="address.postal_code" disabled>
                           </div>
                         </div>
 
@@ -129,7 +129,7 @@ getAddress();
                           <div class="mb-3">
                             <label for="phonenumberInput" class="form-label">Ciudad</label>
                             <input type="text" class="form-control" id="phonenumberInput" placeholder="Calle y número"
-                              :value="address.city">
+                              :value="address.city" disabled>
                           </div>
                         </div>
 
@@ -137,7 +137,7 @@ getAddress();
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Provincia</label>
                             <input type="email" class="form-control" id="emailInput" placeholder="Apartamento"
-                              :value="address.province">
+                              :value="address.province" disabled>
                           </div>
                         </div>
 
@@ -146,7 +146,7 @@ getAddress();
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Teléfono</label>
                             <input type="email" class="form-control" id="emailInput" placeholder="(612) 000-0000"
-                              :value="address.phone_number">
+                              :value="address.phone_number" disabled>
                           </div>
                         </div>
 

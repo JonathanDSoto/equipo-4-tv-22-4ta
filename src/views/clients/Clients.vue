@@ -10,6 +10,7 @@ let user = JSON.parse(localStorage.getItem('user'))
 const clients = ref(null)
 const router = useRouter()
 var emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+var letras = /^[a-zA-ZñÑ ]+$/;
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
@@ -60,7 +61,22 @@ const edit = async (id) => {
           'El numero de telefono debe constar de 10 digitos.',
           'error'
         )
-      }else if(!emailRegex.test(document.getElementById('email').value)){
+      }
+      else if(!letras.test(document.getElementById('name').value)){
+        swal.fire(
+          'Error!',
+          'El nombre solo puede contener letras y espacio.',
+          'error'
+        )
+      }
+      else if(!letras.test(document.getElementById('lastname').value)){
+        swal.fire(
+          'Error!',
+          'El apellido(s) solo puede contener letras y espacio.',
+          'error'
+        )
+      }
+      else if(!emailRegex.test(document.getElementById('email').value)){
         swal.fire(
           'Error!',
           'Formato de correo invalido.',

@@ -11,7 +11,7 @@ const idusuario = ref(null)
 const router = useRouter()
 
 var emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-
+var letras = /^[a-zA-ZñÑ ]+$/;
 Swal.fire({
   title: '',
   didOpen: () => {
@@ -50,7 +50,22 @@ const edit = async (id) => {
           'El apellido del usuario no puede contener numeros.',
           'error'
         )
-      }else if(document.getElementById('password').value.length <8){
+      }
+      else if(!letras.test(document.getElementById('name').value)){
+        swal.fire(
+          'Error!',
+          'El nombre solo puede contener letras y espacio.',
+          'error'
+        )
+      }
+      else if(!letras.test(document.getElementById('lastname').value)){
+        swal.fire(
+          'Error!',
+          'El apellido(s) solo puede contener letras y espacio.',
+          'error'
+        )
+      }
+      else if(document.getElementById('password').value.length <8){
         swal.fire(
           'Error!',
           'La contraseña debe contener 8 digitos o más.',

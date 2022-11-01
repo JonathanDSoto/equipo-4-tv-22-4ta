@@ -147,16 +147,16 @@ const create = async () => {
   const createswal = await Swal.fire({
     title: 'Crear Orden',
     html:
-      '<input placeholder="folio" type="text" id="folio" class="form-control mb-3">' +
-      '<input placeholder="total" type="number" id="total" class="form-control mb-3">' +
-      '<input placeholder="is_paid" type="number" id="is_paid" class="form-control mb-3">' +
-      '<input placeholder="client_id" type="number" id="client_id" class="form-control mb-3">' +
-      '<input placeholder="address_id" type="number" id="address_id" class="form-control mb-3">' +
-      '<input placeholder="order_status_id" type="number" id="order_status_id" class="form-control mb-3">' +
-      '<input placeholder="payment_type_id" type="number" id="payment_type_id" class="form-control mb-3">' +
-      '<input placeholder="coupon_id" type="number" id="coupon_id" class="form-control mb-3">' +
-      '<input placeholder="presentations_id" type="number" id="presentations_id" class="form-control mb-3">' +
-      '<input placeholder="presentations_quantity" type="number" id="presentations_quantity" class="form-control mb-3">',
+      '<input placeholder="Folio" type="text" id="folio" class="form-control mb-3">' +
+      '<input placeholder="Total" type="number" id="total" class="form-control mb-3">' +
+      '<input placeholder="Pagado" type="number" id="is_paid" class="form-control mb-3">' +
+      '<input placeholder="ID Cliente" type="number" id="client_id" class="form-control mb-3">' +
+      '<input placeholder="ID Direccion" type="number" id="address_id" class="form-control mb-3">' +
+      '<input placeholder="Estado Orden" type="number" id="order_status_id" class="form-control mb-3">' +
+      '<input placeholder="Tipo de Pago" type="number" id="payment_type_id" class="form-control mb-3">' +
+      '<input placeholder="ID Cupón" type="number" id="coupon_id" class="form-control mb-3">' +
+      '<input placeholder="ID Presentacion" type="number" id="presentations_id" class="form-control mb-3">' +
+      '<input placeholder="Cantidad de Presentaciones" type="number" id="presentations_quantity" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {

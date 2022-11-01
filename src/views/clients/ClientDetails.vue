@@ -122,7 +122,7 @@ getClient();
                         <div class="card-body">
                           <h5 class="card-title mb-3">Nivel {{ level.id }}</h5>
                           <p>{{ level.name }}</p>
-                          <p>Discount: {{ level.percentage_discount }} %</p>
+                          <p>Descuento: {{ level.percentage_discount }} %</p>
                         </div>
                       </div>
 
@@ -138,8 +138,7 @@ getClient();
                               <div>
                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4 text-white"><span class="counter-value"
                                     data-target="36894">{{ cantOrders.length }}</span></h4>
-                                <a href="#" class="text-decoration-underline text-white-50">View all
-                                  orders</a>
+                                <a href="#" class="text-decoration-underline text-white-50">Ver todas las ordenes</a>
                               </div>
                               <div class="avatar-sm flex-shrink-0">
                                 <span class="avatar-title bg-soft-light rounded fs-3 shadow">
@@ -241,8 +240,8 @@ getClient();
                                   <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal"
                                     id="create-btn" data-bs-target="#showModal"><i
                                       class="ri-add-line align-bottom me-1"></i> Agregar</button>
-                                  <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i
-                                      class="ri-delete-bin-2-line"></i></button>
+                                  <!-- <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i
+                                      class="ri-delete-bin-2-line"></i></button> -->
                                 </div>
                               </div>
 

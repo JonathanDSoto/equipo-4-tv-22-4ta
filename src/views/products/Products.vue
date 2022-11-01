@@ -11,6 +11,7 @@ let user = JSON.parse(localStorage.getItem('user'))
 const products = ref(null)
 const router = useRouter()
 
+
 Swal.fire({
   title: '',
   didOpen: () => {
@@ -20,13 +21,13 @@ Swal.fire({
 
 const edit = async (id) => {
   const editswal = await Swal.fire({
-    title: 'Edit',
+    title: 'Editar Producto',
     html:
       '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
       '<input placeholder="slug-name" type="text" id="slug" class="form-control mb-3">' +
       '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
       '<select placeholder="Marca" id="brand"  name="select" class="form-control mb-3"><option value="" disabled selected>Marca</option></select>' +
-      '<select placeholder="Categorie" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
+      '<select placeholder="Categoria" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
       '<select placeholder="Etiquetas" id="tag"  name="select" class="form-control mb-3"><option value="" disabled selected>Etiqueta</option></select>' +
       '<textarea rows="4" cols="50" placeholder="Caracteristicas" id="features" class="form-control mb-3">',
     showCancelButton: true,
@@ -38,7 +39,8 @@ const edit = async (id) => {
           'No puedes dejar espacios vacios.',
           'error'
         )
-      }else if(document.getElementById('brand').value=='')
+      }
+      else if(document.getElementById('brand').value=='')
       {
         swal.fire(
           'Error!',
@@ -253,7 +255,7 @@ const create = async () => {
       '<input placeholder="Slug" type="text" id="slug" class="form-control mb-3">' +
       '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
       '<select placeholder="Marca" id="brand"  name="select" class="form-control mb-3"><option value="" disabled selected>Marca</option></select>' +
-      '<select placeholder="Categorie" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
+      '<select placeholder="Categoria" id="categorie"  name="select" class="form-control mb-3"><option value="" disabled selected>Categoria</option></select>' +
       '<select placeholder="Etiqueta" id="tag"  name="select" class="form-control mb-3"><option value="" disabled selected>Etiqueta</option></select>' +
       '<textarea rows="4" cols="50" placeholder="Caracteristicas" id="features" class="form-control mb-3">',
     showCancelButton: true,

@@ -42,61 +42,71 @@ const createPresentation = async (id) => {
     title: 'Crear Producto',
     html:
       '<input placeholder="cover" type="file" accept="image/png,image/jpeg" id="cover" class="form-control mb-3">' +
-      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
-      '<input placeholder="code" type="text" id="code" class="form-control mb-3">' +
-      '<input placeholder="weight_in_grams" type="number" id="weight_in_grams" class="form-control mb-3">' +
-      '<input placeholder="stock" type="number" id="stock" class="form-control mb-3">' +
-      '<input placeholder="stock_min" type="number" id="stock_min" class="form-control mb-3">' +
-      '<input placeholder="stock_max" type="number" id="stock_max" class="form-control mb-3">' +
-      '<input placeholder="amount" type="number" id="amount" class="form-control mb-3">',
+      '<input placeholder="Descripcion" type="text" id="description" class="form-control mb-3">' +
+      '<input placeholder="Codigo" type="text" id="code" class="form-control mb-3">' +
+      '<input placeholder="Peso (gr)" type="number" id="weight_in_grams" class="form-control mb-3">' +
+      '<input placeholder="Stock" type="number" id="stock" class="form-control mb-3">' +
+      '<input placeholder="Stock minimo" type="number" id="stock_min" class="form-control mb-3">' +
+      '<input placeholder="Stock maximo" type="number" id="stock_max" class="form-control mb-3">' +
+      '<input placeholder="Precio" type="number" id="amount" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append('description', document.querySelector('#description').value);
-      data.append('code', document.querySelector('#code').value);
-      data.append('weight_in_grams', document.querySelector('#weight_in_grams').value);
-      data.append('status', 'active');
-      data.append('cover', document.querySelector('#cover').files[0]);
-      data.append('stock', document.querySelector('#stock').value);
-      data.append('stock_min', document.querySelector('#stock_min').value);
-      data.append('stock_max', document.querySelector('#stock_max').value);
-      data.append('product_id', id);
-      data.append('amount', document.querySelector('#amount').value);
-      data.append('action', 'createPresentation');
-      data.append('token', user.token);
+      if(document.getElementById('description').value=='' || document.getElementById('code').value=='' || document.getElementById('weight_in_grams').value=='' 
+      || document.getElementById('stock').value=='' || document.getElementById('stock_min').value=='' || document.getElementById('stock_max').value=='' 
+      || document.getElementById('amount').value=='' || document.getElementById('cover').value==''){
+        swal.fire(
+          'Error!',
+          'No puedes dejar espacios vacios',
+          'error'
+        )
+      }else{
 
-      let config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/PresentationsController.php',
-        data: data
-      };
+        let data = new FormData();
+        data.append('description', document.querySelector('#description').value);
+        data.append('code', document.querySelector('#code').value);
+        data.append('weight_in_grams', document.querySelector('#weight_in_grams').value);
+        data.append('status', 'active');
+        data.append('cover', document.querySelector('#cover').files[0]);
+        data.append('stock', document.querySelector('#stock').value);
+        data.append('stock_min', document.querySelector('#stock_min').value);
+        data.append('stock_max', document.querySelector('#stock_max').value);
+        data.append('product_id', id);
+        data.append('amount', document.querySelector('#amount').value);
+        data.append('action', 'createPresentation');
+        data.append('token', user.token);
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire(
-              'Creado',
-              response.data.message,
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-            set_Price(response.data.data.id, document.querySelector('#amount').value)
-          } else {
-            swal.fire(
-              'Error!',
-              response.data.message,
-              'error'
-            )
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/PresentationsController.php',
+          data: data
+        };
 
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Creado',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+              set_Price(response.data.data.id, document.querySelector('#amount').value)
+            } else {
+              swal.fire(
+                'Error!',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            //console.log(error);
+          });
+      }
     },
   })
 
@@ -140,7 +150,7 @@ const getProduct = () => {
 
     })
     .catch(function (error) {
-      console.log(error);
+      //console.log(error);
     });
 }
 getProduct()

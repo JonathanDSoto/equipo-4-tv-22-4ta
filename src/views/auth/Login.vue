@@ -21,7 +21,7 @@ const login = () => {
       'No puede dejar espacios vacios.',
       'error'
     )
-  } else if (!emailRegex.test(document.getElementById('email').value)) {
+  } else if (!emailRegex.test(mail.value)) {
     swal.fire(
       'Error!',
       'Formato de correo invalido.',
@@ -101,16 +101,14 @@ const login = () => {
                           </div>
                           <div class="carousel-inner text-center text-white pb-5">
                             <div class="carousel-item active">
-                              <p class="fs-15 fst-italic">"Great! Clean code, clean design, easy for customization.
-                                Thanks very much!"</p>
+                              <p class="fs-15 fst-italic">"El e-commerce con las mejores ofertas en internet!"</p>
                             </div>
                             <div class="carousel-item">
-                              <p class="fs-15 fst-italic">"The theme is really great with an amazing customer support."
+                              <p class="fs-15 fst-italic">"Contamos con los precios mas bajos."
                               </p>
                             </div>
                             <div class="carousel-item">
-                              <p class="fs-15 fst-italic">"Great! Clean code, clean design, easy for customization.
-                                Thanks very much!"</p>
+                              <p class="fs-15 fst-italic">"Recibe tu orden en menos de 24 horas!"</p>
                             </div>
                           </div>
                         </div>
@@ -124,33 +122,33 @@ const login = () => {
                 <div class="col-lg-6">
                   <div class="p-lg-5 p-4">
                     <div>
-                      <h5 class="text-primary">Welcome Back !</h5>
-                      <p class="text-muted">Sign in to continue to Velzon.</p>
+                      <h5 class="text-primary">Bienvenido!</h5>
+                      <p class="text-muted">Inicia sesión para continuar a Velzon.</p>
                     </div>
 
                     <div class="mt-4">
                       <form>
 
                         <div class="mb-3">
-                          <label for="username" class="form-label">Email</label>
+                          <label for="username" class="form-label">Correo Electrónico</label>
                           <input v-model="mail" type="email" class="form-control" id="username"
                             placeholder="Enter Email">
                         </div>
 
                         <div class="mb-3">
 
-                          <label class="form-label" for="password-input">Password</label>
+                          <label class="form-label" for="password-input">Contraseña</label>
                           <div class="position-relative auth-pass-inputgroup mb-3">
                             <input v-model="pass" type="password" class="form-control pe-5 password-input"
                               placeholder="Enter password" id="password-input">
-                            <button
-                              class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
-                              type="button" id="password-addon"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                <path
-                                  d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                              </svg></button>
+                                <!-- <button
+                                  class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
+                                  type="button" id="password-addon"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                    height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                    <path
+                                      d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                  </svg></button> -->
                           </div>
                         </div>
 
