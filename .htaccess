@@ -11,5 +11,6 @@ RewriteRule ^client$ app/ClientsController.php
 RewriteRule ^coupons$ app/CouponsController.php
 RewriteRule ^order$ app/OrdersController.php
 RewriteRule ^presentation$ app/PresentationsController.php
+RewriteRule ^products$ app/ProductsController.php
 RewriteRule ^tag$ app/TagsController.php
 RewriteRule ^user$ app/UsersController.php
