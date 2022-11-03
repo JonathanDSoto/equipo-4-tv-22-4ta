@@ -5,6 +5,12 @@ import { useRouter, RouterLink } from 'vue-router'
 import Nav from "../../components/Nav.vue";
 import Sidebar from "../../components/Sidebar.vue";
 
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
 
 let user = JSON.parse(localStorage.getItem('user'))
 const clients = ref(null)
@@ -25,64 +31,64 @@ const edit = async (id) => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      if(document.getElementById('name').value=='' || document.getElementById('email').value=='' || document.getElementById('phone_number').value=='' || document.getElementById('password').value=='' || document.getElementById('is_suscribed').value=='' || document.getElementById('level_id').value==''){
+      if (document.getElementById('name').value == '' || document.getElementById('email').value == '' || document.getElementById('phone_number').value == '' || document.getElementById('password').value == '' || document.getElementById('is_suscribed').value == '' || document.getElementById('level_id').value == '') {
         swal.fire(
-              'Error!',
-              'No puede dejar campos vacios.',
-              'error'
-            )
-      }else if(document.getElementById('password').value.length <8){
+          'Error!',
+          'No puede dejar campos vacios.',
+          'error'
+        )
+      } else if (document.getElementById('password').value.length < 8) {
         swal.fire(
           'Error!',
           'La contraseña debe contener 8 digitos o más.',
           'error'
         )
-      }else if(document.getElementById('phone_number').value.includes('e') || document.getElementById('phone_number').value.includes('E')){
+      } else if (document.getElementById('phone_number').value.includes('e') || document.getElementById('phone_number').value.includes('E')) {
         swal.fire(
           'Error!',
           'El numero de telefono no puede contener letras.',
           'error'
         )
-      }else if(document.getElementById('level_id').value.includes('e') || document.getElementById('level_id').value.includes('E') || document.getElementById('level_id').value.length <1 || document.getElementById('level_id').value.length >3){
+      } else if (document.getElementById('level_id').value.includes('e') || document.getElementById('level_id').value.includes('E') || document.getElementById('level_id').value.length < 1 || document.getElementById('level_id').value.length > 3) {
         swal.fire(
           'Error!',
           'El id del nivel de cliente tiene que ser un numero.',
           'error'
         )
-      }else if(document.getElementById('is_suscribed').value.includes('e') || document.getElementById('is_suscribed').value.includes('E') || document.getElementById('is_suscribed').value.length >1|| document.getElementById('is_suscribed').value.length <0){
+      } else if (document.getElementById('is_suscribed').value.includes('e') || document.getElementById('is_suscribed').value.includes('E') || document.getElementById('is_suscribed').value.length > 1 || document.getElementById('is_suscribed').value.length < 0) {
         swal.fire(
           'Error!',
           'El estado de suscripcion del cliente solo puede ser 1 o 0 .',
           'error'
         )
-      }else if(!document.getElementById('phone_number').value.length == 10 ){
+      } else if (!document.getElementById('phone_number').value.length == 10) {
         swal.fire(
           'Error!',
           'El numero de telefono debe constar de 10 digitos.',
           'error'
         )
       }
-      else if(!letras.test(document.getElementById('name').value)){
+      else if (!letras.test(document.getElementById('name').value)) {
         swal.fire(
           'Error!',
           'El nombre solo puede contener letras y espacio.',
           'error'
         )
       }
-      else if(!letras.test(document.getElementById('lastname').value)){
+      else if (!letras.test(document.getElementById('lastname').value)) {
         swal.fire(
           'Error!',
           'El apellido(s) solo puede contener letras y espacio.',
           'error'
         )
       }
-      else if(!emailRegex.test(document.getElementById('email').value)){
+      else if (!emailRegex.test(document.getElementById('email').value)) {
         swal.fire(
           'Error!',
           'Formato de correo invalido.',
           'error'
         )
-      }else{
+      } else {
         var data = new FormData();
         data.append('name', document.getElementById('name').value);
         data.append('email', document.getElementById('email').value);
@@ -206,95 +212,95 @@ const create = async () => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      if(document.getElementById('name').value=='' || document.getElementById('email').value=='' || document.getElementById('phone_number').value=='' || document.getElementById('password').value=='' || document.getElementById('is_suscribed').value=='' || document.getElementById('level_id').value==''){
+      if (document.getElementById('name').value == '' || document.getElementById('email').value == '' || document.getElementById('phone_number').value == '' || document.getElementById('password').value == '' || document.getElementById('is_suscribed').value == '' || document.getElementById('level_id').value == '') {
         swal.fire(
           'Error!',
           'No puede dejar campos vacios.',
           'error'
         )
-      }else if(document.getElementById('name').value.includes('1') || document.getElementById('name').value.includes('2') || document.getElementById('name').value.includes('3') || document.getElementById('name').value.includes('4') || document.getElementById('name').value.includes('5') || document.getElementById('name').value.includes('6') || document.getElementById('name').value.includes('7') || document.getElementById('name').value.includes('8') || document.getElementById('name').value.includes('9') || document.getElementById('name').value.includes('0') ){
+      } else if (document.getElementById('name').value.includes('1') || document.getElementById('name').value.includes('2') || document.getElementById('name').value.includes('3') || document.getElementById('name').value.includes('4') || document.getElementById('name').value.includes('5') || document.getElementById('name').value.includes('6') || document.getElementById('name').value.includes('7') || document.getElementById('name').value.includes('8') || document.getElementById('name').value.includes('9') || document.getElementById('name').value.includes('0')) {
         swal.fire(
           'Error!',
           'El nombre del cliente no puede contener numeros.',
           'error'
         )
-      }else if(document.getElementById('password').value.length <8){
+      } else if (document.getElementById('password').value.length < 8) {
         swal.fire(
           'Error!',
           'La contraseña debe contener 8 digitos o más.',
           'error'
         )
-      }else if(document.getElementById('phone_number').value.includes('e') || document.getElementById('phone_number').value.includes('E')){
+      } else if (document.getElementById('phone_number').value.includes('e') || document.getElementById('phone_number').value.includes('E')) {
         swal.fire(
           'Error!',
           'El numero de telefono no puede contener letras.',
           'error'
         )
-      }else if(document.getElementById('level_id').value.includes('e') || document.getElementById('level_id').value.includes('E') || document.getElementById('level_id').value.length <1 || document.getElementById('level_id').value.length >3){
+      } else if (document.getElementById('level_id').value.includes('e') || document.getElementById('level_id').value.includes('E') || document.getElementById('level_id').value.length < 1 || document.getElementById('level_id').value.length > 3) {
         swal.fire(
           'Error!',
           'El id del nivel de cliente tiene que ser un numero.',
           'error'
         )
-      }else if(document.getElementById('is_suscribed').value.includes('e') || document.getElementById('is_suscribed').value.includes('E') || document.getElementById('is_suscribed').value.length >1|| document.getElementById('is_suscribed').value.length <0){
+      } else if (document.getElementById('is_suscribed').value.includes('e') || document.getElementById('is_suscribed').value.includes('E') || document.getElementById('is_suscribed').value.length > 1 || document.getElementById('is_suscribed').value.length < 0) {
         swal.fire(
           'Error!',
           'El estado de suscripcion del cliente solo puede ser 1 o 0 .',
           'error'
         )
-      }else if(!document.getElementById('phone_number').value.length == 10 ){
+      } else if (!document.getElementById('phone_number').value.length == 10) {
         swal.fire(
           'Error!',
           'El numero de telefono debe constar de 10 digitos.',
           'error'
         )
-      }else if(!emailRegex.test(document.getElementById('email').value)){
+      } else if (!emailRegex.test(document.getElementById('email').value)) {
         swal.fire(
           'Error!',
           'Formato de correo invalido.',
           'error'
         )
-      }else{
+      } else {
         var data = new FormData();
-      data.append('name', document.getElementById('name').value);
-      data.append('email', document.getElementById('email').value);
-      data.append('password', document.getElementById('password').value);
-      data.append('phone_number', document.getElementById('phone_number').value);
-      data.append('action', 'createClient');
-      data.append('token', user.token);
-      data.append('is_suscribed', document.getElementById('is_suscribed').value);
-      data.append('level_id', document.getElementById('level_id').value);
+        data.append('name', document.getElementById('name').value);
+        data.append('email', document.getElementById('email').value);
+        data.append('password', document.getElementById('password').value);
+        data.append('phone_number', document.getElementById('phone_number').value);
+        data.append('action', 'createClient');
+        data.append('token', user.token);
+        data.append('is_suscribed', document.getElementById('is_suscribed').value);
+        data.append('level_id', document.getElementById('level_id').value);
 
-      var config = {
-        method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
-        data: data
-      };
+        var config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
+          data: data
+        };
 
-      return axios(config)
-        .then(function (response) {
-          if (response.data.data) {
-            swal.fire(
-              'Creado',
-              'El cliente ha sido Creado.',
-              'success'
-            ).then((result) => {
-              if (result.isConfirmed) {
-                router.go(0)
-              }
-            })
-          } else {
-            swal.fire(
-              'Error!',
-              'El cliente no ha sido Creado.',
-              'error'
-            )
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      }  
+        return axios(config)
+          .then(function (response) {
+            if (response.data.data) {
+              swal.fire(
+                'Creado',
+                'El cliente ha sido Creado.',
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+            } else {
+              swal.fire(
+                'Error!',
+                'El cliente no ha sido Creado.',
+                'error'
+              )
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     }
   })
   console.log(createswal)
@@ -324,6 +330,7 @@ const getClients = () => {
   axios(config)
     .then((response) => {
       clients.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);

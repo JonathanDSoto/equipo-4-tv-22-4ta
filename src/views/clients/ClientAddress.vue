@@ -9,6 +9,13 @@ let user = JSON.parse(localStorage.getItem('user'))
 const address = ref(null)
 const route = useRoute()
 
+Swal.fire({
+  title: '',
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
+
 const getAddress = () => {
   var data = new FormData();
   data.append('action', 'getAddress');
@@ -24,6 +31,7 @@ const getAddress = () => {
   axios(config)
     .then((response) => {
       address.value = response.data.data
+      Swal.close()
     })
     .catch(function (error) {
       console.log(error);

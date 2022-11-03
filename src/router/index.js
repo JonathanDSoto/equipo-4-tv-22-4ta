@@ -80,7 +80,7 @@ const router = createRouter({
       component: () => import("../views/coupons/Coupons.vue"),
     },
     {
-      path: "/error",
+      path: "/:pathMatch(.*)*",
       name: "error",
       component: () => import("../views/Error.vue"),
     },
