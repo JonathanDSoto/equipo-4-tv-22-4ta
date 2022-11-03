@@ -252,7 +252,7 @@ const getProduct = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/products',
     data: data
   };
 

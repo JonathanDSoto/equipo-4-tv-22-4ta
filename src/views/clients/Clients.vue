@@ -95,7 +95,7 @@ const edit = async (id) => {
 
         var config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/client',
           data: data
         };
 
@@ -150,7 +150,7 @@ const deleteElement = async (id) => {
 
       var config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/client',
         data: data
       };
 
@@ -266,7 +266,7 @@ const create = async () => {
 
         var config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/client',
           data: data
         };
 
@@ -316,7 +316,7 @@ const getClients = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/client',
     data: data
   };
 

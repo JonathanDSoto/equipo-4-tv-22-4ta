@@ -27,7 +27,7 @@ const getPresentation = () => {
 
   let config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/app/PresentationsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/presentation',
     data: data
   };
 

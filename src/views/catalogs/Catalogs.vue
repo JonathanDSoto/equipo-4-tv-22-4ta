@@ -99,7 +99,7 @@ const deletecategories = async (id) => {
 
       let config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/categorie',
         data: data
       };
 
@@ -143,9 +143,9 @@ const createcategories = async () => {
   const createswal = await Swal.fire({
     title: 'Crear categoria',
     html:
-      '<input placeholder="name" type="text" id="name" class="form-control mb-3">' +
-      '<input placeholder="description" type="text" id="description" class="form-control mb-3">' +
-      '<input placeholder="slug" type="text" id="slug" class="form-control mb-3">',
+    '<input placeholder="Nombre" type="text" id="name" class="form-control mb-3">' +
+      '<input placeholder="Descripción" type="text" id="description" class="form-control mb-3">' +
+      '<input placeholder="Slug" type="text" id="slug" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
@@ -166,7 +166,7 @@ const createcategories = async () => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/categorie',
           data: data
         };
 
@@ -233,7 +233,7 @@ const createbrands = async () => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/brand',
           data: data
         };
 
@@ -286,7 +286,7 @@ const deletebrands = async (id) => {
 
       let config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/brand',
         data: data
       };
 
@@ -352,7 +352,7 @@ const editbrands = async (id) => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/brand',
           data: data
         };
 
@@ -420,7 +420,7 @@ const createtags = async () => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/tag',
           data: data
         };
 
@@ -473,7 +473,7 @@ const deletetags = async (id) => {
 
       let config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/tag',
         data: data
       };
 
@@ -539,7 +539,7 @@ const edittags = async (id) => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/tag',
           data: data
         };
 
@@ -595,7 +595,7 @@ const getcategories = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/categorie',
     data: data
   };
 
@@ -623,7 +623,7 @@ const getbrands = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com//app/BrandsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/brand',
     data: data
   };
 
@@ -651,7 +651,7 @@ const getTags = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com//app/TagsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/tag',
     data: data
   };
 

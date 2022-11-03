@@ -24,7 +24,7 @@ const getCoupons = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/coupons',
     data: data
   }
 
@@ -121,7 +121,7 @@ const edit = async (id) => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/coupons',
           data: data
         }
 
@@ -297,7 +297,7 @@ const create = async () => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/CouponsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/coupons',
           data: data
         }
 

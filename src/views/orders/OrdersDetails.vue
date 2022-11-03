@@ -26,7 +26,7 @@ const getOrder = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/order',
     data: data
   };
 

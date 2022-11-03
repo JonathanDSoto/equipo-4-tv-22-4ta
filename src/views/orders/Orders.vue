@@ -46,7 +46,7 @@ const edit = async (id) => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/order',
           data: data
         };
 
@@ -239,7 +239,7 @@ const create = async () => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/order',
           data: data
         };
 
@@ -288,7 +288,7 @@ const getOrders = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/app/OrdersController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/order',
     data: data
   };
 

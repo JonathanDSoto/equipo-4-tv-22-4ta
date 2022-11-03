@@ -94,7 +94,7 @@ const edit = async (id) => {
         console.log(typeof document.getElementById('email').value)
         var config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/UsersController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/user',
           data: data
         };
 
@@ -149,7 +149,7 @@ const deleteElement = async (id) => {
 
       var config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/user',
         data: data
       };
 
@@ -260,7 +260,7 @@ const create = async () => {
         data.append('token', user.token);
         var config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/user',
           data: data
         };
 
@@ -308,7 +308,7 @@ const getAllusers = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/user',
     data: data
   }
 

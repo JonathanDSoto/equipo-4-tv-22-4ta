@@ -76,7 +76,7 @@ const edit = async (id) => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/products',
           data: data
         };
 
@@ -114,7 +114,7 @@ const edit = async (id) => {
       data.append('token', user.token);
       var config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/brand',
         data: data
       };
       axios(config)
@@ -137,7 +137,7 @@ const edit = async (id) => {
 
       config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/categorie',
         data: data
       };
 
@@ -161,7 +161,7 @@ const edit = async (id) => {
 
       config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/tag',
         data: data
       };
 
@@ -205,7 +205,7 @@ const deleteElement = async (id) => {
 
       let config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/products',
         data: data
       };
 
@@ -303,7 +303,7 @@ const create = async () => {
 
         var config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/products',
           data: data
         };
 
@@ -342,7 +342,7 @@ const create = async () => {
       data.append('token', user.token);
       var config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/BrandsController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/brand',
         data: data
       };
       axios(config)
@@ -365,7 +365,7 @@ const create = async () => {
 
       config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/CategoriesController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/categorie',
         data: data
       };
 
@@ -389,7 +389,7 @@ const create = async () => {
 
       config = {
         method: 'post',
-        url: 'https://ecommerce-app-0a.herokuapp.com/app/TagsController.php',
+        url: 'https://ecommerce-app-0a.herokuapp.com/tag',
         data: data
       };
 
@@ -427,7 +427,7 @@ const getProducts = () => {
 
   var config = {
     method: 'post',
-    url: 'https://ecommerce-app-0a.herokuapp.com/app/ProductsController.php',
+    url: 'https://ecommerce-app-0a.herokuapp.com/products',
     data: data
   };
 

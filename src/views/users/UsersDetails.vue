@@ -123,7 +123,7 @@ getUser()
                         <!--end col-->
                         <div class="col-lg-6">
                           <div class="mb-3">
-                            <label for="phonenumberInput" class="form-label">Teléfono</label>
+                            <label for="phonenumberInput" class="form-label ">Teléfono</label>
                             <input type="text" class="form-control" id="phonenumberInput" placeholder="Teléfono"
                               disabled>
                           </div>
