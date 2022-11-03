@@ -36,6 +36,86 @@ const set_Price = async (id, amount) => {
     });
 
 }
+const edit = async (id,presId) => {
+  const editswal = await Swal.fire({
+    title: "Editar Presentacion",
+    html:
+      '<input placeholder="Descripcion" type="text" id="description" class="form-control mb-3">' +
+      '<input placeholder="Codigo" type="text" id="code" class="form-control mb-3">' +
+      '<input placeholder="Peso (gr)" type="number" id="weight_in_grams" class="form-control mb-3">' +
+      '<input placeholder="Stock" type="number" id="stock" class="form-control mb-3">' +
+      '<input placeholder="Stock minimo" type="number" id="stock_min" class="form-control mb-3">' +
+      '<input placeholder="Stock maximo" type="number" id="stock_max" class="form-control mb-3">' +
+      '<input placeholder="Precio" type="number" id="amount" class="form-control mb-3">',
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      if(document.querySelector('#description').value=='' || document.querySelector('#code').value=='' || document.querySelector('#weight_in_grams').value=='' 
+      || document.querySelector('#stock').value=='' || document.querySelector('#stock_min').value=='' || document.querySelector('#stock_max').value=='' 
+      || document.querySelector('#amount').value=='' ){
+        swal.fire(
+          'Error!',
+          'No puedes dejar espacios vacios',
+          'error'
+        )
+      }else{
+
+        let data = new FormData();
+        data.append('description', document.querySelector('#description').value);
+        data.append('code', document.querySelector('#code').value);
+        data.append('weight_in_grams', document.querySelector('#weight_in_grams').value);
+        data.append('status', 'active');
+        data.append('stock', document.querySelector('#stock').value);
+        data.append('stock_min', document.querySelector('#stock_min').value);
+        data.append('stock_max', document.querySelector('#stock_max').value);
+        data.append('product_id', id);
+        data.append('id',presId);
+        data.append('amount', document.querySelector('#amount').value);
+        data.append('action', 'updatePresentation');
+        data.append('token', user.token);
+
+        let config = {
+          method: 'post',
+          url: 'https://ecommerce-app-0a.herokuapp.com/app/PresentationsController.php',
+          data: data
+        };
+
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire(
+                'Editado',
+                response.data.message,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0)
+                }
+              })
+              set_Price(response.data.data.id, document.querySelector('#amount').value)
+            } else {
+              swal.fire(
+                'Error!',
+                response.data.message,
+                'error'
+              )
+            }
+          })
+          .catch((error) => {
+            //console.log(error);
+          });
+      }
+    },
+  });
+
+  if (!editswal.isConfirmed) {
+    editswal = await swal.fire(
+      "Cancelado",
+      "El registro no ha sido actualizado.",
+      "error"
+    );
+  }
+};
 
 const createPresentation = async (id) => {
   const createswal = await Swal.fire({
@@ -118,6 +198,51 @@ const createPresentation = async (id) => {
     )
   }
 }
+const deletePresentation = async (id) => {
+  const deleteswal = await Swal.fire({
+    title: "Estas Seguro que quieres eliminarlo",
+    icon: "error",
+    showCancelButton: true,
+    focusConfirm: false,
+    preConfirm: () => {
+      let data = new FormData();
+      data.append("action", "deletePresentation");
+      data.append("token", user.token);
+      data.append("id", id);
+
+      let config = {
+        method: "post",
+        url: "https://ecommerce-app-0a.herokuapp.com/app/PresentationsController.php",
+        data: data,
+      };
+
+      axios(config)
+        .then((response) => {
+          if (response.data.code === 2) {
+            swal.fire("Eliminado", response.data.message, "success").then((result) => {
+              if (result.isConfirmed) {
+                router.go(0);
+              }
+            });
+          } else {
+            swal.fire("Error!", response.data.message, "error");
+          }
+        })
+        .catch((error) => {
+          //console.log(error);
+        });
+    },
+  });
+  console.log(deleteswal);
+
+  if (!deleteswal.isConfirmed) {
+    deleteswal = await swal.fire(
+      "Cancelado",
+      "El registro no ha sido Eliminado.",
+      "error"
+    );
+  }
+};
 
 const getProduct = () => {
   var data = new FormData();
@@ -189,16 +314,7 @@ getProduct()
             <div class="card">
               <div class="card-body">
                 <div class="row gx-lg-5">
-                  <div class="d-flex">
-                    <div class="ms-auto">
-                      <button @click="createPresentation(product.id)" class="btn btn-success add-btn">
-                        <i class="ri-add-line align-bottom me-1"></i>
-                        Agregar
-                      </button>
-                    </div>
-                  </div>
-
-
+                  
                   <div class="col mx-auto">
                     <div class="">
 
@@ -303,20 +419,7 @@ getProduct()
 
                     </div>
                     <!-- PRESENTACIONES -->
-                    <div v-if="product.presentations[0]" class="mt-5">
-
-                      <h5 class="fs-14 mb-3">Presentaciones :</h5>
-
-                      <div id="carouselExampleFade" class="container-fluid " data-bs-ride="carousel">
-                        <div class="d-flex overflow-auto">
-                          <div v-for="presentation in product.presentations" :key="presentation" class="w-25">
-                            <RouterLink :to="{ path: '/products/presentation/' + presentation.id }">
-                              <img :src="product.cover" class="w-100" :alt="product.slug">
-                            </RouterLink>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    
                   </div>
                   <!-- end col -->
 
@@ -336,9 +439,87 @@ getProduct()
 
             </div>
             <!-- end card -->
+            <!-- <div v-if="product.presentations[0]" class="mt-5">
 
+              
+            </div> -->
+            <!--Tabla presentations-->
+            <div class="d-flex">
+              <div class="ms-auto">
+                <h5 class="fs-14 mb-3">Presentaciones :</h5>
+                <button @click="createPresentation(product.id)" class="btn btn-success add-btn">
+                    <i class="ri-add-line align-bottom me-1"></i>
+                    Agregar
+                </button>
+              </div>
+            </div>
+            
+            <div class="table-responsive table-card mt-3 mb-1" >
+                    <table class="table align-middle table-nowrap" id="customerTable">
+                      <thead class="table-light">
+                        <tr>
+                          <th class="" data-sort="id">ID</th>
+                          <th class="" data-sort="name">Nombre</th>
+                          <th class="" data-sort="description">Descripción</th>
+                          <th class="" data-sort="action">Action</th>
+                
+                        </tr>
+                      </thead>
+                      <tbody class="list form-check-all" >
+                        
+                        <tr v-if="product.presentations[0]" v-for="presentation in product.presentations"
+                          :key="presentation.id">
+                          <td class="id">{{ presentation.id }}</td>
 
+                          <td>
+                            <div class="d-flex align-items-center">
+                              <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm bg-light rounded p-1">
+                                  <img :src="product.cover" alt="no img" class="img-fluid d-block">
+                                </div>
+                              </div>
+                              <div class="flex-grow-1">
+                                <h5 class="fs-14 mb-1">
+                                  <RouterLink :to="{ path: '/products/presentation/' + presentation.id }" class="text-dark">
+                                   {{ presentation.code}}
+                                </RouterLink>
+                                </h5>
+                                
+                              </div>
+                            </div>
 
+                          </td>
+
+                          <td class="description text-break col-md-3 " v-if="presentation.description"> {{ presentation.description
+                          }}
+                          </td>
+
+                          <td>
+                            <div class="d-flex gap-2">
+                              <div class="edit">
+                                <a href="details.php">
+                                  <RouterLink :to="{ path: '/products/presentation/' + presentation.id }"
+                                    class="btn btn-sm btn-primary edit-item-btn">Ver</RouterLink>
+                                </a>
+
+                              </div>
+                              <div class="edit">
+                                <button @click="edit(product.id,presentation.id)"
+                                  class="btn btn-sm btn-warning edit-item-btn"
+                                >Editar
+                                </button>
+                              </div>
+                              <div class="remove">
+                                <button @click="deletePresentation(presentation.id)"
+                                  class="btn btn-sm btn-danger remove-item-btn">Eliminar</button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
             <!-- TABLA -->
 
             <div v-if="product.presentations[0]" class="card mt-5" id="orderList">
