@@ -444,82 +444,94 @@ getProduct()
               
             </div> -->
             <!--Tabla presentations-->
-            <div class="d-flex">
-              <div class="ms-auto">
-                <h5 class="fs-14 mb-3">Presentaciones :</h5>
-                <button @click="createPresentation(product.id)" class="btn btn-success add-btn">
+            
+            <div class="card">
+              <div class="card-header border-0">
+                <div class="d-flex align-items-center">
+                  <h5 class="card-title mb-0 flex-grow-1">Presentaciones :</h5>
+                  <button @click="createPresentation(product.id)" class="btn btn-success add-btn">
                     <i class="ri-add-line align-bottom me-1"></i>
                     Agregar
-                </button>
+                  </button>
+                </div>
               </div>
             </div>
-            
-            <div class="table-responsive table-card mt-3 mb-1" >
-                    <table class="table align-middle table-nowrap" id="customerTable">
-                      <thead class="table-light">
-                        <tr>
-                          <th class="" data-sort="id">ID</th>
-                          <th class="" data-sort="name">Nombre</th>
-                          <th class="" data-sort="description">Descripción</th>
-                          <th class="" data-sort="action">Action</th>
-                
-                        </tr>
-                      </thead>
-                      <tbody class="list form-check-all" >
-                        
-                        <tr v-if="product.presentations[0]" v-for="presentation in product.presentations"
-                          :key="presentation.id">
-                          <td class="id">{{ presentation.id }}</td>
 
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <div class="flex-shrink-0 me-3">
-                                <div class="avatar-sm bg-light rounded p-1">
-                                  <img :src="product.cover" alt="no img" class="img-fluid d-block">
+            <div class="card-body">
+              <div v-if="product.presentations[0]" id="presentationList">
+              <div class="table-responsive table-card mt-3 mb-1" >
+                      <table class="table align-middle table-nowrap" id="customerTable">
+                        <thead class="table-light">
+                          <tr>
+                            <th class="" data-sort="id">ID</th>
+                            <th class="" data-sort="code">Codigo</th>
+                            <th class="" data-sort="description">Descripción</th>
+                            <th class="" data-sort="action">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody class="list form-check-all" >
+                          
+                          <tr v-for="presentation in product.presentations"
+                            :key="presentation.id">
+                            <td class="id">{{ presentation.id }}</td>
+
+                            <td>
+                              <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-3">
+                                  <div class="avatar-sm bg-light rounded p-1">
+                                    <img :src="product.cover" alt="" class="img-fluid d-block">
+                                  </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                  <h5 class="fs-14 mb-1">
+                                    <RouterLink :to="{ path: '/products/presentation/' + presentation.id }" class="text-dark">
+                                    {{ presentation.code}}
+                                  </RouterLink>
+                                  </h5>
+                                  
                                 </div>
                               </div>
-                              <div class="flex-grow-1">
-                                <h5 class="fs-14 mb-1">
-                                  <RouterLink :to="{ path: '/products/presentation/' + presentation.id }" class="text-dark">
-                                   {{ presentation.code}}
-                                </RouterLink>
-                                </h5>
-                                
+
+                            </td>
+
+                            <td class="description text-break col-md-3 " v-if="presentation.description"> {{ presentation.description
+                            }}
+                            </td>
+
+                            <td>
+                              <div class="d-flex gap-2">
+                                <div class="edit">
+                                  <a>
+                                    <RouterLink :to="{ path: '/products/presentation/' + presentation.id }"
+                                      class="btn btn-sm btn-primary edit-item-btn">Ver</RouterLink>
+                                  </a>
+
+                                </div>
+                                <div class="edit">
+                                  <button @click="edit(product.id,presentation.id)"
+                                    class="btn btn-sm btn-warning edit-item-btn"
+                                  >Editar
+                                  </button>
+                                </div>
+                                <div class="remove">
+                                  <button @click="deletePresentation(presentation.id)"
+                                    class="btn btn-sm btn-danger remove-item-btn">Eliminar</button>
+                                </div>
                               </div>
-                            </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
 
-                          </td>
-
-                          <td class="description text-break col-md-3 " v-if="presentation.description"> {{ presentation.description
-                          }}
-                          </td>
-
-                          <td>
-                            <div class="d-flex gap-2">
-                              <div class="edit">
-                                <a href="details.php">
-                                  <RouterLink :to="{ path: '/products/presentation/' + presentation.id }"
-                                    class="btn btn-sm btn-primary edit-item-btn">Ver</RouterLink>
-                                </a>
-
-                              </div>
-                              <div class="edit">
-                                <button @click="edit(product.id,presentation.id)"
-                                  class="btn btn-sm btn-warning edit-item-btn"
-                                >Editar
-                                </button>
-                              </div>
-                              <div class="remove">
-                                <button @click="deletePresentation(presentation.id)"
-                                  class="btn btn-sm btn-danger remove-item-btn">Eliminar</button>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-
+                    </div>
                   </div>
+
+                  <div v-else class="mb-5">
+                      <h3>No hay Presentaciones</h3>
+                  </div>
+                </div>
+
+                
             <!-- TABLA -->
 
             <div v-if="product.presentations[0]" class="card mt-5" id="orderList">
