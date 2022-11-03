@@ -28,9 +28,10 @@ if (isset($_POST['action'])) {
       $stock_min = strip_tags($_POST['stock_min']);
       $stock_max = strip_tags($_POST['stock_max']);
       $product_id = strip_tags($_POST['product_id']);
+      $amount = strip_tags($_POST['amount']);
 
       $presentationsController = new PresentationsController();
-      $presentationsController->createPresentation($description, $code, $weight_in_grams, $stock, $stock_min, $stock_max, $product_id, $token);
+      $presentationsController->createPresentation($description, $code, $weight_in_grams, $stock, $stock_min, $stock_max, $product_id, $amount, $token);
       break;
     case 'updatePresentation':
       $token = strip_tags($_POST['token']);
@@ -116,7 +117,7 @@ class PresentationsController
     echo $response;
   }
 
-  public function createPresentation($description, $code, $weight_in_grams, $stock, $stock_min, $stock_max, $product_id, $token)
+  public function createPresentation($description, $code, $weight_in_grams, $stock, $stock_min, $stock_max, $product_id,  $amount, $token)
   {
     $curl = curl_init();
 
@@ -138,7 +139,8 @@ class PresentationsController
         'stock' => $stock,
         'stock_min' => $stock_min,
         'stock_max' => $stock_max,
-        'product_id' => $product_id
+        'product_id' => $product_id,
+        'amount' =>  $amount
       ),
       CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer ' . $token
