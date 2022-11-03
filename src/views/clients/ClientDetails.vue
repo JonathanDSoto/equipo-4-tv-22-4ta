@@ -8,6 +8,8 @@ import Sidebar from "../../components/Sidebar.vue";
 let user = JSON.parse(localStorage.getItem("user"));
 const route = useRoute();
 const router = useRouter();
+let cpRegex = /^(?:0?[1-9]|[1-4]\d|5[0-2])\d{3}$/;
+let nameRegex = /^[A-Za-zÑñ ]+$/i;
 
 Swal.fire({
   title: "",
@@ -35,7 +37,7 @@ const deleteElement = async (id) => {
 
       let config = {
         method: "post",
-        url: "https://ecommerce-app-0a.herokuapp.com/app/AddressController.php",
+        url: "https://ecommerce-app-0a.herokuapp.com/adress",
         data: data,
       };
 
@@ -71,54 +73,89 @@ const edit = async (id, client_id) => {
   const editswal = await Swal.fire({
     title: "Editar Direccion",
     html:
-      '<input placeholder="first_name" type="text" id="first_name" class="form-control mb-3">' +
-      '<input placeholder="last_name" type="text" id="last_name" class="form-control mb-3">' +
-      '<input placeholder="street_and_use_number" type="text" id="street_and_use_number" class="form-control mb-3">' +
-      '<input placeholder="postal_code" type="number" id="postal_code" class="form-control mb-3">' +
-      '<input placeholder="city" type="text" id="city" class="form-control mb-3">' +
-      '<input placeholder="province" type="text" id="province" class="form-control mb-3">' +
-      '<input placeholder="phone_number" type="number" id="phone_number" class="form-control mb-3">',
+      '<input placeholder="Nombre(s)" type="text" id="first_name" class="form-control mb-3">' +
+      '<input placeholder="Apellido" type="text" id="last_name" class="form-control mb-3">' +
+      '<input placeholder="Calle y número" type="text" id="street_and_use_number" class="form-control mb-3">' +
+      '<input placeholder="Código Postal" type="number" id="postal_code" class="form-control mb-3">' +
+      '<input placeholder="Ciudad" type="text" id="city" class="form-control mb-3">' +
+      '<input placeholder="Provincia" type="text" id="province" class="form-control mb-3">' +
+      '<input placeholder="Número Telefonico" type="number" id="phone_number" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append("action", "updateAddress");
-      data.append("token", user.token);
-      data.append("first_name", document.querySelector("#first_name").value);
-      data.append("last_name", document.querySelector("#last_name").value);
-      data.append(
-        "street_and_use_number",
-        document.querySelector("#street_and_use_number").value
-      );
-      data.append("postal_code", document.querySelector("#postal_code").value);
-      data.append("city", document.querySelector("#city").value);
-      data.append("province", document.querySelector("#province").value);
-      data.append("phone_number", document.querySelector("#phone_number").value);
-      data.append("is_billing_address", "1");
-      data.append("id", id);
-      data.append("client_id", client_id);
+      if(document.getElementById('first_name').value=='' || document.getElementById('last_name').value=='' || document.getElementById('street_and_use_number').value=='' 
+      || document.getElementById('postal_code').value=='' || document.getElementById('city').value=='' || document.getElementById('province').value=='' 
+      || document.getElementById('phone_number').value==''){
+        swal.fire(
+          'Error!',
+          'No puedes dejar espacios vacios',
+          'error'
+        )
+      }else if(!cpRegex.test(document.getElementById('postal_code').value)){
+        swal.fire(
+          'Error!',
+          'El formato de codigo postal es incorrecto',
+          'error'
+        )
+      }else if (!document.getElementById('phone_number').value.length == 10) {
+        swal.fire(
+          'Error!',
+          'El numero de telefono debe constar de 10 digitos.',
+          'error'
+        )
+      }else if (!nameRegex.test(document.getElementById('first_name').value)) {
+        swal.fire(
+          'Error!',
+          'El nombre del cliente solo puede contener letras.',
+          'error'
+        )
+      }
+      else if (!nameRegex.test(document.getElementById('last_name').value)) {
+        swal.fire(
+          'Error!',
+          'El apellido del cliente solo puede contener letras.',
+          'error'
+        )
+      }else{
+        let data = new FormData();
+        data.append("action", "updateAddress");
+        data.append("token", user.token);
+        data.append("first_name", document.querySelector("#first_name").value);
+        data.append("last_name", document.querySelector("#last_name").value);
+        data.append(
+          "street_and_use_number",
+          document.querySelector("#street_and_use_number").value
+        );
+        data.append("postal_code", document.querySelector("#postal_code").value);
+        data.append("city", document.querySelector("#city").value);
+        data.append("province", document.querySelector("#province").value);
+        data.append("phone_number", document.querySelector("#phone_number").value);
+        data.append("is_billing_address", "1");
+        data.append("id", id);
+        data.append("client_id", client_id);
 
-      let config = {
-        method: "post",
-        url: "https://ecommerce-app-0a.herokuapp.com/app/AddressController.php",
-        data: data,
-      };
+        let config = {
+          method: "post",
+          url: "https://ecommerce-app-0a.herokuapp.com/adress",
+          data: data,
+        };
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire("Creado", response.data.message, "success").then((result) => {
-              if (result.isConfirmed) {
-                router.go(0);
-              }
-            });
-          } else {
-            swal.fire("Error", response.data.message, "error");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire("Creado", response.data.message, "success").then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0);
+                }
+              });
+            } else {
+              swal.fire("Error", response.data.message, "error");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   });
 
@@ -135,53 +172,88 @@ const create = async (id) => {
   const editswal = await Swal.fire({
     title: "Crear Direccion",
     html:
-      '<input placeholder="first_name" type="text" id="first_name" class="form-control mb-3">' +
-      '<input placeholder="last_name" type="text" id="last_name" class="form-control mb-3">' +
-      '<input placeholder="street_and_use_number" type="text" id="street_and_use_number" class="form-control mb-3">' +
-      '<input placeholder="postal_code" type="number" id="postal_code" class="form-control mb-3">' +
-      '<input placeholder="city" type="text" id="city" class="form-control mb-3">' +
-      '<input placeholder="province" type="text" id="province" class="form-control mb-3">' +
-      '<input placeholder="phone_number" type="number" id="phone_number" class="form-control mb-3">',
+    '<input placeholder="Nombre(s)" type="text" id="first_name" class="form-control mb-3">' +
+      '<input placeholder="Apellido" type="text" id="last_name" class="form-control mb-3">' +
+      '<input placeholder="Calle y número" type="text" id="street_and_use_number" class="form-control mb-3">' +
+      '<input placeholder="Código Postal" type="number" id="postal_code" class="form-control mb-3">' +
+      '<input placeholder="Ciudad" type="text" id="city" class="form-control mb-3">' +
+      '<input placeholder="Provincia" type="text" id="province" class="form-control mb-3">' +
+      '<input placeholder="Número Telefonico" type="number" id="phone_number" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      let data = new FormData();
-      data.append("action", "createAddress");
-      data.append("token", user.token);
-      data.append("first_name", document.querySelector("#first_name").value);
-      data.append("last_name", document.querySelector("#last_name").value);
-      data.append(
-        "street_and_use_number",
-        document.querySelector("#street_and_use_number").value
-      );
-      data.append("postal_code", document.querySelector("#postal_code").value);
-      data.append("city", document.querySelector("#city").value);
-      data.append("province", document.querySelector("#province").value);
-      data.append("phone_number", document.querySelector("#phone_number").value);
-      data.append("is_billing_address", "1");
-      data.append("client_id", id);
+      if(document.getElementById('first_name').value=='' || document.getElementById('last_name').value=='' || document.getElementById('street_and_use_number').value=='' 
+      || document.getElementById('postal_code').value=='' || document.getElementById('city').value=='' || document.getElementById('province').value=='' 
+      || document.getElementById('phone_number').value==''){
+        swal.fire(
+          'Error!',
+          'No puedes dejar espacios vacios',
+          'error'
+        )
+      }else if(!cpRegex.test(document.getElementById('postal_code').value)){
+        swal.fire(
+          'Error!',
+          'El formato de codigo postal es incorrecto',
+          'error'
+        )
+      }else if (!document.getElementById('phone_number').value.length == 10) {
+        swal.fire(
+          'Error!',
+          'El numero de telefono debe constar de 10 digitos.',
+          'error'
+        )
+      }else if (!nameRegex.test(document.getElementById('first_name').value)) {
+        swal.fire(
+          'Error!',
+          'El nombre del cliente solo puede contener letras.',
+          'error'
+        )
+      }
+      else if (!nameRegex.test(document.getElementById('last_name').value)) {
+        swal.fire(
+          'Error!',
+          'El apellido del cliente solo puede contener letras.',
+          'error'
+        )
+      }else{
+        let data = new FormData();
+        data.append("action", "createAddress");
+        data.append("token", user.token);
+        data.append("first_name", document.querySelector("#first_name").value);
+        data.append("last_name", document.querySelector("#last_name").value);
+        data.append(
+          "street_and_use_number",
+          document.querySelector("#street_and_use_number").value
+        );
+        data.append("postal_code", document.querySelector("#postal_code").value);
+        data.append("city", document.querySelector("#city").value);
+        data.append("province", document.querySelector("#province").value);
+        data.append("phone_number", document.querySelector("#phone_number").value);
+        data.append("is_billing_address", "1");
+        data.append("client_id", id);
 
-      let config = {
-        method: "post",
-        url: "https://ecommerce-app-0a.herokuapp.com/app/AddressController.php",
-        data: data,
-      };
+        let config = {
+          method: "post",
+          url: "https://ecommerce-app-0a.herokuapp.com/adress",
+          data: data,
+        };
 
-      axios(config)
-        .then((response) => {
-          if (response.data.data) {
-            swal.fire("Creado", response.data.message, "success").then((result) => {
-              if (result.isConfirmed) {
-                router.go(0);
-              }
-            });
-          } else {
-            swal.fire("Error", response.data.message, "error");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        axios(config)
+          .then((response) => {
+            if (response.data.data) {
+              swal.fire("Creado", response.data.message, "success").then((result) => {
+                if (result.isConfirmed) {
+                  router.go(0);
+                }
+              });
+            } else {
+              swal.fire("Error", response.data.message, "error");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }   
     },
   });
 
@@ -202,7 +274,7 @@ const getClient = () => {
 
   var config = {
     method: "post",
-    url: "https://ecommerce-app-0a.herokuapp.com/app/ClientsController.php",
+    url: "https://ecommerce-app-0a.herokuapp.com/client",
     data: data,
   };
 
@@ -373,9 +445,9 @@ getClient();
                                 <tbody class="list form-check-all">
                                   <tr v-for="order in orders" :key="order.id">
                                     <td class="id">
-                                      <RouterLink :to="{}">{{ order.id }}</RouterLink>
+                                      {{ order.id }}
                                     </td>
-                                    <td class="folio">#{{ order.folio }}</td>
+                                    <td class="folio"><RouterLink :to="{path: '/orders/' + order.id,}">#{{ order.folio }}</RouterLink></td>
                                     <td class="customer_name">
                                       {{ client.name }}
                                     </td>

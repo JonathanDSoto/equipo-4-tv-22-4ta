@@ -54,23 +54,14 @@ getAddress();
         </div>
         <div class="pt-4 mb-4 mb-lg-3 pb-lg-4">
           <div class="row g-4">
-
-
             <div class="col">
               <div class="p-2">
                 <h3 class="text-white mb-1">Detalles de dirección</h3>
                 <p class="text-white-75">{{ address.street_and_use_number }}</p>
-
               </div>
             </div>
-
-
-
           </div>
-
         </div>
-
-
 
         <div class="row mt-5">
           <div class="col-lg-12">
@@ -82,8 +73,6 @@ getAddress();
                       <i class="fas fa-home"></i> Dirección
                     </a>
                   </li>
-
-
                 </ul>
               </div>
               <div class="card-body p-4">
@@ -132,7 +121,6 @@ getAddress();
                           </div>
                         </div>
 
-
                         <div class="col-lg-6">
                           <div class="mb-3">
                             <label for="phonenumberInput" class="form-label">Ciudad</label>
@@ -149,7 +137,6 @@ getAddress();
                           </div>
                         </div>
 
-
                         <div class="col-lg-12">
                           <div class="mb-3">
                             <label for="emailInput" class="form-label">Teléfono</label>
@@ -157,30 +144,15 @@ getAddress();
                               :value="address.phone_number" disabled>
                           </div>
                         </div>
-
-
-
                       </div>
-
                     </form>
                   </div>
-
-
-
-
-
                 </div>
               </div>
             </div>
           </div>
-
         </div>
-
-
-
       </div>
     </div>
-
-
   </div>
 </template>

@@ -75,13 +75,6 @@ const edit = async (id) => {
           'error'
         )
       }
-      else if (!letras.test(document.getElementById('lastname').value)) {
-        swal.fire(
-          'Error!',
-          'El apellido(s) solo puede contener letras y espacio.',
-          'error'
-        )
-      }
       else if (!emailRegex.test(document.getElementById('email').value)) {
         swal.fire(
           'Error!',
@@ -218,10 +211,10 @@ const create = async () => {
           'No puede dejar campos vacios.',
           'error'
         )
-      } else if (document.getElementById('name').value.includes('1') || document.getElementById('name').value.includes('2') || document.getElementById('name').value.includes('3') || document.getElementById('name').value.includes('4') || document.getElementById('name').value.includes('5') || document.getElementById('name').value.includes('6') || document.getElementById('name').value.includes('7') || document.getElementById('name').value.includes('8') || document.getElementById('name').value.includes('9') || document.getElementById('name').value.includes('0')) {
+      } else if (!letras.test(document.getElementById('name').value)) {
         swal.fire(
           'Error!',
-          'El nombre del cliente no puede contener numeros.',
+          'El nombre solo puede contener letras y espacio.',
           'error'
         )
       } else if (document.getElementById('password').value.length < 8) {

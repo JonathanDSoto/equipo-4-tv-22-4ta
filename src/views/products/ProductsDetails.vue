@@ -76,7 +76,7 @@ const edit = async (id,presId) => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/PresentationsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/presentation',
           data: data
         };
 
@@ -158,7 +158,7 @@ const createPresentation = async (id) => {
 
         let config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/PresentationsController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/presentation',
           data: data
         };
 
@@ -212,7 +212,7 @@ const deletePresentation = async (id) => {
 
       let config = {
         method: "post",
-        url: "https://ecommerce-app-0a.herokuapp.com/app/PresentationsController.php",
+        url: "https://ecommerce-app-0a.herokuapp.com/presentation",
         data: data,
       };
 

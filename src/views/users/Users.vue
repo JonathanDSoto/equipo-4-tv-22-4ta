@@ -9,7 +9,6 @@ let user = JSON.parse(localStorage.getItem('user'))
 let users = ref(null)
 const idusuario = ref(null)
 const router = useRouter()
-
 var emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 var letras = /^[a-zA-ZñÑ ]+$/;
 Swal.fire({
@@ -27,7 +26,7 @@ const edit = async (id) => {
       '<input placeholder="Apellido" id="lastname" class="form-control mb-3">' +
       '<input placeholder="Correo Electrónico" id="email" class="form-control mb-3">' +
       '<input placeholder="Numero Telefonico" type="number" id="phone_number" class="form-control mb-3">' +
-      '<input placeholder="password" type="password" id="password" class="form-control mb-3">',
+      '<input placeholder="Contraseña" type="password" id="password" class="form-control mb-3">',
     showCancelButton: true,
     focusConfirm: false,
 
@@ -36,18 +35,6 @@ const edit = async (id) => {
         swal.fire(
           'Error!',
           'No puede dejar campos vacios.',
-          'error'
-        )
-      }else if(document.getElementById('name').value.includes('1') || document.getElementById('name').value.includes('2') || document.getElementById('name').value.includes('3') || document.getElementById('name').value.includes('4') || document.getElementById('name').value.includes('5') || document.getElementById('name').value.includes('6') || document.getElementById('name').value.includes('7') || document.getElementById('name').value.includes('8') || document.getElementById('name').value.includes('9') || document.getElementById('name').value.includes('0') ){
-        swal.fire(
-          'Error!',
-          'El nombre del usuario no puede contener numeros.',
-          'error'
-        )
-      }else if(document.getElementById('lastname').value.includes('1') || document.getElementById('lastname').value.includes('2') || document.getElementById('lastname').value.includes('3') || document.getElementById('lastname').value.includes('4') || document.getElementById('lastname').value.includes('5') || document.getElementById('lastname').value.includes('6') || document.getElementById('lastname').value.includes('7') || document.getElementById('lastname').value.includes('8') || document.getElementById('lastname').value.includes('9') || document.getElementById('lastname').value.includes('0') ){
-        swal.fire(
-          'Error!',
-          'El apellido del usuario no puede contener numeros.',
           'error'
         )
       }
@@ -85,7 +72,7 @@ const edit = async (id) => {
           'error'
         )
       }
-      else if(!document.querySelector('phone_number').value.length == 10 ){
+      else if(!document.getElementById('phone_number').value.length == 10 ){
         swal.fire(
           'Error!',
           'El numero de telefono debe constar de 10 digitos.',
@@ -98,7 +85,7 @@ const edit = async (id) => {
         data.append('lastname', document.getElementById('lastname').value);
         data.append('email', document.getElementById('email').value);
         data.append('phone_number', document.getElementById('phone_number').value.toString());
-        data.append('created_by', 'jonathan soto');
+        data.append('created_by', user.name);
         data.append('role', 'Administrador');
         data.append('password', document.getElementById('password').value);
         data.append('action', 'edit');
@@ -107,7 +94,7 @@ const edit = async (id) => {
         console.log(typeof document.getElementById('email').value)
         var config = {
           method: 'post',
-          url: 'https://ecommerce-app-0a.herokuapp.com/app/UsersController.php',
+          url: 'https://ecommerce-app-0a.herokuapp.com/UsersController.php',
           data: data
         };
 
@@ -216,22 +203,10 @@ const create = async () => {
     showCancelButton: true,
     focusConfirm: false,
     preConfirm: () => {
-      if(document.getElementById('name').value=='' || document.getElementById('email').value=='' || document.getElementById('phone_number').value=='' || document.getElementById('password').value=='' || document.getElementById('lastname').value=='' ){
+      if(document.getElementById('name').value=='' || document.getElementById('email').value=='' || document.getElementById('phone_number').value=='' || document.getElementById('password').value=='' || document.getElementById('lastname').value==''  || document.getElementById('profile_photo').value=='' ) {
         swal.fire(
           'Error!',
           'No puede dejar campos vacios.',
-          'error'
-        )
-      }else if(document.getElementById('name').value.includes('1') || document.getElementById('name').value.includes('2') || document.getElementById('name').value.includes('3') || document.getElementById('name').value.includes('4') || document.getElementById('name').value.includes('5') || document.getElementById('name').value.includes('6') || document.getElementById('name').value.includes('7') || document.getElementById('name').value.includes('8') || document.getElementById('name').value.includes('9') || document.getElementById('name').value.includes('0') ){
-        swal.fire(
-          'Error!',
-          'El nombre del usuario no puede contener numeros.',
-          'error'
-        )
-      }else if(document.getElementById('lastname').value.includes('1') || document.getElementById('lastname').value.includes('2') || document.getElementById('lastname').value.includes('3') || document.getElementById('lastname').value.includes('4') || document.getElementById('lastname').value.includes('5') || document.getElementById('lastname').value.includes('6') || document.getElementById('lastname').value.includes('7') || document.getElementById('lastname').value.includes('8') || document.getElementById('lastname').value.includes('9') || document.getElementById('lastname').value.includes('0') ){
-        swal.fire(
-          'Error!',
-          'El apellido del usuario no puede contener numeros.',
           'error'
         )
       }else if(document.getElementById('password').value.length <8){
@@ -258,6 +233,19 @@ const create = async () => {
         swal.fire(
           'Error!',
           'El numero de telefono debe constar de 10 digitos.',
+          'error'
+        )
+      }else if(!letras.test(document.getElementById('name').value)){
+        swal.fire(
+          'Error!',
+          'El nombre solo puede contener letras y espacio.',
+          'error'
+        )
+      }
+      else if(!letras.test(document.getElementById('lastname').value)){
+        swal.fire(
+          'Error!',
+          'El apellido solo puede contener letras y espacio.',
           'error'
         )
       }else{
